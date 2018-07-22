@@ -1,13 +1,98 @@
-﻿<Controls:MetroWindow x:Class="CompleetKassa.MainWindow"
+﻿<controls:MetroWindow x:Class="CompleetKassa.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CompleetKassa"
-        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:viewModels="clr-namespace:CompleetKassa.ViewModels"
+        xmlns:core="clr-namespace:CompleetKassa.Core;assembly=CompleetKassa.Core"
+        xmlns:views="clr-namespace:CompleetKassa.Core.Views;assembly=CompleetKassa.Core"
+        Title="MainWindow"
+        Height="450"
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+
+    <Window.DataContext>
+        <viewModels:MainViewModel />
+    </Window.DataContext>
+
     <Grid>
-        
+        <Grid.Resources>
+            <core:SelectedItemToContentConverter x:Key="SelectedItemToContentConverter" />
+
+            <!--  this is the template for the items (options too)  -->
+            <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type controls:HamburgerMenuIconItem}">
+                <Grid x:Name="RootGrid"
+                      Height="48"
+                      Background="Transparent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ContentControl Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding Icon}"
+                                    Focusable="False" />
+                    <TextBlock Grid.Column="1"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               Text="{Binding Label}" />
+                </Grid>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:HamburgerMenu}}, Path=IsPaneOpen}" Value="False">
+                        <Setter TargetName="RootGrid" Property="ToolTip" Value="{Binding ToolTip, Mode=OneWay}" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+            <!--  these are the templates for the view models  -->
+            <DataTemplate DataType="{x:Type viewModels:ShoesViewModel}">
+                <views:ShoesView DataContext="{Binding}" />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:UvFilterViewModel}">
+                <views:UvFilterView DataContext="{Binding}" />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:AboutViewModel}">
+                <views:AboutView DataContext="{Binding}" />
+            </DataTemplate>
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <TextBlock>This is where purchases will be added.</TextBlock>
+        </StackPanel>
+        <controls:HamburgerMenu x:Name="HamburgerMenuControl"
+                           Grid.Column="1"
+                           ShowSelectionIndicator="True"
+                           DisplayMode="CompactInline"
+                           IsPaneOpen="False"
+                           ItemTemplate="{StaticResource MenuItemTemplate}"
+                           ItemsSource="{Binding MenuItems}"
+                           OptionsItemTemplate="{StaticResource MenuItemTemplate}"
+                           OptionsItemsSource="{Binding MenuOptionItems}"
+                           SelectedIndex="0">
+
+            <!--  select the tag (ViewModel) of the selected item (options item)  -->
+            <controls:HamburgerMenu.Content>
+                <MultiBinding Converter="{StaticResource SelectedItemToContentConverter}">
+                    <Binding FallbackValue="{x:Null}"
+                             Mode="OneWay"
+                             Path="SelectedItem.Tag"
+                             RelativeSource="{RelativeSource Self}" />
+                    <Binding FallbackValue="{x:Null}"
+                             Mode="OneWay"
+                             Path="SelectedOptionsItem.Tag"
+                             RelativeSource="{RelativeSource Self}" />
+                </MultiBinding>
+            </controls:HamburgerMenu.Content>
+
+        </controls:HamburgerMenu>
+
     </Grid>
-</Controls:MetroWindow>
+</controls:MetroWindow>
