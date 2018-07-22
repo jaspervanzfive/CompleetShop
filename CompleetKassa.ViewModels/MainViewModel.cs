@@ -22,21 +22,21 @@ namespace CompleetKassa.ViewModels
                     Icon = new PackIconMaterial() {Kind = PackIconMaterialKind.Shopping},
                     Label = "Shoes",
                     ToolTip = "Shoes View",
-                    Tag = new ShoesViewModel(this)
+                    Tag = new ShoesViewModel()
                 },
                  new HamburgerMenuIconItem()
                 {
                     Icon = new PackIconModern() {Kind = PackIconModernKind.Eye},
                     Label = "UV Filter",
                     ToolTip = "UV Filter View",
-                    Tag = new UvFilterViewModel(this)
+                    Tag = new UvFilterViewModel()
                 },
                  new HamburgerMenuIconItem()
                 {
                     Icon = new PackIconMaterial() {Kind = PackIconMaterialKind.EarHearing},
                     Label = "Accessories",
                     ToolTip = "Accessories View",
-                    Tag = new AccessoriesViewModel(this),
+                    Tag = new AccessoriesViewModel(),
                     IsEnabled = false
                 },
             };
@@ -48,7 +48,7 @@ namespace CompleetKassa.ViewModels
                     Icon = new PackIconMaterial() {Kind = PackIconMaterialKind.Help},
                     Label = "About",
                     ToolTip = "Some help.",
-                    Tag = new AboutViewModel(this)
+                    Tag = new AboutViewModel()
                 }
             };
         }

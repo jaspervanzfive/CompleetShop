@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CompleetKassa.Core.Views
+namespace CompleetKassa.Views
 {
     /// <summary>
     /// Interaction logic for ShoesView.xaml

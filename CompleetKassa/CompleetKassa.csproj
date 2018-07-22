@@ -67,12 +67,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\AboutViewModel.cs" />
-    <Compile Include="ViewModels\AccessoriesViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\PropertyChangedViewModel.cs" />
-    <Compile Include="ViewModels\UvFilterViewModel.cs" />
-    <Compile Include="ViewModels\ShoesViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -114,9 +108,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CompleetKassa.Core\CompleetKassa.Core.csproj">
+    <ProjectReference Include="..\CompleetKassa.Converters\CompleetKassa.Converters.csproj">
+      <Project>{dfd048d3-b371-4d38-bf6f-ece305fb7d73}</Project>
+      <Name>CompleetKassa.Converters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Core\CompleetKassa.Views.csproj">
       <Project>{0d8ab5c9-bc95-42cf-92a2-56187dc3f798}</Project>
-      <Name>CompleetKassa.Core</Name>
+      <Name>CompleetKassa.Views</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.ViewModels\CompleetKassa.ViewModels.csproj">
+      <Project>{d961a431-f2a9-407e-ac14-9ab8027b1003}</Project>
+      <Name>CompleetKassa.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

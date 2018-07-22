@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 
-namespace CompleetKassa.Core
+namespace CompleetKassa.Converters
 {
     public class SelectedItemToContentConverter : IMultiValueConverter
     {
