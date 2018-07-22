@@ -11,8 +11,8 @@ namespace CompleetKassa
         {
             base.OnStartup(e);
 
-            var bootstrapper = new Bootstrapper();
-            bootstrapper.Run();
+            //var bootstrapper = new Bootstrapper();
+            //bootstrapper.Run();
         }
     }
 }
