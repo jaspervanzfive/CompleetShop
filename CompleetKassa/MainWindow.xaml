@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CompleetKassa"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:viewModels="clr-namespace:CompleetKassa.ViewModels"
-        xmlns:core="clr-namespace:CompleetKassa.Core;assembly=CompleetKassa.Core"
-        xmlns:views="clr-namespace:CompleetKassa.Core.Views;assembly=CompleetKassa.Core"
+        xmlns:viewModels="clr-namespace:CompleetKassa.ViewModels;assembly=CompleetKassa.ViewModels"
+        xmlns:converters="clr-namespace:CompleetKassa.Converters;assembly=CompleetKassa.Converters"
+        xmlns:views="clr-namespace:CompleetKassa.Views;assembly=CompleetKassa.Views"
         Title="MainWindow"
         Height="450"
         Width="800"
@@ -20,7 +20,7 @@
 
     <Grid>
         <Grid.Resources>
-            <core:SelectedItemToContentConverter x:Key="SelectedItemToContentConverter" />
+            <converters:SelectedItemToContentConverter x:Key="SelectedItemToContentConverter" />
 
             <!--  this is the template for the items (options too)  -->
             <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type controls:HamburgerMenuIconItem}">
