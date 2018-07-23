@@ -13,13 +13,28 @@ namespace CompleetKassa.Views.Controls
         public ProductsInfo()
         {
             InitializeComponent();
-        }
+			DataContext = this;
+		}
 
         public static readonly DependencyProperty ProductsProperty =
-    DependencyProperty.Register("Products", typeof(ObservableCollection<Product>),
-        typeof(ProductsInfo));
+    DependencyProperty.Register(
+		"Products",
+		typeof(ObservableCollection<Product>),
+        typeof(ProductsInfo),
+		new FrameworkPropertyMetadata
+		{
+			BindsTwoWayByDefault = false,
+			PropertyChangedCallback = ProductsPropertyChanged
+		});
 
-        public ObservableCollection<Product> Products {
+		private static void ProductsPropertyChanged (
+	 DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var control = (ProductsInfo)d;
+			control.Products = (ObservableCollection<Product>)e.NewValue;
+		}
+
+		public ObservableCollection<Product> Products {
             get
             {
                 return GetValue(ProductsProperty) as ObservableCollection<Product>;

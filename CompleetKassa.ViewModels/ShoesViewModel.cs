@@ -5,28 +5,22 @@ namespace CompleetKassa.ViewModels
 {
     public class ShoesViewModel : PropertyChangedViewModel
     {
-        //private readonly PropertyChangedViewModel _mainViewModel;
-
-        //public ShoesViewModel(PropertyChangedViewModel mainViewModel)
-        //{
-        //    _mainViewModel = mainViewModel;
-        //}
-
         private ObservableCollection<Product> _shoesList;
 
         public ShoesViewModel()
         {
+			// TODO: This is where to get data from DB
             _shoesList = new ObservableCollection<Product> {
                  new Product
                 {
                     Label = "Sample1",
-                    ImagePath ="/MVVMUserControls;component/Images/sample1.png",
+                    ImagePath ="/CompleetKassa.ViewModels;component/Images/sample.png",
                     Description = "This is sample 1"
                 },
                 new Product
                 {
                     Label = "Sample2",
-                    ImagePath ="/MVVMUserControls;component/Images/sample1.png",
+                    ImagePath ="/CompleetKassa.ViewModels;component/Images/sample.png",
                     Description = "This is sample 2"
                 },
             };
