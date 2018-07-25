@@ -6,13 +6,17 @@
              xmlns:local="clr-namespace:CompleetKassa.Views.Controls"
              xmlns:c="clr-namespace:CompleetKassa.Converters;assembly=CompleetKassa.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Background="#2E4051">
+    
+    
     <UserControl.Resources>
         <c:ProductToPurchasedConverter x:Key="PurchasedItemConverter"/>
         <DataTemplate x:Key="ProductTemplate">
             <Button Command="{Binding RelativeSource={RelativeSource AncestorType=local:ProductsInfo}, Path=PurchasedItem}"
                     Width="{Binding RelativeSource={RelativeSource AncestorType=local:ProductsInfo}, Path=ImageWidth}"
-                    Margin="{Binding RelativeSource={RelativeSource AncestorType=local:ProductsInfo}, Path=ImageMargin}">
+                    Margin="{Binding RelativeSource={RelativeSource AncestorType=local:ProductsInfo}, Path=ImageMargin}"
+                    Background="White" IsTabStop="False" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    >
                 <Button.CommandParameter>
                     <MultiBinding Converter="{StaticResource PurchasedItemConverter}">
                         <Binding Path="ID"/>
@@ -23,22 +27,28 @@
                 <Button.ToolTip>
                     <TextBlock Text="{Binding Description}" />
                 </Button.ToolTip>
-                <StackPanel Orientation="Vertical">
-                    <Image Source="{Binding ImagePath}" />
-                    <TextBlock Text="{Binding Label}" />
-                    <TextBlock>
-                        <Span>
-                            <TextBlock TextWrapping="NoWrap" Text="Price: "/>
-                        </Span>
-                        <Span>
-                            <TextBlock TextWrapping="NoWrap" Text="{Binding Price}" />
-                        </Span>
-                    </TextBlock>
-                    
-                </StackPanel>
+
+                <Grid Background="#fff">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="0.6*"/>
+
+                    </Grid.RowDefinitions>
+                    <Image Source="{Binding ImagePath}" Stretch="Uniform" />
+
+                    <Grid Row="1" Background="#9B9B9B" Opacity="0.9">
+                        <TextBlock Text="{Binding Label}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Margin="5,0" Foreground="#fff" />
+
+                    </Grid>
+                </Grid>
             </Button>
         </DataTemplate>
     </UserControl.Resources>
+
+    
+
+
+
 
     <ItemsControl ItemsSource="{Binding Products}"
                           ItemTemplate="{StaticResource ProductTemplate}">

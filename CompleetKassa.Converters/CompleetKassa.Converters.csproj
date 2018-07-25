@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MathConverter.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="ProductToPurchasedConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectedItemToContentConverter.cs" />

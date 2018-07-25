@@ -1,0 +1,30 @@
+﻿<Page x:Class="CompleetKassa.Views.TestinUIPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CompleetKassa.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TestinUIPage">
+
+    <Grid Background="#2E4051">
+
+        <Grid Height="144" Width="147" Background="#fff">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="0.6*"/>
+
+            </Grid.RowDefinitions>
+            <Image Source="SampleImages/smallink.jpg" Stretch="Uniform" />
+
+            <Grid Row="1" Background="#9B9B9B" Opacity="0.9">
+                <TextBlock Text="Sample dsdsd sdjkdsj sdl asdlksdalksdk sdkl ddddddddddd" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Margin="5,0" Foreground="#fff" />
+
+            </Grid>
+            
+            
+        </Grid>
+        
+    </Grid>
+</Page>

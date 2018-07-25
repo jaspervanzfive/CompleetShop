@@ -49,6 +49,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -120,6 +121,12 @@
       <Project>{0d8ab5c9-bc95-42cf-92a2-56187dc3f798}</Project>
       <Name>CompleetKassa.Views</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\inkblack.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smallink.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,7 +5,7 @@ namespace CompleetKassa.Models
 {
     public class Product
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string Label { get; set; }
         public string ImagePath { get; set; }
         public decimal Price { get; set; }

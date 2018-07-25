@@ -73,6 +73,9 @@
     <Compile Include="ShoesView.xaml.cs">
       <DependentUpon>ShoesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TestinUIPage.xaml.cs">
+      <DependentUpon>TestinUIPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UvFilterView.xaml.cs">
       <DependentUpon>UvFilterView.xaml</DependentUpon>
     </Compile>
@@ -102,6 +105,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TestinUIPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UvFilterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -124,6 +131,11 @@
       <Project>{D961A431-F2A9-407E-AC14-9AB8027B1003}</Project>
       <Name>CompleetKassa.ViewModels</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SampleImages\smallink.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

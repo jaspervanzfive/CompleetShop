@@ -12,14 +12,14 @@ namespace CompleetKassa.ViewModels
 
         public PurchasedProductViewModel()
         {
-            ID = 0;
+            ID = "0";
             Label = string.Empty;
             Price = 0.0m;
             _quantity = 1;
 
         }
 
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string Label { get; set; }
 
         public decimal Price { get; set; }

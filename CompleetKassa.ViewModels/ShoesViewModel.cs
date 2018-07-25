@@ -19,19 +19,27 @@ namespace CompleetKassa.ViewModels
             _shoesList = new ObservableCollection<Product> {
                  new Product
                 {
-                    ID = 1,
-                    Label = "Product 1",
-                    ImagePath ="/CompleetKassa.ViewModels;component/Images/sample.png",
+                    ID = "Artnr. 12121313131",
+                    Label = "Cheyne Hawk",
+                    ImagePath ="/CompleetKassa.ViewModels;component/Images/inkblack.jpg",
                     Price = 100.0m,
                     Description = "This is sample 1"
                 },
                 new Product
                 {
-                    ID = 2,
+                    ID =  "Artnr. 12121312323131",
                     Label = "Product 2",
-                    ImagePath ="/CompleetKassa.ViewModels;component/Images/sample.png",
+                    ImagePath ="/CompleetKassa.ViewModels;component/Images/inkblack.jpg",
                     Price = 20.0m,
                     Description = "This is sample 2"
+                },
+                  new Product
+                {
+                    ID = "Artnr. 3131",
+                    Label = "Product 3",
+                    ImagePath ="/CompleetKassa.ViewModels;component/Images/inkblack.jpg",
+                    Price = 50.0m,
+                    Description = "This is sample 3"
                 },
             };
 
