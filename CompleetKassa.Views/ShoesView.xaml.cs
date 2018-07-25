@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Controls;
-using CompleetKassa.Models;
+﻿using System.Windows.Controls;
 
 namespace CompleetKassa.Views
 {
@@ -12,6 +10,6 @@ namespace CompleetKassa.Views
         public ShoesView()
         {
             InitializeComponent();
-		}
+		} 
     }
 }

@@ -7,10 +7,37 @@
              xmlns:product="clr-namespace:CompleetKassa.Views.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-	<Grid>
-		<product:ProductsInfo
+    <UserControl.Resources>
+        <DataTemplate x:Key="PurchasedTemplate">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Price}" />
+                <TextBlock Text="{Binding Label}" />
+                <TextBlock Text="{Binding Quantity}" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Purchases:" />
+            <ItemsControl Grid.Column="0" ItemsSource="{Binding PurchasedItems}"
+                      ItemTemplate="{StaticResource PurchasedTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </StackPanel>
+
+        <product:ProductsInfo Grid.Column="1"
 			Products="{Binding DataContext.ShoesList, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        ImageWidth="100"
-                        ImageMargin="3"/>
+            PurchasedItem="{Binding DataContext.OnPurchased, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            ImageWidth="100"
+            ImageMargin="3"/>
 	</Grid>
 </UserControl>

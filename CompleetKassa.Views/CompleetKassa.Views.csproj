@@ -108,6 +108,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CompleetKassa.Converters\CompleetKassa.Converters.csproj">
+      <Project>{dfd048d3-b371-4d38-bf6f-ece305fb7d73}</Project>
+      <Name>CompleetKassa.Converters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.DataTypes\CompleetKassa.DataTypes.csproj">
       <Project>{4a30f1e9-0a08-4347-9324-cdcf24f79aba}</Project>
       <Name>CompleetKassa.DataTypes</Name>
@@ -115,6 +119,10 @@
     <ProjectReference Include="..\CompleetKassa.Models\CompleetKassa.Models.csproj">
       <Project>{C4466761-0B4D-4BBC-A70E-CBCC77C98C18}</Project>
       <Name>CompleetKassa.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.ViewModels\CompleetKassa.ViewModels.csproj">
+      <Project>{D961A431-F2A9-407E-AC14-9AB8027B1003}</Project>
+      <Name>CompleetKassa.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

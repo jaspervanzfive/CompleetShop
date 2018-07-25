@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace CompleetKassa.Views.Controls
 {
@@ -64,5 +65,19 @@ namespace CompleetKassa.Views.Controls
         public static readonly DependencyProperty ImageMarginProperty =
             DependencyProperty.Register("ImageMargin", typeof(Thickness),
                 typeof(ProductsInfo), new PropertyMetadata(new Thickness(0)));
+
+        #region PurchasedItem
+        public static readonly DependencyProperty PurchasedItemProperty =
+            DependencyProperty.Register(
+                "PurchasedItem",
+                typeof(ICommand),
+                typeof(ProductsInfo),
+                new UIPropertyMetadata(null));
+        public ICommand PurchasedItem
+        {
+            get { return (ICommand)GetValue(PurchasedItemProperty); }
+            set { SetValue(PurchasedItemProperty, value); }
+        }
+        #endregion
     }
 }
