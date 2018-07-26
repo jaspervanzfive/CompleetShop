@@ -1,12 +1,10 @@
 ﻿namespace CompleetKassa.ViewModels
 {
-    public class UvFilterViewModel : PropertyChangedViewModel
+    public class UvFilterViewModel : BaseViewModel
     {
-        //private readonly PropertyChangedViewModel _mainViewModel;
+		public UvFilterViewModel () : base ("UV Filter")
+		{
 
-        //public UvFilterViewModel(PropertyChangedViewModel mainViewModel)
-        //{
-        //    _mainViewModel = mainViewModel;
-        //}
+		}
     }
 }

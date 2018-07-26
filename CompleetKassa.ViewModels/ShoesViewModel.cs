@@ -6,14 +6,14 @@ using System.Windows.Input;
 
 namespace CompleetKassa.ViewModels
 {
-    public class ShoesViewModel : PropertyChangedViewModel
+    public class ShoesViewModel : BaseViewModel
     {
         private ObservableCollection<Product> _shoesList;
         public ObservableCollection<PurchasedProductViewModel> PurchasedItems { get; private set; }
         public ICommand OnPurchased { get; private set; }
 
-        public ShoesViewModel()
-        {
+        public ShoesViewModel() : base ("Shoes")
+		{
             PurchasedItems = new ObservableCollection<PurchasedProductViewModel>();
             // TODO: This is where to get data from DB
             _shoesList = new ObservableCollection<Product> {

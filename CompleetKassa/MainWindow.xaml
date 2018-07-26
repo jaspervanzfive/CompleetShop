@@ -14,85 +14,43 @@
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
 
-    <Window.DataContext>
+	<Window.Resources>
+		<DataTemplate DataType="{x:Type viewModels:ShoesViewModel}">
+			<views:ShoesView />
+		</DataTemplate>
+
+		<DataTemplate DataType="{x:Type viewModels:AccessoriesViewModel}">
+			<views:AccessoriesView />
+		</DataTemplate>
+
+		<DataTemplate DataType="{x:Type viewModels:UvFilterViewModel}">
+			<views:UvFilterView />
+		</DataTemplate>
+	</Window.Resources>
+	<Window.DataContext>
         <viewModels:MainViewModel />
     </Window.DataContext>
 
-    <Grid>
-        <Grid.Resources>
-            <converters:SelectedItemToContentConverter x:Key="SelectedItemToContentConverter" />
+	<Grid>
+		<DockPanel>
+			<!-- Navigation Buttons -->
+			<Border DockPanel.Dock="Left" BorderBrush="Black"
+                                    BorderThickness="0,0,1,0">
+				<ItemsControl ItemsSource="{Binding PageViewModels}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Button Content="{Binding Name}"
+                          Command="{Binding DataContext.OnChangePageCommand,
+                             RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                          CommandParameter="{Binding }"
+                          Margin="2,5"/>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</Border>
 
-            <!--  this is the template for the items (options too)  -->
-            <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type controls:HamburgerMenuIconItem}">
-                <Grid x:Name="RootGrid"
-                      Height="48"
-                      Background="Transparent">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="48" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <ContentControl Grid.Column="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Content="{Binding Icon}"
-                                    Focusable="False" />
-                    <TextBlock Grid.Column="1"
-                               VerticalAlignment="Center"
-                               FontSize="16"
-                               Text="{Binding Label}" />
-                </Grid>
-                <DataTemplate.Triggers>
-                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:HamburgerMenu}}, Path=IsPaneOpen}" Value="False">
-                        <Setter TargetName="RootGrid" Property="ToolTip" Value="{Binding ToolTip, Mode=OneWay}" />
-                    </DataTrigger>
-                </DataTemplate.Triggers>
-            </DataTemplate>
-
-            <!--  these are the templates for the view models  -->
-            <DataTemplate DataType="{x:Type viewModels:ShoesViewModel}">
-                <views:ShoesView DataContext="{Binding}" />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModels:UvFilterViewModel}">
-                <views:UvFilterView DataContext="{Binding}" />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModels:AboutViewModel}">
-                <views:AboutView DataContext="{Binding}" />
-            </DataTemplate>
-        </Grid.Resources>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
-            <TextBlock>This is where purchases will be added.</TextBlock>
-        </StackPanel>
-        <controls:HamburgerMenu x:Name="HamburgerMenuControl"
-                           Grid.Column="1"
-                           ShowSelectionIndicator="True"
-                           DisplayMode="CompactInline"
-                           IsPaneOpen="False"
-                           ItemTemplate="{StaticResource MenuItemTemplate}"
-                           ItemsSource="{Binding MenuItems}"
-                           OptionsItemTemplate="{StaticResource MenuItemTemplate}"
-                           OptionsItemsSource="{Binding MenuOptionItems}"
-                           SelectedIndex="0">
-
-            <!--  select the tag (ViewModel) of the selected item (options item)  -->
-            <controls:HamburgerMenu.Content>
-                <MultiBinding Converter="{StaticResource SelectedItemToContentConverter}">
-                    <Binding FallbackValue="{x:Null}"
-                             Mode="OneWay"
-                             Path="SelectedItem.Tag"
-                             RelativeSource="{RelativeSource Self}" />
-                    <Binding FallbackValue="{x:Null}"
-                             Mode="OneWay"
-                             Path="SelectedOptionsItem.Tag"
-                             RelativeSource="{RelativeSource Self}" />
-                </MultiBinding>
-            </controls:HamburgerMenu.Content>
-
-        </controls:HamburgerMenu>
-
-    </Grid>
+			<!-- Content Area -->
+			<ContentControl Content="{Binding CurrentPageViewModel}" />
+		</DockPanel>
+	</Grid>
 </controls:MetroWindow>

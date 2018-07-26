@@ -1,12 +1,9 @@
 ﻿namespace CompleetKassa.ViewModels
 {
-    public class AboutViewModel : PropertyChangedViewModel
+    public class AboutViewModel : BaseViewModel
     {
-        //private readonly PropertyChangedViewModel _mainViewModel;
-
-        //public AboutViewModel(PropertyChangedViewModel mainViewModel)
-        //{
-        //    _mainViewModel = mainViewModel;
-        //}
+		public AboutViewModel () : base ("About")
+		{
+		}
     }
 }

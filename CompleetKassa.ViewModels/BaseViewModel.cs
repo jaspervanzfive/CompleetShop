@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace CompleetKassa.ViewModels
 {
-    public class PropertyChangedViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
@@ -19,5 +19,12 @@ namespace CompleetKassa.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
+
+		public BaseViewModel (string name)
+		{
+			Name = name;
+		}
+
+		public string Name { get; set; }
+	}
 }

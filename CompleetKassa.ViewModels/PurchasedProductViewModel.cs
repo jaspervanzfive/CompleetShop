@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace CompleetKassa.ViewModels
 {
-    public class PurchasedProductViewModel : PropertyChangedViewModel
+    public class PurchasedProductViewModel : BaseViewModel
     {
         private int _quantity;
 
-        public PurchasedProductViewModel()
-        {
+        public PurchasedProductViewModel() : base ("PurchasedProduct")
+		{
             ID = 0;
             Label = string.Empty;
             Price = 0.0m;
