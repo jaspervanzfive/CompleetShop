@@ -28,11 +28,13 @@ namespace CompleetKassa.ViewModels
 
 		public ICommand OnChangePageCommand { get; private set; }
 
-		public MainViewModel () : base ("Main")
+		public MainViewModel () : base ("Main","#fff", "Icons/product.png")
 		{
 			this.CreateContentViewModels ();
 
-			OnChangePageCommand = new BaseCommand (ChangePageCommand);
+            _currentPageViewModel = PageViewModels[0];
+
+            OnChangePageCommand = new BaseCommand (ChangePageCommand);
 
 		}
 
@@ -50,9 +52,15 @@ namespace CompleetKassa.ViewModels
 			PageViewModels = new ObservableCollection<BaseViewModel>
 			{
 				new ShoesViewModel(),
-				new UvFilterViewModel(),
-				new AccessoriesViewModel()
-			};
+				new CustomersViewModel(),
+				new AccessoriesViewModel(),
+                new TotalsViewModel(),
+                new UsersViewModel(),
+                new SettingsViewModel(),
+                new SupportViewModel(),
+                new LockViewModel(),
+
+            };
 		}
 	}
 }

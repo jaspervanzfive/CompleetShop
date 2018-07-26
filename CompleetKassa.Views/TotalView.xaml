@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="CompleetKassa.Views.UvFilterView"
+﻿<UserControl x:Class="CompleetKassa.Views.TotalView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,9 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="UV Filter View"
+        <TextBlock Text="Total View"
                    FontSize="32"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center" />
+
     </Grid>
 </UserControl>

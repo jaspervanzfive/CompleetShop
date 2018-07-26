@@ -2,7 +2,7 @@
 {
     public class AboutViewModel : BaseViewModel
     {
-		public AboutViewModel () : base ("About")
+		public AboutViewModel () : base ("About", "#FDAC94","dsdsds")
 		{
 		}
     }

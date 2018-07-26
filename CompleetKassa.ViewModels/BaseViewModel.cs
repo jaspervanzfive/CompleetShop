@@ -20,11 +20,16 @@ namespace CompleetKassa.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-		public BaseViewModel (string name)
+		public BaseViewModel (string name, string color,string imageloc)
 		{
 			Name = name;
+            Color = color;
+            ImageLoc = imageloc;
 		}
 
 		public string Name { get; set; }
-	}
+        public string Color { get; set; }
+
+        public string ImageLoc{ get; set; }
+    }
 }

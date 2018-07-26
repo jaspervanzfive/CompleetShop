@@ -10,7 +10,7 @@ namespace CompleetKassa.ViewModels
     {
         private int _quantity;
 
-        public PurchasedProductViewModel() : base ("PurchasedProduct")
+        public PurchasedProductViewModel() : base ("PurchasedProduct", "#FDAC94","dsdsds")
 		{
             ID = 0;
             Label = string.Empty;

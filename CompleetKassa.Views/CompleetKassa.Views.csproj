@@ -51,6 +51,9 @@
     <Compile Include="Controls\ProductsInfo.xaml.cs">
       <DependentUpon>ProductsInfo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LockView.xaml.cs">
+      <DependentUpon>LockView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -70,11 +73,23 @@
     <Compile Include="AccessoriesView.xaml.cs">
       <DependentUpon>AccessoriesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ShoesView.xaml.cs">
       <DependentUpon>ShoesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UvFilterView.xaml.cs">
-      <DependentUpon>UvFilterView.xaml</DependentUpon>
+    <Compile Include="SupportView.xaml.cs">
+      <DependentUpon>SupportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TotalView.xaml.cs">
+      <DependentUpon>TotalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UsersView.xaml.cs">
+      <DependentUpon>UsersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomersView.xaml.cs">
+      <DependentUpon>CustomersView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -98,11 +113,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="LockView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ShoesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UvFilterView.xaml">
+    <Page Include="SupportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TotalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UsersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomersView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -58,12 +58,17 @@
     <Compile Include="AboutViewModel.cs" />
     <Compile Include="AccessoriesViewModel.cs" />
     <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="LockViewModel.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="PurchasedProductViewModel.cs" />
+    <Compile Include="SettingsViewModel.cs" />
     <Compile Include="ShoesViewModel.cs" />
-    <Compile Include="UvFilterViewModel.cs" />
+    <Compile Include="SupportViewModel.cs" />
+    <Compile Include="TotalsViewModel.cs" />
+    <Compile Include="UsersViewModel.cs" />
+    <Compile Include="CustomersViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

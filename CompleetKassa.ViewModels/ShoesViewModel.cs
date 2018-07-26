@@ -12,7 +12,7 @@ namespace CompleetKassa.ViewModels
         public ObservableCollection<PurchasedProductViewModel> PurchasedItems { get; private set; }
         public ICommand OnPurchased { get; private set; }
 
-        public ShoesViewModel() : base ("Shoes")
+        public ShoesViewModel() : base ("Shoes", "#FDAC94","Icons/product.png")
 		{
             PurchasedItems = new ObservableCollection<PurchasedProductViewModel>();
             // TODO: This is where to get data from DB
