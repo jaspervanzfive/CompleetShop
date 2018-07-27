@@ -24,13 +24,9 @@
 			<views:AccessoriesView />
 		</DataTemplate>
 
-       
-
-
-
-
-
-
+        <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
+            <views:SettingsView />
+        </DataTemplate>
 
         <Style x:Key="SideFont">
             <Setter Property="TextElement.FontFamily" Value="Open Sans Semibold"/>
@@ -60,11 +56,18 @@
 		<DockPanel>
 			<!-- Navigation Buttons -->
 			<Border Width="100" DockPanel.Dock="Left"
-                                    BorderThickness="0,0,0,0" CornerRadius="0">
+                                     CornerRadius="0">
 
              
 				<ItemsControl ItemsSource="{Binding PageViewModels}" >
-					<ItemsControl.ItemTemplate>
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="1" Rows="8" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    
+                    <ItemsControl.ItemTemplate>
 
 						<DataTemplate>
                            
@@ -72,7 +75,7 @@
                                     <Button 
                           Command="{Binding DataContext.OnChangePageCommand,
                              RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                          CommandParameter="{Binding }" Margin="0,0" BorderBrush="Transparent" Background="{Binding Color}" >
+                          CommandParameter="{Binding }" Margin="1" BorderBrush="Transparent" Background="{Binding Color}" >
 
                                         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                                             <Image Source="{Binding ImageLoc}" Stretch="UniformToFill" Width="40" Height="40" />
