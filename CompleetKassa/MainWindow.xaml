@@ -52,50 +52,67 @@
         <viewModels:MainViewModel />
     </Window.DataContext>
 
-	<Grid>
-		<DockPanel>
-			<!-- Navigation Buttons -->
-			<Border Width="100" DockPanel.Dock="Left"
-                                     CornerRadius="0">
+    <Grid SnapsToDevicePixels="True" UseLayoutRounding="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.07*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+            <Grid Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.05*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+            <Grid Background="#0193C6" />
 
-             
-				<ItemsControl ItemsSource="{Binding PageViewModels}" >
+                <!-- Navigation Buttons -->
+                <Grid Row="1">
+                <Border >
+                    <ItemsControl ItemsSource="{Binding PageViewModels}" SnapsToDevicePixels="True" UseLayoutRounding="True">
 
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="1" Rows="8" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    
-                    <ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="1" Rows="8" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
 
-						<DataTemplate>
-                           
-                                <Border Background="{Binding Color}" >
-                                    <Button 
+                        <ItemsControl.ItemTemplate>
+
+                                <DataTemplate>
+
+                                    <Border Background="{Binding Color}" >
+                                        <Button 
                           Command="{Binding DataContext.OnChangePageCommand,
                              RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                           CommandParameter="{Binding }" Margin="1" BorderBrush="Transparent" Background="{Binding Color}" >
 
-                                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                                            <Image Source="{Binding ImageLoc}" Stretch="UniformToFill" Width="40" Height="40" />
-                                            <Label Content="{Binding Name}" Padding="0,5,0,0" Foreground="#fff" HorizontalAlignment="Center" Style="{StaticResource ResourceKey=SideFont}"/>
-                                        </StackPanel>
+                                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                                <Image Source="{Binding ImageLoc}" Stretch="UniformToFill" Width="40" Height="40" />
+                                                <Label Content="{Binding Name}" Padding="0,5,0,0" Foreground="#fff" HorizontalAlignment="Center" Style="{StaticResource ResourceKey=SideFont}"/>
+                                            </StackPanel>
 
-                                    </Button>
+                                        </Button>
 
-                                </Border>
-                                
-                      
-                          
-                        </DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
+                                    </Border>
+
+
+
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                </Grid>
+               
+
+
+                
+            </Grid>
+
+          
             
-            </Border>
-
+	
+			
 			<!-- Content Area -->
-			<ContentControl Content="{Binding CurrentPageViewModel}" />
-		</DockPanel>
+			<ContentControl Grid.Column="1" Margin="0" Content="{Binding CurrentPageViewModel}" BorderThickness="0" />
+		
 	</Grid>
 </Window>
