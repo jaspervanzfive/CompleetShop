@@ -5,9 +5,9 @@ namespace CompleetKassa.Views
     /// <summary>
     /// Interaction logic for ShoesView.xaml
     /// </summary>
-    public partial class ShoesView : UserControl
+    public partial class ProductsView : UserControl
     {
-        public ShoesView()
+        public ProductsView()
         {
             InitializeComponent();
 		}

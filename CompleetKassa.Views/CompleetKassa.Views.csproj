@@ -79,8 +79,8 @@
     <Compile Include="SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShoesView.xaml.cs">
-      <DependentUpon>ShoesView.xaml</DependentUpon>
+    <Compile Include="ProductsView.xaml.cs">
+      <DependentUpon>ProductsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SupportView.xaml.cs">
       <DependentUpon>SupportView.xaml</DependentUpon>
@@ -124,7 +124,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ShoesView.xaml">
+    <Page Include="ProductsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

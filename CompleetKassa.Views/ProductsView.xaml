@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="CompleetKassa.Views.ShoesView"
+﻿<UserControl x:Class="CompleetKassa.Views.ProductsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -38,9 +38,9 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Vertical" Grid.Column="0">
-            <TextBlock Text="Purchases:" />
-            <ItemsControl  ItemsSource="{Binding PurchasedItems}"
+        <StackPanel Grid.Column="0">
+            <TextBlock Text="Purchases:"/>
+            <ItemsControl ItemsSource="{Binding PurchasedProducts}"
                       ItemTemplate="{StaticResource PurchasedTemplate}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -48,6 +48,13 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
+
+            <Separator />
+            <TextBlock Text="Computation:"/>
+            <TextBlock Text="{Binding CurrentPurchase.SubTotal}" />
+            <TextBlock Text="{Binding CurrentPurchase.Tax}" />
+            <TextBlock Text="{Binding CurrentPurchase.Discount}" />
+            <TextBlock Text="{Binding CurrentPurchase.Due}" />
         </StackPanel>
 
         <ListBox Grid.Column="1" ItemsSource="{Binding Categories}" ItemTemplate="{StaticResource CategoriesTemplate}">
@@ -56,7 +63,7 @@
         <StackPanel Orientation="Vertical" Grid.Column="2">
             <ListBox Grid.Column="1" ItemsSource="{Binding SubCategories}" ItemTemplate="{StaticResource SubCategoriesTemplate}">
             </ListBox>
-            <product:ProductsInfo Products="{Binding DataContext.ShoesList, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            <product:ProductsInfo Products="{Binding DataContext.ProductList, RelativeSource={RelativeSource AncestorType=UserControl}}"
             PurchasedItem="{Binding DataContext.OnPurchased, RelativeSource={RelativeSource AncestorType=UserControl}}"
             ImageWidth="100"
             ImageMargin="3"/>

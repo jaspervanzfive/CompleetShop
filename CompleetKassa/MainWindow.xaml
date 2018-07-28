@@ -16,8 +16,8 @@
         mc:Ignorable="d">
     <!--xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"-->
     <Window.Resources>
-		<DataTemplate DataType="{x:Type viewModels:ShoesViewModel}">
-			<views:ShoesView />
+        <DataTemplate DataType="{x:Type viewModels:ProductsViewModel}">
+            <views:ProductsView />
 		</DataTemplate>
 
 		<DataTemplate DataType="{x:Type viewModels:AccessoriesViewModel}">

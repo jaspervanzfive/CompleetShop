@@ -51,7 +51,7 @@ namespace CompleetKassa.ViewModels
 		{
 			PageViewModels = new ObservableCollection<BaseViewModel>
 			{
-				new ShoesViewModel(),
+				new ProductsViewModel(),
 				new CustomersViewModel(),
 				new AccessoriesViewModel(),
                 new TotalsViewModel(),

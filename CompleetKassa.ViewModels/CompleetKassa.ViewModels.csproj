@@ -62,9 +62,11 @@
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BaseViewModel.cs" />
+    <Compile Include="SelectedProductViewModel.cs" />
     <Compile Include="PurchasedProductViewModel.cs" />
+    <Compile Include="ReceiptsViewModel.cs" />
     <Compile Include="SettingsViewModel.cs" />
-    <Compile Include="ShoesViewModel.cs" />
+    <Compile Include="ProductsViewModel.cs" />
     <Compile Include="SupportViewModel.cs" />
     <Compile Include="TotalsViewModel.cs" />
     <Compile Include="UsersViewModel.cs" />

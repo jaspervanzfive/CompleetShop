@@ -1,5 +1,6 @@
 ﻿using CompleetKassa.Models;
 using CompleetKassa.ViewModels.Commands;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,9 +10,12 @@ using System.Windows.Input;
 
 namespace CompleetKassa.ViewModels
 {
-    public class ShoesViewModel : BaseViewModel
+    public class ProductsViewModel : BaseViewModel
     {
-        IList<Product> _dbProductList;
+        private IList<Product> _dbProductList;
+        private IDictionary<int, PurchasedProductViewModel> _purchaseList;
+        private PurchasedProductViewModel _currentPurchase;
+        private ObservableCollection<SelectedProductViewModel> _purchasedProducts;
         private ObservableCollection<ProductCategory> _categories;
         private ObservableCollection<ProductSubCategory> _subCategories;
 
@@ -22,7 +26,7 @@ namespace CompleetKassa.ViewModels
             set
             {
                 SetProperty(ref _categoryFilter, value);
-                ShoesList.Refresh();
+                ProductList.Refresh();
             }
         }
 
@@ -33,36 +37,38 @@ namespace CompleetKassa.ViewModels
             set
             {
                 SetProperty(ref _subCategoryFilter, value);
-                ShoesList.Refresh();
+                ProductList.Refresh();
             }
         }
 
         private ICollectionView _productList;
-        public ICollectionView ShoesList
+        public ICollectionView ProductList
         {
             get { return _productList; }
             set { SetProperty(ref _productList, value); }
         }
-
-        public ObservableCollection<PurchasedProductViewModel> PurchasedItems { get; private set; }
 
         public ICommand OnPurchased { get; private set; }
         public ICommand OnSelectCategory { get; private set; }
         public ICommand OnSelectSubCategory { get; private set; }
 
 
-        public ShoesViewModel() : base ("Shoes", "#FDAC94","Icons/product.png")
+        public ProductsViewModel() : base ("Shoes", "#FDAC94","Icons/product.png")
 		{
-            PurchasedItems = new ObservableCollection<PurchasedProductViewModel>();
+            //PurchasedItems = new ObservableCollection<PurchasedProductViewModel>();
             // TODO: This is where to get data from DB
-
             _categories = new ObservableCollection<ProductCategory>();
+            _currentPurchase = new PurchasedProductViewModel ();
+            _purchasedProducts = new ObservableCollection<SelectedProductViewModel>();
+            //_purchaseList = new List<PurchasedProductViewModel>();
 
             // TODO: Get products from DB
             GetProducts();
 
             // Set the first product as active category
             _categoryFilter = _categories.FirstOrDefault() == null ? string.Empty : _categories.FirstOrDefault().Name;
+
+            // TODO: Get the first subcategory
             _subCategoryFilter = "Running";
 
             _productList = CollectionViewSource.GetDefaultView(_dbProductList);
@@ -72,7 +78,6 @@ namespace CompleetKassa.ViewModels
             // Commands
             OnPurchased = new BaseCommand(Puchase);
             OnSelectCategory = new BaseCommand(SelectCategory);
-
             OnSelectSubCategory = new BaseCommand(SelectSubCategory);
         }
 
@@ -198,11 +203,26 @@ namespace CompleetKassa.ViewModels
             set { SetProperty(ref _subCategories, value); }
         }
 
-        void Puchase(object obj)
+        public PurchasedProductViewModel CurrentPurchase
         {
-            var item = (PurchasedProductViewModel)obj;
+            get { return _currentPurchase; }
+            set { SetProperty(ref _currentPurchase, value); }
+        }
 
-            var purchase = PurchasedItems.FirstOrDefault(x => x.ID == item.ID);
+        public ObservableCollection<SelectedProductViewModel> PurchasedProducts
+        {
+            get {
+                _purchasedProducts = _currentPurchase.Products;
+                return _purchasedProducts;
+            }
+            set { SetProperty(ref _purchasedProducts, value); }
+        }
+
+        private void Puchase(object obj)
+        {
+            var item = (SelectedProductViewModel)obj;
+
+            var purchase = _purchasedProducts.FirstOrDefault(x => x.ID == item.ID);
 
             if (purchase != null)
             {
@@ -210,8 +230,11 @@ namespace CompleetKassa.ViewModels
             }
             else
             {
-                PurchasedItems.Add(item);
+                item.Quantity = 1;
+                PurchasedProducts.Add(item);
             }
+
+            CurrentPurchase.ComputeTotal();
         }
     }
 }

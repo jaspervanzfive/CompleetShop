@@ -10,7 +10,7 @@ namespace CompleetKassa.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return new PurchasedProductViewModel
+            return new SelectedProductViewModel
             {
                 ID = (int)values[0],
                 Label = (string)values[1],
