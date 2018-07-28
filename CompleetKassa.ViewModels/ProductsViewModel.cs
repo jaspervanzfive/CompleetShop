@@ -48,8 +48,23 @@ namespace CompleetKassa.ViewModels
         {
             get { return _selectedSubCategory; }
             set {
-                _selectedSubCategory = value;
-                SubCategoryFilter = value.Name;
+                if (value != null)
+                {
+                    _selectedSubCategory = value;
+                    SubCategoryFilter = value.Name;
+                }
+            }
+        }
+
+        private ProductCategory _selectedCategory;
+        public ProductCategory SelectedCategory
+        {
+            get { return _selectedCategory; }
+            set
+            {
+                _selectedCategory = value;
+                CategoryFilter = value.Name;
+                SetSubCategories(value.Name);
             }
         }
 
@@ -70,23 +85,21 @@ namespace CompleetKassa.ViewModels
             _categories = new ObservableCollection<ProductCategory>();
             _currentPurchase = new PurchasedProductViewModel ();
             _purchasedProducts = new ObservableCollection<SelectedProductViewModel>();
+            _categoryFilter = string.Empty;
+            _subCategoryFilter = string.Empty;
 
             // TODO: This is where to get data from DB
             GetProducts();
+            ProductList = CollectionViewSource.GetDefaultView(_dbProductList);
+            ProductList.Filter += ProductCategoryFilter;
+            ProductList.Filter += ProductSubCategoryFilter;
 
             // Set the first product as active category
             _categoryFilter = _categories.FirstOrDefault() == null ? string.Empty : _categories.FirstOrDefault().Name;
-
-            // TODO: Get the first subcategory
-            _subCategoryFilter = "Running";
-
-            _productList = CollectionViewSource.GetDefaultView(_dbProductList);
-            _productList.Filter += ProductCategoryFilter;
-            _productList.Filter += ProductSubCategoryFilter;
+            SetSubCategories(_categoryFilter);
 
             // Commands
             OnPurchased = new BaseCommand(Puchase);
-            OnSelectCategory = new BaseCommand(SelectCategory);
         }
 
         private bool ProductCategoryFilter(object item)
@@ -100,14 +113,6 @@ namespace CompleetKassa.ViewModels
             var product = item as Product;
             return (product.Category.Contains(_categoryFilter) &&
                 product.SubCategory.Contains(_subCategoryFilter));
-        }
-
-        private void SelectCategory(object obj)
-        {
-            var item = (ProductCategory)obj;
-
-            CategoryFilter = item.Name;
-            SetSubCategories(item.Name);
         }
 
         private void SetSubCategories (string category)

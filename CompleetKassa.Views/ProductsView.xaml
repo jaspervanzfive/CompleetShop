@@ -17,19 +17,6 @@
                 <TextBlock Text="{Binding Discount}" />
             </StackPanel>
         </DataTemplate>
-
-        <DataTemplate x:Key="CategoriesTemplate">
-            <StackPanel Orientation="Horizontal">
-                <Button Command="{Binding DataContext.OnSelectCategory, RelativeSource={RelativeSource AncestorType=UserControl}}" Content="{Binding Name}" CommandParameter ="{Binding}"/>
-                <TextBlock Text="{Binding Color}" />
-            </StackPanel>
-        </DataTemplate>
-
-        <!--<DataTemplate x:Key="SubCategoriesTemplate">
-            <StackPanel Orientation="Horizontal">
-                <Button Command="{Binding DataContext.OnSelectSubCategory, RelativeSource={RelativeSource AncestorType=UserControl}}" Content="{Binding Name}" CommandParameter ="{Binding}"/>
-            </StackPanel>
-        </DataTemplate>-->
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -57,11 +44,18 @@
             <TextBlock Text="{Binding CurrentPurchase.Due}" />
         </StackPanel>
 
-        <ListBox Grid.Column="1" ItemsSource="{Binding Categories}" ItemTemplate="{StaticResource CategoriesTemplate}">
-        </ListBox>
+        <ListView Grid.Column="1" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
         <StackPanel Orientation="Vertical" Grid.Column="2">
-            <ListView Grid.Column="1" ItemsSource="{Binding SubCategories}" SelectedItem="{Binding SelectedSubCategory}">
+            <ListView ItemsSource="{Binding SubCategories}" SelectedItem="{Binding SelectedSubCategory}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
@@ -69,8 +63,8 @@
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                
             </ListView>
+            
             <product:ProductsInfo Products="{Binding DataContext.ProductList, RelativeSource={RelativeSource AncestorType=UserControl}}"
             PurchasedItem="{Binding DataContext.OnPurchased, RelativeSource={RelativeSource AncestorType=UserControl}}"
             ImageWidth="100"
