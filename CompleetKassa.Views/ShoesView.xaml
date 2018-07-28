@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CompleetKassa.Views"
              xmlns:product="clr-namespace:CompleetKassa.Views.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="730" d:DesignWidth="1265">
     <UserControl.Resources>
         <DataTemplate x:Key="PurchasedTemplate">
             <StackPanel Orientation="Vertical">
@@ -30,6 +30,7 @@
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
+<<<<<<< HEAD
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -38,6 +39,27 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Vertical" Grid.Column="0">
+=======
+    <Grid Background="#2E4051">
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.05*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Grid Background="#0193C6"/>
+
+
+
+        <Grid Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+
+            <StackPanel Orientation="Vertical">
+>>>>>>> e0c27cf06106cfcabea48b5e7c9a2f445fbf97e9
             <TextBlock Text="Purchases:" />
             <ItemsControl  ItemsSource="{Binding PurchasedItems}"
                       ItemTemplate="{StaticResource PurchasedTemplate}">
@@ -58,5 +80,6 @@
             PurchasedItem="{Binding DataContext.OnPurchased, RelativeSource={RelativeSource AncestorType=UserControl}}"
             ImageWidth="100"
             ImageMargin="3"/>
-	</Grid>
+        </Grid>
+    </Grid>
 </UserControl>
