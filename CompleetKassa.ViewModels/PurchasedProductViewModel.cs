@@ -1,10 +1,5 @@
-﻿using CompleetKassa.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CompleetKassa.ViewModels
 {
@@ -21,7 +16,7 @@ namespace CompleetKassa.ViewModels
             ID = 0;
             _tax = 0.0m;
             _discount = 0.0m;
-            _subTotal = 4.0m;
+            _subTotal = 0.0m;
             _due = 0.0m;
             _products = new ObservableCollection<SelectedProductViewModel>();
 
