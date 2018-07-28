@@ -44,7 +44,7 @@
             <TextBlock Text="{Binding CurrentPurchase.Due}" />
         </StackPanel>
 
-        <ListView Grid.Column="1" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}">
+        <ListView Grid.Column="1" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -55,7 +55,7 @@
         </ListView>
 
         <StackPanel Orientation="Vertical" Grid.Column="2">
-            <ListView ItemsSource="{Binding SubCategories}" SelectedItem="{Binding SelectedSubCategory}">
+            <ListView ItemsSource="{Binding SubCategories}" SelectedItem="{Binding SelectedSubCategory, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>

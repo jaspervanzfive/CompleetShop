@@ -65,6 +65,7 @@ namespace CompleetKassa.ViewModels
                 _selectedCategory = value;
                 CategoryFilter = value.Name;
                 SetSubCategories(value.Name);
+                SelectFirstSubCategory();
             }
         }
 
@@ -76,7 +77,6 @@ namespace CompleetKassa.ViewModels
         }
 
         public ICommand OnPurchased { get; private set; }
-        public ICommand OnSelectCategory { get; private set; }
 
 
         public ProductsViewModel() : base ("Shoes", "#FDAC94","Icons/product.png")
@@ -97,6 +97,9 @@ namespace CompleetKassa.ViewModels
             // Set the first product as active category
             _categoryFilter = _categories.FirstOrDefault() == null ? string.Empty : _categories.FirstOrDefault().Name;
             SetSubCategories(_categoryFilter);
+
+            SelectFirstCategory();
+            SelectFirstSubCategory();
 
             // Commands
             OnPurchased = new BaseCommand(Puchase);
@@ -207,16 +210,36 @@ namespace CompleetKassa.ViewModels
             GetCategories(_dbProductList);
         }
 
+        private void SelectFirstCategory ()
+        {
+            if (_categories != null && 0 < _categories.Count)
+            {
+                SelectedCategory = _categories[0];
+            }
+        }
+
+        private void SelectFirstSubCategory ()
+        {
+            if (_subCategories != null && 0 < _subCategories.Count)
+            {
+                SelectedSubCategory = _subCategories[0];
+            }
+        }
+
         public ObservableCollection<ProductCategory> Categories
         {
             get { return _categories; }
-            set { SetProperty(ref _categories, value); }
+            set {
+                SetProperty(ref _categories, value);
+            }
         }
 
         public ObservableCollection<ProductSubCategory> SubCategories
         {
             get { return _subCategories; }
-            set { SetProperty(ref _subCategories, value); }
+            set {
+                SetProperty(ref _subCategories, value);
+            }
         }
 
         public PurchasedProductViewModel CurrentPurchase
