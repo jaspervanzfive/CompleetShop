@@ -15,16 +15,31 @@
                 <TextBlock Text="{Binding Quantity}" />
             </StackPanel>
         </DataTemplate>
+
+        <DataTemplate x:Key="CategoriesTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Button Command="{Binding DataContext.OnSelectCategory, RelativeSource={RelativeSource AncestorType=UserControl}}" Content="{Binding Name}" CommandParameter ="{Binding}"/>
+                <TextBlock Text="{Binding Color}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ShoesListTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Category}" />
+                <TextBlock Text="{Binding SubCategory}" />
+            </StackPanel>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Vertical" Grid.Column="0">
             <TextBlock Text="Purchases:" />
-            <ItemsControl Grid.Column="0" ItemsSource="{Binding PurchasedItems}"
+            <ItemsControl  ItemsSource="{Binding PurchasedItems}"
                       ItemTemplate="{StaticResource PurchasedTemplate}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -34,7 +49,11 @@
             </ItemsControl>
         </StackPanel>
 
-        <product:ProductsInfo Grid.Column="1"
+        <ItemsControl Grid.Column="1" ItemsSource="{Binding Categories}"
+                    ItemTemplate="{StaticResource CategoriesTemplate}">
+        </ItemsControl>
+
+        <product:ProductsInfo Grid.Column="2"
 			Products="{Binding DataContext.ShoesList, RelativeSource={RelativeSource AncestorType=UserControl}}"
             PurchasedItem="{Binding DataContext.OnPurchased, RelativeSource={RelativeSource AncestorType=UserControl}}"
             ImageWidth="100"

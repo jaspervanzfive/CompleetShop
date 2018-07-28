@@ -10,6 +10,6 @@ namespace CompleetKassa.Views
         public ShoesView()
         {
             InitializeComponent();
-		} 
+		}
     }
 }

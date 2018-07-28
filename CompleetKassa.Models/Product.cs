@@ -11,6 +11,7 @@ namespace CompleetKassa.Models
         public decimal Price { get; set; }
         public string Description { get; set; }
         public ICommand Command { get; set; }
-        public ProductCategories Category { get; set; }
+        public string Category { get; set; }
+        public string SubCategory { get; set; }
     }
 }

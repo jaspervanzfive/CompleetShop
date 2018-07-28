@@ -1,5 +1,6 @@
 ﻿using CompleetKassa.Models;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,36 +15,30 @@ namespace CompleetKassa.Views.Controls
         public ProductsInfo()
         {
             InitializeComponent();
-			DataContext = this;
-		}
+            DataContext = this;
+        }
 
         public static readonly DependencyProperty ProductsProperty =
-    DependencyProperty.Register(
-		"Products",
-		typeof(ObservableCollection<Product>),
-        typeof(ProductsInfo),
-		new FrameworkPropertyMetadata
-		{
-			BindsTwoWayByDefault = false,
-			PropertyChangedCallback = ProductsPropertyChanged
-		});
+                DependencyProperty.Register(
+                "Products",
+                typeof(ICollectionView),
+                typeof(ProductsInfo),
+                new FrameworkPropertyMetadata
+                {
+                    BindsTwoWayByDefault = false,
+                    PropertyChangedCallback = ProductsPropertyChanged
+                });
 
-		private static void ProductsPropertyChanged (
-	 DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			var control = (ProductsInfo)d;
-			control.Products = (ObservableCollection<Product>)e.NewValue;
-		}
+        private static void ProductsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (ProductsInfo)d;
+            control.Products = (ICollectionView)e.NewValue;
+        }
 
-		public ObservableCollection<Product> Products {
-            get
-            {
-                return GetValue(ProductsProperty) as ObservableCollection<Product>;
-            }
-            set
-            {
-                SetValue(ProductsProperty, value);
-            }
+        public ICollectionView Products
+        {
+            get { return GetValue(ProductsProperty) as ICollectionView; }
+            set { SetValue(ProductsProperty, value); }
         }
 
         public double ImageWidth
