@@ -1,11 +1,9 @@
 ﻿using CompleetKassa.Models;
 using CompleetKassa.ViewModels.Commands;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -13,88 +11,136 @@ namespace CompleetKassa.ViewModels
 {
     public class ShoesViewModel : BaseViewModel
     {
-        
+        IList<Product> _dbProductList;
+        private ObservableCollection<ProductCategory> _categories;
+        private ObservableCollection<ProductSubCategory> _subCategories;
+
+        private string _categoryFilter;
+        public string CategoryFilter
+        {
+            get { return _categoryFilter; }
+            set
+            {
+                SetProperty(ref _categoryFilter, value);
+                ShoesList.Refresh();
+            }
+        }
+
+        private string _subCategoryFilter;
+        public string SubCategoryFilter
+        {
+            get { return _subCategoryFilter; }
+            set
+            {
+                SetProperty(ref _subCategoryFilter, value);
+                ShoesList.Refresh();
+            }
+        }
+
+        private ICollectionView _productList;
+        public ICollectionView ShoesList
+        {
+            get { return _productList; }
+            set { SetProperty(ref _productList, value); }
+        }
+
         public ObservableCollection<PurchasedProductViewModel> PurchasedItems { get; private set; }
+
         public ICommand OnPurchased { get; private set; }
         public ICommand OnSelectCategory { get; private set; }
+        public ICommand OnSelectSubCategory { get; private set; }
 
-        private ObservableCollection<ProductCategory> _categories;
-
-        IList<Product> _dbShoesList;
 
         public ShoesViewModel() : base ("Shoes", "#FDAC94","Icons/product.png")
 		{
             PurchasedItems = new ObservableCollection<PurchasedProductViewModel>();
             // TODO: This is where to get data from DB
-            //ShoesList = new ObservableCollection<Product>();
-            Categories = new ObservableCollection<ProductCategory>();
 
+            _categories = new ObservableCollection<ProductCategory>();
+
+            // TODO: Get products from DB
             GetProducts();
-            GetCategories();
 
-            _filterString = "Shoes";
-            _shoesList = CollectionViewSource.GetDefaultView(_dbShoesList);
-            _shoesList.Filter = ProductFilter;
+            // Set the first product as active category
+            _categoryFilter = _categories.FirstOrDefault() == null ? string.Empty : _categories.FirstOrDefault().Name;
+            _subCategoryFilter = "Running";
 
-            //_shoesList = new ObservableCollection<Product>(_dbShoesList); ;
+            _productList = CollectionViewSource.GetDefaultView(_dbProductList);
+            _productList.Filter += ProductCategoryFilter;
+            _productList.Filter += ProductSubCategoryFilter;
 
-            // Set categories based on loaded products
-           
-
+            // Commands
             OnPurchased = new BaseCommand(Puchase);
-
             OnSelectCategory = new BaseCommand(SelectCategory);
+
+            OnSelectSubCategory = new BaseCommand(SelectSubCategory);
         }
 
-        private bool ProductFilter(object item)
+        private bool ProductCategoryFilter(object item)
         {
-            //return true;
             var product = item as Product;
-            return product.Category.Contains(_filterString);
+            return item == null ? true : product.Category.Contains(_categoryFilter);
         }
 
-        private string _filterString;
-        public string FilterString
+        private bool ProductSubCategoryFilter(object item)
         {
-            get { return _filterString; }
-            set {
-                SetProperty(ref _filterString, value);
-                ShoesList.Refresh();
-            }
-        }
-
-        private ICollectionView _shoesList;
-        public ICollectionView ShoesList
-        {
-            get { return _shoesList; }
-            set { SetProperty(ref _shoesList, value); }
+            var product = item as Product;
+            return (product.Category.Contains(_categoryFilter) &&
+                product.SubCategory.Contains(_subCategoryFilter));
         }
 
         private void SelectCategory(object obj)
         {
             var item = (ProductCategory)obj;
 
-            FilterString = item.Name;
+            CategoryFilter = item.Name;
+            SetSubCategories(item.Name);
         }
 
-        private void GetCategories ()
+        private void SelectSubCategory(object obj)
+        {
+            var item = (ProductSubCategory)obj;
+
+            SubCategoryFilter = item.Name;
+        }
+
+        private void SetSubCategories (string category)
+        {
+            SubCategories = new ObservableCollection<ProductSubCategory>(_categories.Where(x => x.Name == category).First().SubCategories);
+            SubCategoryFilter = SubCategories.FirstOrDefault().Name;
+        }
+
+        private void GetCategories(IList<Product> products)
         {
             // TODO: Categories can be obtained from DB especially the color
-            _categories = new ObservableCollection<ProductCategory>();
-            if (_dbShoesList != null)
-            {
-                var productCategories = _dbShoesList.Select(x => x.Category).Distinct();
+            var categories = products.Select(x => x.Category).Distinct();
 
-                foreach (var category in productCategories)
+            foreach (var category in categories)
+            {
+                var subCategories = products.Where(x => x.Category == category)
+                                    .Select(x => x.SubCategory).Distinct();
+
+                var productSubCategories = new List<ProductSubCategory>();
+                foreach (var subCategory in subCategories)
                 {
-                    _categories.Add(new ProductCategory { Name = category, Color = "Red" });
+                    productSubCategories.Add(new ProductSubCategory
+                    {
+                        Name = subCategory,
+                        Color = "Red"
+                    });
                 }
+
+                _categories.Add(new ProductCategory {
+                    Name = category,
+                    Color = "Color",
+                    SubCategories = productSubCategories
+                });
             }
         }
 
         private void GetProducts ()
         {
-            _dbShoesList = new List<Product> {
+            _dbProductList = new List<Product> {
                  new Product
                 {
                     ID = 1,
@@ -103,7 +149,7 @@ namespace CompleetKassa.ViewModels
                     Price = 100.0m,
                     Description = "This is sample 1",
                     Category = "Shoes",
-                    SubCategory = "Running Shoes"
+                    SubCategory = "Running"
                 },
                 new Product
                 {
@@ -113,7 +159,7 @@ namespace CompleetKassa.ViewModels
                     Price = 20.0m,
                     Description = "This is sample 2",
                     Category = "Shoes",
-                    SubCategory = "Running Shoes"
+                    SubCategory = "Walking"
                 },
                 new Product
                 {
@@ -136,12 +182,20 @@ namespace CompleetKassa.ViewModels
                     SubCategory = "Shoulder Bag"
                 }
             };
+
+            GetCategories(_dbProductList);
         }
 
         public ObservableCollection<ProductCategory> Categories
         {
             get { return _categories; }
             set { SetProperty(ref _categories, value); }
+        }
+
+        public ObservableCollection<ProductSubCategory> SubCategories
+        {
+            get { return _subCategories; }
+            set { SetProperty(ref _subCategories, value); }
         }
 
         void Puchase(object obj)
