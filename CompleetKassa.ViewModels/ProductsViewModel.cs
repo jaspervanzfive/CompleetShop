@@ -126,6 +126,8 @@ namespace CompleetKassa.ViewModels
 
         private void GetCategories(IList<Product> products)
         {
+
+
             // TODO: Categories can be obtained from DB especially the color
             var categories = products.Select(x => x.Category).Distinct();
 
@@ -144,9 +146,10 @@ namespace CompleetKassa.ViewModels
                     });
                 }
 
-                _categories.Add(new ProductCategory {
+                _categories.Add(new ProductCategory
+                {
                     Name = category,
-                    Color = "Color",
+                    Color = "#B422B9",
                     SubCategories = productSubCategories
                 });
             }
@@ -158,7 +161,7 @@ namespace CompleetKassa.ViewModels
                  new Product
                 {
                     ID = 1,
-                    Label = "Shoes 1",
+                    Label = "Cheyene Hawk pen Purle with 25mm grip including spacersd dasdas das das",
                     ImagePath ="/CompleetKassa.ViewModels;component/Images/sample.png",
                     Price = 100.0m,
                     Description = "This is sample 1",

@@ -13,7 +13,12 @@
         Height="768"
         Width="1366"
         WindowStartupLocation="CenterScreen"
-        mc:Ignorable="d">
+        mc:Ignorable="d"
+        SnapsToDevicePixels="True"
+        Keyboard.PreviewKeyDown="Window_PreviewKeyDown"
+         MinHeight="768"
+        MinWidth="1366"
+        >
     <!--xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"-->
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModels:ProductsViewModel}">
