@@ -65,7 +65,6 @@ namespace CompleetKassa.ViewModels
                 _selectedCategory = value;
                 CategoryFilter = value.Name;
                 SetSubCategories(value.Name);
-                SelectFirstSubCategory();
             }
         }
 
@@ -97,9 +96,7 @@ namespace CompleetKassa.ViewModels
             // Set the first product as active category
             _categoryFilter = _categories.FirstOrDefault() == null ? string.Empty : _categories.FirstOrDefault().Name;
             SetSubCategories(_categoryFilter);
-
             SelectFirstCategory();
-            SelectFirstSubCategory();
 
             // Commands
             OnPurchased = new BaseCommand(Puchase);
@@ -121,13 +118,11 @@ namespace CompleetKassa.ViewModels
         private void SetSubCategories (string category)
         {
             SubCategories = new ObservableCollection<ProductSubCategory>(_categories.Where(x => x.Name == category).First().SubCategories);
-            SubCategoryFilter = SubCategories.FirstOrDefault().Name;
+            SubCategoryFilter = string.Empty;
         }
 
         private void GetCategories(IList<Product> products)
         {
-
-
             // TODO: Categories can be obtained from DB especially the color
             var categories = products.Select(x => x.Category).Distinct();
 
@@ -218,14 +213,6 @@ namespace CompleetKassa.ViewModels
             if (_categories != null && 0 < _categories.Count)
             {
                 SelectedCategory = _categories[0];
-            }
-        }
-
-        private void SelectFirstSubCategory ()
-        {
-            if (_subCategories != null && 0 < _subCategories.Count)
-            {
-                SelectedSubCategory = _subCategories[0];
             }
         }
 
