@@ -86,7 +86,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Button Content="&lt;" Grid.Column="0" Command="{Binding OnPreviousReceipt}" />
-                        <ComboBox Grid.Column="1" ItemsSource="{Binding ReceiptList}" SelectedIndex="{Binding ReceiptIndex, Mode=TwoWay}">
+                        <ComboBox Grid.Column="1" ItemsSource="{Binding ReceiptList}" SelectedIndex="{Binding ReceiptIndex, Mode=TwoWay}" IsSynchronizedWithCurrentItem="False">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -208,16 +208,12 @@
                     <TextBlock Text="{Binding CurrentPurchase.Tax}" />
                     <TextBlock Text="{Binding CurrentPurchase.Discount}" />-->
                 </Grid>
-                <Grid Background="#0193C6" Row="3">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="PAY"   FontFamily="Arial"  Foreground="White" HorizontalAlignment="Center" FontSize="20"/>
-                        <TextBlock Text="{Binding CurrentPurchase.Due, StringFormat='{}{0:C}', ConverterCulture={x:Static sysglb:CultureInfo.CurrentUICulture}}" FontFamily="Arial" Foreground="White" FontSize="35" HorizontalAlignment="Center"/>
-
+                <Button Grid.Row="3" Background="#0193C6" FontFamily="Arial"  Foreground="White" Command="{Binding OnPay}">
+                    <StackPanel>
+                        <TextBlock Text="PAY" HorizontalAlignment="Center" FontSize="20"/>
+                        <TextBlock Text="{Binding CurrentPurchase.Due, StringFormat='{}{0:C}', ConverterCulture={x:Static sysglb:CultureInfo.CurrentUICulture}}" FontSize="35" HorizontalAlignment="Center"/>
                     </StackPanel>
-
-                </Grid>
-
-
+                </Button>
             </Grid>
 
 

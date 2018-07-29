@@ -125,7 +125,7 @@ namespace CompleetKassa.ViewModels
         {
             get { return _receiptIndex; }
             set {
-                if (_receiptIndex == value) return;
+                if (value < 0) return;
 
                 SetProperty(ref _receiptIndex, value);
                 CurrentPurchase = _receiptList[value];
@@ -145,6 +145,7 @@ namespace CompleetKassa.ViewModels
         public ICommand OnNewReceipt { get; private set; }
         public ICommand OnPreviousReceipt { get; private set; }
         public ICommand OnNextReceipt { get; private set; }
+        public ICommand OnPay { get; private set; }
         #endregion
 
         public ProductsViewModel() : base ("Products", "#FDAC94","Icons/product.png")
@@ -178,6 +179,7 @@ namespace CompleetKassa.ViewModels
             OnNewReceipt = new BaseCommand(CreateNewReceipt);
             OnPreviousReceipt = new BaseCommand(SelectPreviousReceipt);
             OnNextReceipt = new BaseCommand(SelectNextReceipt);
+            OnPay = new BaseCommand(Pay);
         }
 
         private bool ProductCategoryFilter(object item)
@@ -342,8 +344,8 @@ namespace CompleetKassa.ViewModels
         {
             CurrentPurchase = new PurchasedProductViewModel();
             CurrentPurchase.Label = $"{++_receiptCounter}";
-            _receiptList.Add(CurrentPurchase);
-            ReceiptIndex = _receiptList.Count() - 1;
+            ReceiptList.Add(CurrentPurchase);
+            ReceiptIndex = ReceiptList.Count() - 1;
         }
 
         private void SelectPreviousReceipt(object obj)
@@ -358,6 +360,20 @@ namespace CompleetKassa.ViewModels
             ReceiptIndex++;
         }
 
+        private void Pay(object obj)
+        {
+            ReceiptList.Remove(CurrentPurchase);
+
+            if (ReceiptList.Count == 0)
+            {
+                CreateNewReceipt(obj);
+            }
+            else
+            {
+                SelectPreviousReceipt(obj);
+            }
+        }
+
         private void AddPurchasedProduct(SelectedProductViewModel product)
         {
             product.Quantity = 1;
@@ -365,7 +381,6 @@ namespace CompleetKassa.ViewModels
 
             CurrentPurchase.ComputeTotal();
         }
-
 
         private void IncrementPurchasedProduct(SelectedProductViewModel product)
         {
