@@ -22,7 +22,7 @@ namespace CompleetKassa.ViewModels
 
         }
         public int ID { get; set; }
-
+        public string Label { get; set; }
 
         public ObservableCollection<SelectedProductViewModel> Products
         {

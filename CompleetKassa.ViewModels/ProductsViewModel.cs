@@ -13,13 +13,20 @@ namespace CompleetKassa.ViewModels
     public class ProductsViewModel : BaseViewModel
     {
         private IList<Product> _dbProductList;
-
-        // TODO: Multi receipt
-        private IDictionary<int, PurchasedProductViewModel> _purchaseList;
-        private PurchasedProductViewModel _currentPurchase;
-        private ObservableCollection<SelectedProductViewModel> _purchasedProducts;
+        
         private ObservableCollection<ProductCategory> _categories;
         private ObservableCollection<ProductSubCategory> _subCategories;
+
+        // TODO: Multi receipt
+        private ObservableCollection<PurchasedProductViewModel> _receiptList;
+        public ObservableCollection<PurchasedProductViewModel> ReceiptList
+        {
+            get
+            {
+                return _receiptList;
+            }
+            set { SetProperty(ref _receiptList, value); }
+        }
 
         private string _categoryFilter;
         public string CategoryFilter
@@ -75,17 +82,78 @@ namespace CompleetKassa.ViewModels
             set { SetProperty(ref _productList, value); }
         }
 
+        private ObservableCollection<SelectedProductViewModel> _purchasedProducts;
+        public ObservableCollection<SelectedProductViewModel> PurchasedProducts
+        {
+            get
+            {
+                return _purchasedProducts;
+            }
+            set { SetProperty(ref _purchasedProducts, value); }
+        }
+
+        public ObservableCollection<ProductCategory> Categories
+        {
+            get { return _categories; }
+            set
+            {
+                SetProperty(ref _categories, value);
+            }
+        }
+
+        public ObservableCollection<ProductSubCategory> SubCategories
+        {
+            get { return _subCategories; }
+            set
+            {
+                SetProperty(ref _subCategories, value);
+            }
+        }
+
+        private PurchasedProductViewModel _currentPurchase;
+        public PurchasedProductViewModel CurrentPurchase
+        {
+            get { return _currentPurchase; }
+            set {
+                SetProperty(ref _currentPurchase, value);
+                PurchasedProducts = value.Products;
+            }
+        }
+
+        private int _receiptIndex;
+        public int ReceiptIndex
+        {
+            get { return _receiptIndex; }
+            set {
+                if (_receiptIndex == value) return;
+
+                SetProperty(ref _receiptIndex, value);
+                CurrentPurchase = _receiptList[value];
+            }
+        }
+
+        public SelectedProductViewModel SelectedPurchasedProduct
+        {
+            get; set;
+        }
+
+        #region Commands
         public ICommand OnPurchased { get; private set; }
         public ICommand OnIncrementPurchased { get; private set; }
         public ICommand OnDecrementPurchased { get; private set; }
         public ICommand OnSelectAllPurchased { get; private set; }
+        public ICommand OnNewReceipt { get; private set; }
+        public ICommand OnPreviousReceipt { get; private set; }
+        public ICommand OnNextReceipt { get; private set; }
+        #endregion
 
         public ProductsViewModel() : base ("Products", "#FDAC94","Icons/product.png")
 		{
             //PurchasedItems = new ObservableCollection<PurchasedProductViewModel>();
             _categories = new ObservableCollection<ProductCategory>();
-            _currentPurchase = new PurchasedProductViewModel ();
             _purchasedProducts = new ObservableCollection<SelectedProductViewModel>();
+            _receiptList = new ObservableCollection<PurchasedProductViewModel>();
+
             _categoryFilter = string.Empty;
             _subCategoryFilter = string.Empty;
 
@@ -100,11 +168,16 @@ namespace CompleetKassa.ViewModels
             SetSubCategories(_categoryFilter);
             SelectFirstCategory();
 
+            CreateNewReceipt(null);
+
             // Commands
             OnPurchased = new BaseCommand(Puchase);
             OnIncrementPurchased = new BaseCommand(IncrementPurchase);
             OnDecrementPurchased = new BaseCommand(DecrementPurchase);
             OnSelectAllPurchased = new BaseCommand(SelectAllPurchased);
+            OnNewReceipt = new BaseCommand(CreateNewReceipt);
+            OnPreviousReceipt = new BaseCommand(SelectPreviousReceipt);
+            OnNextReceipt = new BaseCommand(SelectNextReceipt);
         }
 
         private bool ProductCategoryFilter(object item)
@@ -221,42 +294,6 @@ namespace CompleetKassa.ViewModels
             }
         }
 
-        public ObservableCollection<ProductCategory> Categories
-        {
-            get { return _categories; }
-            set {
-                SetProperty(ref _categories, value);
-            }
-        }
-
-        public ObservableCollection<ProductSubCategory> SubCategories
-        {
-            get { return _subCategories; }
-            set {
-                SetProperty(ref _subCategories, value);
-            }
-        }
-
-        public PurchasedProductViewModel CurrentPurchase
-        {
-            get { return _currentPurchase; }
-            set { SetProperty(ref _currentPurchase, value); }
-        }
-
-        public ObservableCollection<SelectedProductViewModel> PurchasedProducts
-        {
-            get {
-                _purchasedProducts = _currentPurchase.Products;
-                return _purchasedProducts;
-            }
-            set { SetProperty(ref _purchasedProducts, value); }
-        }
-
-        public SelectedProductViewModel SelectedPurchasedProduct
-        {
-            get; set;
-        }
-
         private void IncrementPurchase(object obj)
         {
             var selectedItems = _purchasedProducts.Where(x => x.IsSelected).ToList(); ;
@@ -296,6 +333,29 @@ namespace CompleetKassa.ViewModels
             {
                 IncrementPurchasedProduct(existItem);
             }
+        }
+
+        // TODO: Temporary Receipt counter
+        private int _receiptCounter;
+
+        private void CreateNewReceipt(object obj)
+        {
+            CurrentPurchase = new PurchasedProductViewModel();
+            CurrentPurchase.Label = $"{++_receiptCounter}";
+            _receiptList.Add(CurrentPurchase);
+            ReceiptIndex = _receiptList.Count() - 1;
+        }
+
+        private void SelectPreviousReceipt(object obj)
+        {
+            if (ReceiptIndex == 0) return;
+            ReceiptIndex--;
+        }
+
+        private void SelectNextReceipt(object obj)
+        {
+            if (ReceiptIndex == _receiptList.Count() - 1) return;
+            ReceiptIndex++;
         }
 
         private void AddPurchasedProduct(SelectedProductViewModel product)
