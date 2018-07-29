@@ -8,6 +8,9 @@ namespace CompleetKassa.ViewModels
         public string Label { get; set; }
         public decimal Price { get; set; }
 
+
+
+
         private decimal _subTotal;
         public decimal SubTotal
         {
@@ -30,6 +33,18 @@ namespace CompleetKassa.ViewModels
             }
         }
 
+        private decimal _discount;
+        public decimal Discount
+        {
+            get { return _discount; }
+
+            set
+            {
+                SetProperty(ref _discount, value);
+                SubTotal = (Price * Quantity) - Discount;
+            }
+        }
+
         private bool _isSelected;
 
         public bool IsSelected
@@ -44,6 +59,8 @@ namespace CompleetKassa.ViewModels
             Label = string.Empty;
             Price = 0.0m;
             Quantity = 0;
+            Discount = 0.0m;
+
             IsSelected = false;
         }
     }

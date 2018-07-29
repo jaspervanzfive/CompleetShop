@@ -7,7 +7,7 @@
              xmlns:product="clr-namespace:CompleetKassa.Views.Controls"
              xmlns:i1="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="768" d:DesignWidth="1366"
              xmlns:sysglb="clr-namespace:System.Globalization;assembly=mscorlib">
     <UserControl.Resources>
         <DataTemplate x:Key="PurchasedTemplate">
@@ -236,9 +236,10 @@
 
                     <UniformGrid Rows="5" Columns="1">
 
-                        <StackPanel >
+                        <StackPanel Margin="0,0,0,-56">
                             <Button Content="+" Command="{Binding OnIncrementPurchased}" />
                             <Button Content="-" Command="{Binding OnDecrementPurchased}" />
+                            <Button Content="X" Command="{Binding OnDiscount}" />
                         </StackPanel>
                         <!--<Border Background="#FF24323E"  CornerRadius="40" Height="50px" Width="50px"  HorizontalAlignment="Left" VerticalAlignment="Bottom" >
                             <Border Background="#FF24323E"

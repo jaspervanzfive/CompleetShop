@@ -15,6 +15,8 @@ namespace CompleetKassa.Converters
                 ID = (int)values[0],
                 Label = (string)values[1],
                 Price = (decimal)values[2]
+               
+             
             };
         }
 

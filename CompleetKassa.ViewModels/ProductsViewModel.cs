@@ -146,6 +146,8 @@ namespace CompleetKassa.ViewModels
         public ICommand OnPreviousReceipt { get; private set; }
         public ICommand OnNextReceipt { get; private set; }
         public ICommand OnPay { get; private set; }
+        public ICommand OnDiscount { get; private set; }
+
         #endregion
 
         public ProductsViewModel() : base ("Products", "#FDAC94","Icons/product.png")
@@ -180,6 +182,7 @@ namespace CompleetKassa.ViewModels
             OnPreviousReceipt = new BaseCommand(SelectPreviousReceipt);
             OnNextReceipt = new BaseCommand(SelectNextReceipt);
             OnPay = new BaseCommand(Pay);
+            OnDiscount = new BaseCommand(DiscountPurchase);
         }
 
         private bool ProductCategoryFilter(object item)
@@ -296,6 +299,15 @@ namespace CompleetKassa.ViewModels
             }
         }
 
+        private void DiscountPurchase(object obj)
+        {
+            var selectedItems = _purchasedProducts.Where(x => x.IsSelected).ToList(); ;
+            foreach (var item in selectedItems)
+            {
+                DiscountedProduct(item);
+            }
+        }
+
         private void IncrementPurchase(object obj)
         {
             var selectedItems = _purchasedProducts.Where(x => x.IsSelected).ToList(); ;
@@ -372,6 +384,13 @@ namespace CompleetKassa.ViewModels
             {
                 SelectPreviousReceipt(obj);
             }
+        }
+
+
+        private void DiscountedProduct(SelectedProductViewModel product)
+        {
+            product.Discount= 5.50m;
+            CurrentPurchase.ComputeTotal();
         }
 
         private void AddPurchasedProduct(SelectedProductViewModel product)
