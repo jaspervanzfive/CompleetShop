@@ -80,10 +80,10 @@
 
                 </Grid>
 
+                <!--Receipt--> 
                 <Grid Background="#fff" Grid.Row="1" >
+                    <ListBox HorizontalContentAlignment="Stretch" SelectionMode="Extended" SelectedItem="{Binding SelectedPurchasedProduct}" ItemsSource="{Binding PurchasedProducts}" Margin="0,5">
 
-                    <ListBox HorizontalContentAlignment="Stretch" ItemsSource="{Binding PurchasedProducts}" Margin="0,5">
-                      
                         <ListBox.ItemTemplate >
                             <DataTemplate >
                                 <Grid x:Name="grid"  Margin="-5,0,-5,0">
@@ -108,17 +108,17 @@
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
-                                        
+
                                         <!-- Discount -->
                                         <TextBlock Text="$ Discount" Style="{StaticResource ReceiptFont}" Padding="3,3,3,0"  Foreground="#F67B86" Visibility="Collapsed"/>
 
-                                      
+
                                     </StackPanel>
 
 
                                     <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Bottom">
                                         <!-- Total and Discount-->
-                                        <TextBlock Text="$ TOTAL" Style="{StaticResource ReceiptFont}" Padding="3,3,15,0" Foreground="#0193C6" TextAlignment="Right" Width="100"/>
+                                        <TextBlock Text="{Binding SubTotal, StringFormat='{}{0:C}', ConverterCulture={x:Static sysglb:CultureInfo.CurrentUICulture}}" Style="{StaticResource ReceiptFont}" Padding="3,3,15,0" Foreground="#0193C6" TextAlignment="Right" Width="100"/>
                                         <TextBlock Text="DISCOUNT" Style="{StaticResource ReceiptFont}" Padding="3,3,15,0" Foreground="#F67B86" TextAlignment="Right" Visibility="Collapsed"/>
                                     </StackPanel>
 
@@ -127,14 +127,12 @@
                                     </Canvas>
 
                                 </Grid>
-                               
+
                                 <DataTemplate.Triggers>
                                     <DataTrigger Value="True" Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}">
 
                                         <Setter TargetName="grid" Property="Background" Value="#CACACA"/>
                                     </DataTrigger>
-
-
                                 </DataTemplate.Triggers>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -143,25 +141,15 @@
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                 <Setter Property="Template" Value="{StaticResource SelectedItem}"/>
                                 <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
                             </Style>
-
                         </ListBox.ItemContainerStyle>
+                        <ListBox.InputBindings>
+                            <KeyBinding Gesture="Ctrl+A" Command="{Binding OnSelectAllPurchased}" />
+                        </ListBox.InputBindings>
+
                     </ListBox>
                 </Grid>
-
-
-
-                <!--<StackPanel Orientation="Vertical" Grid.Row="1" Background="#fff">
-                    <ListBox ItemsSource="{Binding PurchasedProducts}"
-                      ItemTemplate="{StaticResource PurchasedTemplate}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ListBox>
-
-                </StackPanel>-->
 
                 <Grid Background="#EBEBEB" Row="2">
                     <Grid.RowDefinitions>
@@ -232,6 +220,8 @@
                     <UniformGrid Rows="5" Columns="1">
 
                         <StackPanel >
+                            <Button Content="+" Command="{Binding OnIncrementPurchased}" />
+                            <Button Content="-" Command="{Binding OnDecrementPurchased}" />
                         </StackPanel>
                         <!--<Border Background="#FF24323E"  CornerRadius="40" Height="50px" Width="50px"  HorizontalAlignment="Left" VerticalAlignment="Bottom" >
                             <Border Background="#FF24323E"

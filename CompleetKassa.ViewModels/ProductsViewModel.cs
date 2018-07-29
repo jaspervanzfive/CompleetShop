@@ -76,9 +76,11 @@ namespace CompleetKassa.ViewModels
         }
 
         public ICommand OnPurchased { get; private set; }
+        public ICommand OnIncrementPurchased { get; private set; }
+        public ICommand OnDecrementPurchased { get; private set; }
+        public ICommand OnSelectAllPurchased { get; private set; }
 
-
-        public ProductsViewModel() : base ("Shoes", "#FDAC94","Icons/product.png")
+        public ProductsViewModel() : base ("Products", "#FDAC94","Icons/product.png")
 		{
             //PurchasedItems = new ObservableCollection<PurchasedProductViewModel>();
             _categories = new ObservableCollection<ProductCategory>();
@@ -100,6 +102,9 @@ namespace CompleetKassa.ViewModels
 
             // Commands
             OnPurchased = new BaseCommand(Puchase);
+            OnIncrementPurchased = new BaseCommand(IncrementPurchase);
+            OnDecrementPurchased = new BaseCommand(DecrementPurchase);
+            OnSelectAllPurchased = new BaseCommand(SelectAllPurchased);
         }
 
         private bool ProductCategoryFilter(object item)
@@ -247,20 +252,73 @@ namespace CompleetKassa.ViewModels
             set { SetProperty(ref _purchasedProducts, value); }
         }
 
+        public SelectedProductViewModel SelectedPurchasedProduct
+        {
+            get; set;
+        }
+
+        private void IncrementPurchase(object obj)
+        {
+            var selectedItems = _purchasedProducts.Where(x => x.IsSelected).ToList(); ;
+            foreach (var item in selectedItems)
+            {
+                IncrementPurchasedProduct(item);
+            }
+        }
+
+        private void DecrementPurchase(object obj)
+        {
+            var selectedItems = _purchasedProducts.Where(x => x.IsSelected).ToList();
+            foreach (var item in selectedItems)
+            {
+                DecrementPurchasedProduct(item);
+            }
+        }
+
+        public void SelectAllPurchased(object obj) 
+        {
+            foreach (var item in _purchasedProducts)
+            {
+                item.IsSelected = true;
+            }
+        }
+
         private void Puchase(object obj)
         {
             var item = (SelectedProductViewModel)obj;
 
-            var purchase = _purchasedProducts.FirstOrDefault(x => x.ID == item.ID);
-
-            if (purchase != null)
+            var existItem = _purchasedProducts.FirstOrDefault(x => x.ID == item.ID);
+            if (existItem == null)
             {
-                purchase.Quantity++;
+                AddPurchasedProduct(item);
             }
             else
             {
-                item.Quantity = 1;
-                PurchasedProducts.Add(item);
+                IncrementPurchasedProduct(existItem);
+            }
+        }
+
+        private void AddPurchasedProduct(SelectedProductViewModel product)
+        {
+            product.Quantity = 1;
+            PurchasedProducts.Add(product);
+
+            CurrentPurchase.ComputeTotal();
+        }
+
+
+        private void IncrementPurchasedProduct(SelectedProductViewModel product)
+        {
+            product.Quantity++;
+            CurrentPurchase.ComputeTotal();
+        }
+
+        private void DecrementPurchasedProduct(SelectedProductViewModel product)
+        {
+            product.Quantity--;
+            if(product.Quantity == 0)
+            {
+                PurchasedProducts.Remove(product);
             }
 
             CurrentPurchase.ComputeTotal();
