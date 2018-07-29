@@ -29,7 +29,7 @@ namespace CompleetKassa.ViewModels
 
             set {
                 SetProperty(ref _quantity, value);
-                SubTotal = Price * Quantity;
+                ComputeSubTotal();
             }
         }
 
@@ -41,7 +41,7 @@ namespace CompleetKassa.ViewModels
             set
             {
                 SetProperty(ref _discount, value);
-                SubTotal = (Price * Quantity) - Discount;
+                ComputeSubTotal();
             }
         }
 
@@ -62,6 +62,11 @@ namespace CompleetKassa.ViewModels
             Discount = 0.0m;
 
             IsSelected = false;
+        }
+
+        private void ComputeSubTotal()
+        {
+            SubTotal = (Price - Discount) * Quantity;
         }
     }
 }
