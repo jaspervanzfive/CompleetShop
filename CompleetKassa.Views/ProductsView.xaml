@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:CompleetKassa.Views"
              xmlns:product="clr-namespace:CompleetKassa.Views.Controls"
              xmlns:i1="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+			 xmlns:c="clr-namespace:CompleetKassa.Converters;assembly=CompleetKassa.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1366"
              xmlns:sysglb="clr-namespace:System.Globalization;assembly=mscorlib">
@@ -237,8 +238,22 @@
                     <StackPanel>
                         <Button Content="+" Command="{Binding OnIncrementPurchased}" />
                         <Button Content="-" Command="{Binding OnDecrementPurchased}" />
-                        <Button Content="Discount" Command="{Binding OnDiscount}" />
-                    </StackPanel>
+                        <!--<Button Content="Discount" Command="{Binding OnDiscount}" />-->
+						<ToggleButton x:Name="Btn" IsHitTestVisible="{Binding ElementName=Popup, Path=IsOpen, Mode=OneWay, Converter={c:BoolInverter}}" Command="{Binding OnDiscount}">
+							<TextBlock x:Name="DiscountTextblock" Text="Discount"/>
+						</ToggleButton>
+
+						<Popup IsOpen="{Binding IsChecked, ElementName=Btn}" x:Name="Popup" StaysOpen="False" PlacementTarget="{Binding ElementName=DiscountTextblock}">
+							<Grid>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Width="50"/>
+									<Button Content="$" />
+									<Button Content="%" />
+								</StackPanel>
+							</Grid>
+						</Popup>
+
+					</StackPanel>
 
 
 
