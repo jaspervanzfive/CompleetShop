@@ -1,5 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using CompleetKassa.ViewModels.Commands;
 
 namespace CompleetKassa.ViewModels
 {
@@ -26,6 +29,8 @@ namespace CompleetKassa.ViewModels
             Color = color;
             ImageLoc = imageloc;
 		}
+
+		public ICommand OnClosePageCommand { get; set; }
 
 		public string Name { get; set; }
         public string Color { get; set; }

@@ -11,5 +11,7 @@
                    FontSize="32"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center" />
-    </Grid>
+
+		<Button Content="Close this page" Command="{Binding OnClosePageCommand}" />
+	</Grid>
 </UserControl>

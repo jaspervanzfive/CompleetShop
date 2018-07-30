@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CompleetKassa.ViewModels.Commands;
 using MahApps.Metro.Controls;
@@ -49,18 +50,32 @@ namespace CompleetKassa.ViewModels
 
 		public void CreateContentViewModels ()
 		{
-			PageViewModels = new ObservableCollection<BaseViewModel>
-			{
-				new ProductsViewModel(),
-				new CustomersViewModel(),
-				new AccessoriesViewModel(),
-                new TotalsViewModel(),
-                new UsersViewModel(),
-                new SettingsViewModel(),
-                new SupportViewModel(),
-                new LockViewModel(),
+			var product = new ProductsViewModel ();
+			var accessories = new AccessoriesViewModel ();
+			accessories.OnClosePageCommand = new BaseCommand (ClosePage);
 
-            };
+			PageViewModels = new ObservableCollection<BaseViewModel> ();
+			PageViewModels.Add (product);
+			PageViewModels.Add (accessories);
+
+
+			//PageViewModels = new ObservableCollection<BaseViewModel>
+			//{
+
+			//	new CustomersViewModel(),
+			//	new AccessoriesViewModel(),
+			//             new TotalsViewModel(),
+			//             new UsersViewModel(),
+			//             new SettingsViewModel(),
+			//             new SupportViewModel(),
+			//             new LockViewModel(),
+
+			//         };
+		}
+
+		private void ClosePage (object obj)
+		{
+			CurrentPageViewModel = PageViewModels[0];
 		}
 	}
 }
