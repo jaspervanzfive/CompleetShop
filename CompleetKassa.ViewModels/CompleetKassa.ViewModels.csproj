@@ -58,6 +58,7 @@
     <Compile Include="AboutViewModel.cs" />
     <Compile Include="AccessoriesViewModel.cs" />
     <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="LockViewModel.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +77,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CompleetKassa.DataTypes\CompleetKassa.DataTypes.csproj">
+      <Project>{4A30F1E9-0A08-4347-9324-CDCF24F79ABA}</Project>
+      <Name>CompleetKassa.DataTypes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.Models\CompleetKassa.Models.csproj">
       <Project>{c4466761-0b4d-4bbc-a70e-cbcc77c98c18}</Project>
       <Name>CompleetKassa.Models</Name>

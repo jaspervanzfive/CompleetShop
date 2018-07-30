@@ -239,16 +239,16 @@
                         <Button Content="+" Command="{Binding OnIncrementPurchased}" />
                         <Button Content="-" Command="{Binding OnDecrementPurchased}" />
                         <!--<Button Content="Discount" Command="{Binding OnDiscount}" />-->
-						<ToggleButton x:Name="Btn" IsHitTestVisible="{Binding ElementName=Popup, Path=IsOpen, Mode=OneWay, Converter={c:BoolInverter}}" Command="{Binding OnDiscount}">
+						<ToggleButton x:Name="Btn" IsHitTestVisible="{Binding ElementName=Popup, Path=IsOpen, Mode=OneWay, Converter={c:BoolInverter}}" >
 							<TextBlock x:Name="DiscountTextblock" Text="Discount"/>
 						</ToggleButton>
 
 						<Popup IsOpen="{Binding IsChecked, ElementName=Btn}" x:Name="Popup" StaysOpen="False" PlacementTarget="{Binding ElementName=DiscountTextblock}">
 							<Grid>
 								<StackPanel Orientation="Horizontal">
-									<TextBox Width="50"/>
-									<Button Content="$" />
-									<Button Content="%" />
+									<TextBox Width="50" Text="{Binding DiscountValue}"/>
+									<Button Content="$" Command="{Binding OnDiscountDollar}"/>
+									<Button Content="%" Command="{Binding OnDiscountPercent}"/>
 								</StackPanel>
 							</Grid>
 						</Popup>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using CompleetKassa.DataTypes.Enumerations;
 
 namespace CompleetKassa.ViewModels
 {
@@ -8,10 +9,18 @@ namespace CompleetKassa.ViewModels
         public string Label { get; set; }
         public decimal Price { get; set; }
 
+		private ProductDiscountOptions _discountOption;
+		public ProductDiscountOptions DiscountOption
+		{
+			get
+			{
+				return _discountOption;
+			}
 
+			set { SetProperty (ref _discountOption, value); }
+		}
 
-
-        private decimal _subTotal;
+		private decimal _subTotal;
         public decimal SubTotal
         {
             get

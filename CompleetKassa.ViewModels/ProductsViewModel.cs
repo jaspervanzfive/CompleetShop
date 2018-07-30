@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
+using CompleetKassa.DataTypes.Enumerations;
 
 namespace CompleetKassa.ViewModels
 {
@@ -17,8 +18,10 @@ namespace CompleetKassa.ViewModels
         private ObservableCollection<ProductCategory> _categories;
         private ObservableCollection<ProductSubCategory> _subCategories;
 
-        // TODO: Multi receipt
-        private ObservableCollection<PurchasedProductViewModel> _receiptList;
+		public string DiscountValue { get; set; }
+
+		// Multi receipt
+		private ObservableCollection<PurchasedProductViewModel> _receiptList;
         public ObservableCollection<PurchasedProductViewModel> ReceiptList
         {
             get
@@ -146,11 +149,12 @@ namespace CompleetKassa.ViewModels
         public ICommand OnPreviousReceipt { get; private set; }
         public ICommand OnNextReceipt { get; private set; }
         public ICommand OnPay { get; private set; }
-        public ICommand OnDiscount { get; private set; }
+        public ICommand OnDiscountDollar { get; private set; }
+		public ICommand OnDiscountPercent { get; private set; }
 
-        #endregion
+		#endregion
 
-        public ProductsViewModel() : base ("Products", "#FDAC94","Icons/product.png")
+		public ProductsViewModel() : base ("Products", "#FDAC94","Icons/product.png")
 		{
             //PurchasedItems = new ObservableCollection<PurchasedProductViewModel>();
             _categories = new ObservableCollection<ProductCategory>();
@@ -182,8 +186,9 @@ namespace CompleetKassa.ViewModels
             OnPreviousReceipt = new BaseCommand(SelectPreviousReceipt);
             OnNextReceipt = new BaseCommand(SelectNextReceipt);
             OnPay = new BaseCommand(Pay);
-            OnDiscount = new BaseCommand(DiscountPurchase);
-        }
+            OnDiscountDollar = new BaseCommand(DiscountPurchaseByDollar);
+			OnDiscountPercent = new BaseCommand (DiscountPurchaseByPercent);
+		}
 
         private bool ProductCategoryFilter(object item)
         {
@@ -299,12 +304,20 @@ namespace CompleetKassa.ViewModels
             }
         }
 
-        private void DiscountPurchase(object obj)
+		private void DiscountPurchaseByPercent (object obj)
+		{
+			var selectedItems = _purchasedProducts.Where (x => x.IsSelected).ToList (); ;
+			foreach (var item in selectedItems) {
+				DiscountedProduct (item, ProductDiscountOptions.Percent);
+			}
+		}
+
+		private void DiscountPurchaseByDollar(object obj)
         {
             var selectedItems = _purchasedProducts.Where(x => x.IsSelected).ToList(); ;
             foreach (var item in selectedItems)
             {
-                DiscountedProduct(item);
+                DiscountedProduct(item, ProductDiscountOptions.Dollar);
             }
         }
 
@@ -386,8 +399,24 @@ namespace CompleetKassa.ViewModels
             }
         }
 
+		private void DiscountedProduct (SelectedProductViewModel product, ProductDiscountOptions option)
+		{
+			decimal discount = 0.0m;
+			if(Decimal.TryParse (DiscountValue, out discount) == false) {
+				discount = 0.0m;
+			}
 
-        private void DiscountedProduct(SelectedProductViewModel product)
+			if(option == ProductDiscountOptions.Dollar) {
+				product.Discount = discount;
+			}
+			else if (option == ProductDiscountOptions.Percent) {
+				product.Discount = product.Price * (discount/100);
+			}
+
+			CurrentPurchase.ComputeTotal ();
+		}
+
+		private void DiscountedProduct(SelectedProductViewModel product)
         {
             product.Discount= 5.50m;
             CurrentPurchase.ComputeTotal();
