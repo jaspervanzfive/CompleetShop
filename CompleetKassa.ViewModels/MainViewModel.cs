@@ -50,27 +50,31 @@ namespace CompleetKassa.ViewModels
 
 		public void CreateContentViewModels ()
 		{
-			var product = new ProductsViewModel ();
-			var accessories = new AccessoriesViewModel ();
-			accessories.OnClosePageCommand = new BaseCommand (ClosePage);
-
-			PageViewModels = new ObservableCollection<BaseViewModel> ();
-			PageViewModels.Add (product);
-			PageViewModels.Add (accessories);
-
-
-			//PageViewModels = new ObservableCollection<BaseViewModel>
-			//{
-
-			//	new CustomersViewModel(),
-			//	new AccessoriesViewModel(),
-			//             new TotalsViewModel(),
-			//             new UsersViewModel(),
-			//             new SettingsViewModel(),
-			//             new SupportViewModel(),
-			//             new LockViewModel(),
-
-			//         };
+			PageViewModels = new ObservableCollection<BaseViewModel>
+			{
+				new ProductsViewModel(),
+				new CustomersViewModel {
+					OnClosePageCommand = new BaseCommand (ClosePage)
+				},
+				new AccessoriesViewModel{
+					OnClosePageCommand = new BaseCommand (ClosePage)
+				},
+						 new TotalsViewModel{
+					OnClosePageCommand = new BaseCommand (ClosePage)
+				},
+						 new UsersViewModel{
+					OnClosePageCommand = new BaseCommand (ClosePage)
+				},
+						 new SettingsViewModel{
+					OnClosePageCommand = new BaseCommand (ClosePage)
+				},
+						 new SupportViewModel{
+					OnClosePageCommand = new BaseCommand (ClosePage)
+				},
+						 new LockViewModel{
+					OnClosePageCommand = new BaseCommand (ClosePage)
+				},
+			};
 		}
 
 		private void ClosePage (object obj)

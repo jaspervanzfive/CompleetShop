@@ -10,15 +10,18 @@
         xmlns:core="using:Microsoft.Xaml.Interactions.Core"
         xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
         Title="MainWindow"
-        Height="768"
-        Width="1366"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
         SnapsToDevicePixels="True"
         Keyboard.PreviewKeyDown="Window_PreviewKeyDown"
-         MinHeight="768"
-        MinWidth="1366"
+        Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
+        Width="{x:Static SystemParameters.PrimaryScreenWidth}" 
         >
+         <!--MinHeight="768"
+        MinWidth="1366"
+	        Height="768"
+        Width="1366"
+        >-->
     <!--xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"-->
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModels:ProductsViewModel}">
