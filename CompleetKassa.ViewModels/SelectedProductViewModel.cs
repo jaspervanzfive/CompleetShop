@@ -73,7 +73,7 @@ namespace CompleetKassa.ViewModels
             IsSelected = false;
         }
 
-        private void ComputeSubTotal()
+		public void ComputeSubTotal()
         {
             SubTotal = (Price - Discount) * Quantity;
         }

@@ -424,8 +424,17 @@ namespace CompleetKassa.ViewModels
 
         private void AddPurchasedProduct(SelectedProductViewModel product)
         {
-            product.Quantity = 1;
-            PurchasedProducts.Add(product);
+			var item = new SelectedProductViewModel {
+				Quantity = 1,
+				ID = product.ID,
+				Label = product.Label,
+				Price = product.Price,
+				Discount = product.Discount
+			};
+
+			item.ComputeSubTotal ();
+
+			PurchasedProducts.Add(item);
 
             CurrentPurchase.ComputeTotal();
         }
