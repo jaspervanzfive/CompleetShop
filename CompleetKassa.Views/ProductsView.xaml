@@ -7,6 +7,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="Product Inventory" />
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Product Inventory" />
+                <Button Grid.Column="1" Content="Close" Command="{Binding OnClosePageCommand}" />
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <DataGrid ItemsSource="{Binding ProductList}"
+          SelectedItem="{Binding SelectedProduct}"
+          AutoGenerateColumns="False">
+
+                <DataGrid.InputBindings>
+                    <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+                </DataGrid.InputBindings>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Label" Binding="{Binding Label}" />
+                    <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
     </Grid>
 </UserControl>
