@@ -15,7 +15,9 @@ namespace CompleetKassa.ViewModels
 			private set;
 		}
 
-		BaseViewModel _currentPageViewModel;
+        public BaseViewModel DefaultViewModel { get; set; }
+
+        BaseViewModel _currentPageViewModel;
 		public BaseViewModel CurrentPageViewModel
 		{
 			get { return _currentPageViewModel; }
@@ -31,9 +33,11 @@ namespace CompleetKassa.ViewModels
 
 		public MainViewModel () : base ("Main","#fff", "Icons/product.png")
 		{
+            DefaultViewModel = new SalesViewModel();
+
 			this.CreateContentViewModels ();
 
-            _currentPageViewModel = PageViewModels[0];
+            _currentPageViewModel = DefaultViewModel;
 
             OnChangePageCommand = new BaseCommand (ChangePageCommand);
 
@@ -52,8 +56,10 @@ namespace CompleetKassa.ViewModels
 		{
 			PageViewModels = new ObservableCollection<BaseViewModel>
 			{
-				new ProductsViewModel(),
-				new CustomersViewModel {
+                new ProductsViewModel() {
+                    OnClosePageCommand = new BaseCommand (ClosePage)
+                },
+                new CustomersViewModel {
 					OnClosePageCommand = new BaseCommand (ClosePage)
 				},
 				new AccessoriesViewModel{
@@ -79,7 +85,7 @@ namespace CompleetKassa.ViewModels
 
 		private void ClosePage (object obj)
 		{
-			CurrentPageViewModel = PageViewModels[0];
+            CurrentPageViewModel = DefaultViewModel;
 		}
 	}
 }

@@ -61,13 +61,14 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="LockViewModel.cs" />
     <Compile Include="MainViewModel.cs" />
+    <Compile Include="ProductsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="SelectedProductViewModel.cs" />
     <Compile Include="PurchasedProductViewModel.cs" />
     <Compile Include="ReceiptsViewModel.cs" />
     <Compile Include="SettingsViewModel.cs" />
-    <Compile Include="ProductsViewModel.cs" />
+    <Compile Include="SalesViewModel.cs" />
     <Compile Include="SupportViewModel.cs" />
     <Compile Include="TotalsViewModel.cs" />
     <Compile Include="UsersViewModel.cs" />
