@@ -14,9 +14,15 @@
         mc:Ignorable="d"
         SnapsToDevicePixels="True"
         Keyboard.PreviewKeyDown="Window_PreviewKeyDown"
-        Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
-        Width="{x:Static SystemParameters.PrimaryScreenWidth}" 
+        Height="768"
+        Width="1366"
+        
+        
         >
+        
+        <!--Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
+        Width="{x:Static SystemParameters.PrimaryScreenWidth}"--> 
+       
          <!--MinHeight="768"
         MinWidth="1366"
 	        Height="768"

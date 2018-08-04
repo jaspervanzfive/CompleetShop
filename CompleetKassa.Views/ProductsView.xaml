@@ -9,7 +9,13 @@
 			 xmlns:c="clr-namespace:CompleetKassa.Converters;assembly=CompleetKassa.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1366"
-             xmlns:sysglb="clr-namespace:System.Globalization;assembly=mscorlib">
+             xmlns:sysglb="clr-namespace:System.Globalization;assembly=mscorlib"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"  
+             xmlns:r="clr-namespace:Org.Interactivity.Recognizer;assembly=Org.Interactivity.Recognizer"
+             xmlns:eim="clr-namespace:Microsoft.Expression.Interactivity.Media;assembly=Microsoft.Expression.Interactions"
+             
+             >
     <UserControl.Resources>
         <DataTemplate x:Key="PurchasedTemplate">
             <StackPanel Orientation="Vertical">
@@ -40,6 +46,10 @@
             </Border>
         </ControlTemplate>
         <SolidColorBrush x:Key="Background" Color="#2E4051"/>
+
+
+
+      
     </UserControl.Resources>
 
     <Grid Background="#2E4051">
@@ -54,7 +64,11 @@
 
         <Grid Background="#0193C6">
 
+            <Viewbox VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-50,0,0,0">
 
+                <TextBlock Foreground="#fff" Text="compleetshop" FontFamily="Open Sans Semibold" Margin="0,5"></TextBlock>
+            </Viewbox>
+            
         </Grid>
 
         <!--Page-->
@@ -103,57 +117,101 @@
                 </Grid>
 
                 <!--Receipt--> 
-                <Grid Background="#fff" Grid.Row="1" >
+                <StackPanel Orientation="Vertical" Background="#fff" Grid.Row="1">
+
+
+
+                    <!--<Border Background="#1F2E3C" Height="70">
+                        
+                    </Border>-->
+                    
+                    
                     <ListBox HorizontalContentAlignment="Stretch" SelectionMode="Extended" SelectedItem="{Binding SelectedPurchasedProduct}" ItemsSource="{Binding PurchasedProducts}" Margin="0,5">
 
                         <ListBox.ItemTemplate >
                             <DataTemplate >
                                 <Grid x:Name="grid"  Margin="-5,0,-5,0">
+                                    <Grid.Resources>
+                                        <Storyboard x:Key="sbShowLeftMenu" >
+                                           
+                                            <ThicknessAnimation Storyboard.TargetName="buttoninfo" Storyboard.TargetProperty="Margin" From="0,0,0,0" To="20,0,0,0" DecelerationRatio=".9" Duration="0:0:01" />
+
+                                          
+                                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="buttoninfo" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                                                <DiscreteObjectKeyFrame KeyTime="00:00:00.8000000" Value="{x:Static Visibility.Visible}"/>
+                                                <DiscreteObjectKeyFrame KeyTime="00:00:00.9500000" Value="{x:Static Visibility.Visible}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                        </Storyboard>
+                                    </Grid.Resources>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="0.3*" />
+                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="0.1*" />
                                     </Grid.RowDefinitions>
 
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding ID}" Style="{StaticResource ReceiptFont}" Padding="3,3,3,0" Foreground="#0193C6"/>
-                                        <TextBlock Text="{Binding Label}" Style="{StaticResource ReceiptFont}" HorizontalAlignment="Left" Padding="3,3,3,0" Foreground="#6E6E6E" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis" Width="230" MaxHeight="44"/>
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                        <Border x:Name="buttoninfo" Background="#05BEFE" Padding="40" CornerRadius="5" Margin="10,5,5,5" Visibility="Collapsed" >  
+                                            
+                                        </Border>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding ID}" Style="{StaticResource ReceiptFont}" Padding="10,3,3,0" Foreground="#0193C6"/>
+                                            <TextBlock Text="{Binding Label}" Style="{StaticResource ReceiptFont}" HorizontalAlignment="Left" Padding="10,3,3,0" Foreground="#4C4C4C" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis" Width="230" MaxHeight="44"/>
 
-                                        <TextBlock Style="{StaticResource ReceiptFont}" Padding="3,3,3,0" Foreground="#6E6E6E">
-                                            <TextBlock.Text >
-                                                <MultiBinding StringFormat="{}{0} x {1} ">
-                                                    <Binding Path="Price" />
-                                                    <Binding Path="Quantity" />
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
+                                            <TextBlock Style="{StaticResource ReceiptFont}" Padding="10,3,3,0" Foreground="#4C4C4C">
+                                                <TextBlock.Text >
+                                                    <MultiBinding StringFormat="{}{0} x {1} ">
+                                                        <Binding Path="Price" />
+                                                        <Binding Path="Quantity" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
 
-                                        <!-- Discount -->
-                                        <TextBlock Text="$ Discount" Style="{StaticResource ReceiptFont}" Padding="3,3,3,0"  Foreground="#F67B86" Visibility="Collapsed"/>
+                                            <!-- Discount -->
+                                            <TextBlock Text="$ Discount" Style="{StaticResource ReceiptFont}" Padding="3,3,3,0"  Foreground="#F67B86" Visibility="Collapsed"/>
 
+
+                                        </StackPanel>
 
                                     </StackPanel>
 
-
-                                    <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Bottom">
+                                    <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Right">
                                         <!-- Total and Discount-->
-                                        <TextBlock Text="{Binding SubTotal, StringFormat='{}{0:C}', ConverterCulture={x:Static sysglb:CultureInfo.CurrentUICulture}}" Style="{StaticResource ReceiptFont}" Padding="3,3,15,0" Foreground="#0193C6" TextAlignment="Right" Width="100"/>
+                                        <TextBlock Text="{Binding SubTotal, StringFormat='{}{0:C}', ConverterCulture={x:Static sysglb:CultureInfo.CurrentUICulture}}" Style="{StaticResource ReceiptFont}" Padding="3,3,15,0" Foreground="#355C7D" TextAlignment="Right" Width="100"/>
                                         <TextBlock Text="DISCOUNT" Style="{StaticResource ReceiptFont}" Padding="3,3,15,0" Foreground="#F67B86" TextAlignment="Right" Visibility="Collapsed"/>
                                     </StackPanel>
 
-                                    <Canvas HorizontalAlignment="Left"  Width="0" ClipToBounds="False" Margin="0,10"   Grid.Row="1">
-                                        <Line Stroke="#6E6E6E" StrokeDashArray="2 2" X2="10000"/>
+
+
+                                    <Canvas HorizontalAlignment="Left"  Width="0" ClipToBounds="False" Margin="10,10"   Grid.Row="1">
+                                        <Line Stroke="#4C4C4C" StrokeDashArray="2 2" X2="10000"/>
                                     </Canvas>
+
+
+                                    <i:Interaction.Triggers>
+                                        <r:GestureRecognizer TriggerOnGesture="SwipeRight">
+                                            <!--<i:EventTrigger EventName="MouseRightButtonDown">-->
+                                            <!--<i:InvokeCommandAction Command="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}">
+                                                
+                                            </i:InvokeCommandAction>-->
+                                            <eim:ControlStoryboardAction Storyboard="{StaticResource sbShowLeftMenu}"/>
+                                        <!--</i:EventTrigger>-->
+                                        </r:GestureRecognizer>
+
+                                    </i:Interaction.Triggers>
 
                                 </Grid>
 
                                 <DataTemplate.Triggers>
+                               
                                     <DataTrigger Value="True" Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}">
 
-                                        <Setter TargetName="grid" Property="Background" Value="#CACACA"/>
+                                        <Setter TargetName="grid" Property="Background" Value="#F4F4F4"/>
+                                        <!--<Setter TargetName="buttoninfo" Property="Visibility" Value="Visible"/>-->
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
@@ -171,7 +229,7 @@
                         </ListBox.InputBindings>
 
                     </ListBox>
-                </Grid>
+                </StackPanel>
 
                 <Grid Background="#EBEBEB" Row="2">
                     <Grid.RowDefinitions>
@@ -231,19 +289,54 @@
 
                 <Grid  Grid.Row="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="1.3*" />
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <StackPanel>
+
+                    <ItemsControl Margin="0,15,0,0">
+                        
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="1" Rows="5" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <Border CornerRadius="0,29,29,0" Margin="0,3,20,3" Background="#1F2E3C">
+                            <Image Source="ViewIcons/quantity.png" Stretch="Uniform" Margin="10,10,15,10"/>
+
+                        </Border>
+
+                        <Border  CornerRadius="0,29,29,0"  Margin="0,3,20,3" Background="#1F2E3C">
+                            <Image Source="ViewIcons/discount.png" Stretch="Uniform" Margin="10,10,15,10"/>
+                        </Border>
+
+                        <Border CornerRadius="0,29,29,0" Margin="0,3,20,3" Background="#1F2E3C">
+                            <Image Source="ViewIcons/print.png" Stretch="Uniform" Margin="10,10,15,10"/>
+                        </Border>
+
+                        <Border CornerRadius="0,29,29,0" Margin="0,3,20,3" Background="#1F2E3C">
+                            <Image Source="ViewIcons/mail.png" Stretch="Uniform" Margin="10,10,15,10"/>
+                        </Border>
+
+                        <Border  CornerRadius="0,29,29,0" Margin="0,3,20,3" Background="#1F2E3C">
+                            <Image Source="ViewIcons/client.png" Stretch="Uniform" Margin="10,10,15,10"/>
+                        </Border>
+
+                       
+
+                    </ItemsControl>
+
+                    <!--<StackPanel>
                         <Button Content="+" Command="{Binding OnIncrementPurchased}" />
                         <Button Content="-" Command="{Binding OnDecrementPurchased}" />
-                        <!--<Button Content="Discount" Command="{Binding OnDiscount}" />-->
+                        --><!--<Button Content="Discount" Command="{Binding OnDiscount}" />--><!--
 						<ToggleButton x:Name="Btn" IsHitTestVisible="{Binding ElementName=Popup, Path=IsOpen, Mode=OneWay, Converter={c:BoolInverter}}" >
 							<TextBlock x:Name="DiscountTextblock" Text="Discount"/>
 						</ToggleButton>
 
-						<Popup IsOpen="{Binding IsChecked, ElementName=Btn}" x:Name="Popup" StaysOpen="False" PlacementTarget="{Binding ElementName=DiscountTextblock}">
+                        <Button Content="-" Command="{Binding OnDecrementPurchased}" />
+
+                        <Popup IsOpen="{Binding IsChecked, ElementName=Btn}" x:Name="Popup" StaysOpen="False" PlacementTarget="{Binding ElementName=DiscountTextblock}">
 							<Grid>
 								<StackPanel Orientation="Horizontal">
 									<TextBox Width="50" Text="{Binding DiscountValue}"/>
@@ -253,7 +346,11 @@
 							</Grid>
 						</Popup>
 
-					</StackPanel>
+                        <Border CornerRadius="0,20,20,0" Height="50" Margin="0,0,10,0" Background="#1F2E3C">
+                            
+                        </Border>
+
+					</StackPanel>-->
 
 
 
@@ -264,10 +361,28 @@
                         </Border>
                     </Border>-->
 
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
 
 
+                        <Border Grid.Row="2"  CornerRadius="0,29,29,0" Margin="0,3,20,3" Background="#EF6F7C">
+                            <Border.InputBindings>
+                                <MouseBinding MouseAction="LeftClick"
+                              Command="{Binding OnDeleteProducts}"/>
+                            </Border.InputBindings>
+                            <Image Source="ViewIcons/delete.png" Stretch="Uniform" Margin="10,10,15,10"/>
+                        </Border>
+                    </Grid>
 
                 </Grid>
+                <Border Grid.Row="2"  CornerRadius="0,29,29,0" Margin="0,5,20,0" Background="#0193C6">
+                    <Image Source="ViewIcons/nupmad.png" Stretch="Uniform" Margin="10,10,15,10"/>
+                </Border>
             </Grid>
 
 

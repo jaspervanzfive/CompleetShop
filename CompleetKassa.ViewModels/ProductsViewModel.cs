@@ -151,10 +151,11 @@ namespace CompleetKassa.ViewModels
         public ICommand OnPay { get; private set; }
         public ICommand OnDiscountDollar { get; private set; }
 		public ICommand OnDiscountPercent { get; private set; }
+        public ICommand OnDeleteProducts { get; private set; }
 
-		#endregion
+        #endregion
 
-		public ProductsViewModel() : base ("Products", "#FDAC94","Icons/product.png")
+        public ProductsViewModel() : base ("Products", "#FDAC94","Icons/product.png")
 		{
             //PurchasedItems = new ObservableCollection<PurchasedProductViewModel>();
             _categories = new ObservableCollection<ProductCategory>();
@@ -188,7 +189,8 @@ namespace CompleetKassa.ViewModels
             OnPay = new BaseCommand(Pay);
             OnDiscountDollar = new BaseCommand(DiscountPurchaseByDollar);
 			OnDiscountPercent = new BaseCommand (DiscountPurchaseByPercent);
-		}
+            OnDeleteProducts = new BaseCommand(DeleteProducts);
+        }
 
         private bool ProductCategoryFilter(object item)
         {
@@ -328,6 +330,17 @@ namespace CompleetKassa.ViewModels
             {
                 IncrementPurchasedProduct(item);
             }
+        }
+
+        private void DeleteProducts(object obj)
+        {
+            var selectedItems = _purchasedProducts.Where(x => x.IsSelected).ToList(); ;
+            foreach (var item in selectedItems)
+            {
+                PurchasedProducts.Remove(item);
+            }
+
+            CurrentPurchase.ComputeTotal();
         }
 
         private void DecrementPurchase(object obj)
