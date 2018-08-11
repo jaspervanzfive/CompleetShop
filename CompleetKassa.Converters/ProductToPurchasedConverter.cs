@@ -1,8 +1,8 @@
-﻿using CompleetKassa.ViewModels;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
+using CompleetKassa.Models;
 
 namespace CompleetKassa.Converters
 {
@@ -10,7 +10,7 @@ namespace CompleetKassa.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return new SelectedProductViewModel
+            return new SelectedProductModel
             {
                 ID = (int)values[0],
                 Label = (string)values[1],

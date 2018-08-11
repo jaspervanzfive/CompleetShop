@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>CompleetKassa</RootNamespace>
     <AssemblyName>CompleetKassa</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -35,30 +35,39 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
-    </Reference>
     <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="MahApps.Metro.IconPacks, Version=2.3.0.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.IconPacks.2.3.0\lib\net46\MahApps.Metro.IconPacks.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFGestureRecognizer.1.0.4\lib\net46\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
     <Reference Include="Org.Interactivity.Recognizer, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFGestureRecognizer.1.0.4\lib\net46\Org.Interactivity.Recognizer.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Unity.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.6.3.0\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WPFGestureRecognizer.1.0.4\lib\net46\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -77,7 +86,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -85,7 +94,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="RegionAdapters\StackPanelRegionAdapter.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -115,20 +127,46 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CompleetKassa.Common\CompleetKassa.Common.csproj">
+      <Project>{934d8065-9b3a-4b4e-8366-fc6f696eb95a}</Project>
+      <Name>CompleetKassa.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.Converters\CompleetKassa.Converters.csproj">
       <Project>{dfd048d3-b371-4d38-bf6f-ece305fb7d73}</Project>
       <Name>CompleetKassa.Converters</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CompleetKassa.ViewModels\CompleetKassa.ViewModels.csproj">
-      <Project>{d961a431-f2a9-407e-ac14-9ab8027b1003}</Project>
-      <Name>CompleetKassa.ViewModels</Name>
+    <ProjectReference Include="..\CompleetKassa.CustomControls\CompleetKassa.CustomControls.csproj">
+      <Project>{bbc206a4-5454-4b02-abad-d050f5d39310}</Project>
+      <Name>CompleetKassa.CustomControls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CompleetKassa.Views\CompleetKassa.Views.csproj">
-      <Project>{0d8ab5c9-bc95-42cf-92a2-56187dc3f798}</Project>
-      <Name>CompleetKassa.Views</Name>
+    <ProjectReference Include="..\CompleetKassa.Events\CompleetKassa.Events.csproj">
+      <Project>{1FDC623C-C6B3-4AE4-B484-0AE8DACEDC6A}</Project>
+      <Name>CompleetKassa.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Module.Customer\CompleetKassa.Module.Customer.csproj">
+      <Project>{ADC0DDB7-E795-49F9-96C3-F4FC323DC4EA}</Project>
+      <Name>CompleetKassa.Module.Customer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Module.Product\CompleetKassa.Module.Product.csproj">
+      <Project>{25863b10-8a95-4370-8ca2-2697b3ed7a5d}</Project>
+      <Name>CompleetKassa.Module.Product</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Module.Sales\CompleetKassa.Module.Sales.csproj">
+      <Project>{506688b0-3095-4c3f-8c24-f85126b7b66c}</Project>
+      <Name>CompleetKassa.Module.Sales</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.SharedResourceDictionary\CompleetKassa.SharedResourceDictionary.csproj">
+      <Project>{66d3d53f-1c33-42fe-9338-7073b0da4b30}</Project>
+      <Name>CompleetKassa.SharedResourceDictionary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.UI.Styles\CompleetKassa.UI.Styles.csproj">
+      <Project>{ecfa45fd-37ad-4aef-a2a8-4d1def52f5b5}</Project>
+      <Name>CompleetKassa.UI.Styles</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -196,5 +234,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

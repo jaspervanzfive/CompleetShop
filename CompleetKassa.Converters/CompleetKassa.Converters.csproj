@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CompleetKassa.Converters</RootNamespace>
     <AssemblyName>CompleetKassa.Converters</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -53,10 +54,6 @@
     <ProjectReference Include="..\CompleetKassa.Models\CompleetKassa.Models.csproj">
       <Project>{c4466761-0b4d-4bbc-a70e-cbcc77c98c18}</Project>
       <Name>CompleetKassa.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CompleetKassa.ViewModels\CompleetKassa.ViewModels.csproj">
-      <Project>{d961a431-f2a9-407e-ac14-9ab8027b1003}</Project>
-      <Name>CompleetKassa.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
