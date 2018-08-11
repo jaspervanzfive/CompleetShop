@@ -13,10 +13,10 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 {
 	public class SalesViewModel : BindableBase
 	{
-		private IList<Product> _dbProductList;
+		private IList<ProductModel> _dbProductList;
 
-		private ObservableCollection<ProductCategory> _categories;
-		private ObservableCollection<ProductSubCategory> _subCategories;
+		private ObservableCollection<ProductCategoryModel> _categories;
+		private ObservableCollection<ProductSubCategoryModel> _subCategories;
 
 		public string DiscountValue { get; set; }
 
@@ -53,8 +53,8 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 			}
 		}
 
-		private ProductSubCategory _selectedSubCategory;
-		public ProductSubCategory SelectedSubCategory
+		private ProductSubCategoryModel _selectedSubCategory;
+		public ProductSubCategoryModel SelectedSubCategory
 		{
 			get { return _selectedSubCategory; }
 			set
@@ -67,8 +67,8 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 			}
 		}
 
-		private ProductCategory _selectedCategory;
-		public ProductCategory SelectedCategory
+		private ProductCategoryModel _selectedCategory;
+		public ProductCategoryModel SelectedCategory
 		{
 			get { return _selectedCategory; }
 			set
@@ -96,7 +96,7 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 			set { SetProperty(ref _purchasedProducts, value); }
 		}
 
-		public ObservableCollection<ProductCategory> Categories
+		public ObservableCollection<ProductCategoryModel> Categories
 		{
 			get { return _categories; }
 			set
@@ -105,7 +105,7 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 			}
 		}
 
-		public ObservableCollection<ProductSubCategory> SubCategories
+		public ObservableCollection<ProductSubCategoryModel> SubCategories
 		{
 			get { return _subCategories; }
 			set
@@ -161,7 +161,7 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 		public SalesViewModel()
 		{
 			//PurchasedItems = new ObservableCollection<PurchasedProductViewModel>();
-			_categories = new ObservableCollection<ProductCategory>();
+			_categories = new ObservableCollection<ProductCategoryModel>();
 			_purchasedProducts = new ObservableCollection<SelectedProductModel>();
 			_receiptList = new ObservableCollection<PurchasedProductModel>();
 
@@ -199,24 +199,24 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 
 		private bool ProductCategoryFilter(Object item)
 		{
-			var product = item as Product;
+			var product = item as ProductModel;
 			return product == null ? true : product.Category.Contains(_categoryFilter);
 		}
 
 		private bool ProductSubCategoryFilter(Object item)
 		{
-			var product = item as Product;
+			var product = item as ProductModel;
 			return (product.Category.Contains(_categoryFilter) &&
 				product.SubCategory.Contains(_subCategoryFilter));
 		}
 
 		private void SetSubCategories(string category)
 		{
-			SubCategories = new ObservableCollection<ProductSubCategory>(_categories.Where(x => x.Name == category).First().SubCategories);
+			SubCategories = new ObservableCollection<ProductSubCategoryModel>(_categories.Where(x => x.Name == category).First().SubCategories);
 			SubCategoryFilter = string.Empty;
 		}
 
-		private void GetCategories(IList<Product> products)
+		private void GetCategories(IList<ProductModel> products)
 		{
 			// TODO: Categories can be obtained from DB especially the color
 			var categories = products.Select(x => x.Category).Distinct();
@@ -226,17 +226,17 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 				var subCategories = products.Where(x => x.Category == category)
 									.Select(x => x.SubCategory).Distinct();
 
-				var productSubCategories = new List<ProductSubCategory>();
+				var productSubCategories = new List<ProductSubCategoryModel>();
 				foreach (var subCategory in subCategories)
 				{
-					productSubCategories.Add(new ProductSubCategory
+					productSubCategories.Add(new ProductSubCategoryModel
 					{
 						Name = subCategory,
 						Color = "Red"
 					});
 				}
 
-				_categories.Add(new ProductCategory
+				_categories.Add(new ProductCategoryModel
 				{
 					Name = category,
 					Color = "#B422B9",
@@ -247,8 +247,8 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 
 		private void GetProducts()
 		{
-			_dbProductList = new List<Product> {
-				 new Product
+			_dbProductList = new List<ProductModel> {
+				 new ProductModel
 				{
 					ID = 1,
 					Label = "Cheyene Hawk pen Purle with 25mm grip including spacersd dasdas das das",
@@ -258,7 +258,7 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 					Category = "Shoes",
 					SubCategory = "Running"
 				},
-				new Product
+				new ProductModel
 				{
 					ID = 2,
 					Label = "Shoes 2",
@@ -268,7 +268,7 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 					Category = "Shoes",
 					SubCategory = "Walking"
 				},
-				new Product
+				new ProductModel
 				{
 					ID = 3,
 					Label = "Bag 1",
@@ -278,7 +278,7 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 					Category = "Bag",
 					SubCategory = "Shoulder Bag"
 				},
-				new Product
+				new ProductModel
 				{
 					ID = 4,
 					Label = "Bag 2",
@@ -288,7 +288,7 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 					Category = "Bag",
 					SubCategory = "Shoulder Bag"
 				},
-				new Product
+				new ProductModel
 				{
 					ID = 5,
 					Label = "Belt 1",

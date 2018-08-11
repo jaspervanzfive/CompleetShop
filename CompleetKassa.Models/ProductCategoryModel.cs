@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace CompleetKassa.Models
 {
-    public class ProductSubCategory : Category
+    public class ProductCategoryModel : CategoryModel
     {
-
+        public IList<ProductSubCategoryModel> SubCategories { get; set; }
     }
 }

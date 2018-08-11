@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace CompleetKassa.Models
 {
-    public class Product
+    public class ProductModel
     {
         public int ID { get; set; }
         public string Label { get; set; }

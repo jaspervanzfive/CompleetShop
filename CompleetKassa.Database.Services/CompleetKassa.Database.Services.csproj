@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.EntityFrameworkCore, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.EntityFrameworkCore.2.1.1\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
     </Reference>
@@ -100,6 +103,10 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -110,9 +117,11 @@
   <ItemGroup>
     <Compile Include="Extensions\ResponseExtension.cs" />
     <Compile Include="ICreateUserRequest.cs" />
+    <Compile Include="IProductService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BaseService.cs" />
+    <Compile Include="ProductService.cs" />
     <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +140,10 @@
     <ProjectReference Include="..\CompleetKassa.Database.Repositories\CompleetKassa.Database.Repositories.csproj">
       <Project>{0D3DCE70-3D61-4ED1-829D-C4405081822C}</Project>
       <Name>CompleetKassa.Database.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Models\CompleetKassa.Models.csproj">
+      <Project>{C4466761-0B4D-4BBC-A70E-CBCC77C98C18}</Project>
+      <Name>CompleetKassa.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

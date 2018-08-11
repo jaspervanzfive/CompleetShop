@@ -13,8 +13,6 @@ namespace CompleetKassa.Database.Services
 		protected bool Disposed;
 		protected readonly AppDbContext DbContext;
 
-		protected IUserRepository m_userRepository;
-
 		public BaseService(ILogger logger, IAppUser userInfo, AppDbContext dbContext)
 		{
 			Logger = logger;
@@ -36,7 +34,5 @@ namespace CompleetKassa.Database.Services
 		{
 			return string.Format("{0} has been invoked", methodName);
 		}
-
-		protected IUserRepository UserRepository => m_userRepository ?? (m_userRepository = new UserRepository(UserInfo, this.DbContext));
 	}
 }

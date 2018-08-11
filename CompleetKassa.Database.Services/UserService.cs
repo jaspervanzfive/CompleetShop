@@ -6,6 +6,7 @@ using CompleetKassa.Database.Core.EF.Extensions;
 using CompleetKassa.Database.Core.Entities;
 using CompleetKassa.Database.Core.Services.ResponseTypes;
 using CompleetKassa.Database.Entities;
+using CompleetKassa.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -13,6 +14,9 @@ namespace CompleetKassa.Database.Services
 {
 	public class UserService : BaseService, IUserService
 	{
+		protected IUserRepository m_userRepository;
+		protected IUserRepository UserRepository => m_userRepository ?? (m_userRepository = new UserRepository(UserInfo, DbContext));
+
 		public UserService (ILogger logger, IAppUser userInfo, AppDbContext dbContext)
 			: base (logger, userInfo, dbContext)
 		{
@@ -60,6 +64,8 @@ namespace CompleetKassa.Database.Services
 					await UserRepository.AddAsync (details);
 
 					transaction.Commit ();
+
+					response.Model = details;
 				}
 				catch (Exception ex) {
 					transaction.Rollback ();

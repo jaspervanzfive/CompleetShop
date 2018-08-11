@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C4466761-0B4D-4BBC-A70E-CBCC77C98C18}</ProjectGuid>
+    <ProjectGuid>{048FB41D-0043-4EA3-814B-682951586D2A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CompleetKassa.Models</RootNamespace>
-    <AssemblyName>CompleetKassa.Models</AssemblyName>
+    <RootNamespace>CompleetKassa.ObjectMapper</RootNamespace>
+    <AssemblyName>CompleetKassa.ObjectMapper</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,11 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,22 +47,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CategoryModel.cs" />
-    <Compile Include="ProductModel.cs" />
-    <Compile Include="ProductCategoryModel.cs" />
-    <Compile Include="ProductSubCategoryModel.cs" />
+    <Compile Include="AutoMapperBootstrap.cs" />
+    <Compile Include="ProductProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PurchasedProductModel.cs" />
-    <Compile Include="SelectedProductModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CompleetKassa.DataTypes\CompleetKassa.DataTypes.csproj">
-      <Project>{4a30f1e9-0a08-4347-9324-cdcf24f79aba}</Project>
-      <Name>CompleetKassa.DataTypes</Name>
-    </ProjectReference>
+    <Content Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CompleetKassa.Database.Entities\CompleetKassa.Database.Entities.csproj">
+      <Project>{B489914F-1D65-44DF-BFA6-6DEDD7FB1631}</Project>
+      <Name>CompleetKassa.Database.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Models\CompleetKassa.Models.csproj">
+      <Project>{C4466761-0B4D-4BBC-A70E-CBCC77C98C18}</Project>
+      <Name>CompleetKassa.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

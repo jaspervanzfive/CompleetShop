@@ -1,0 +1,133 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using AutoMapper;
+using CompleetKassa.Database.Context;
+using CompleetKassa.Database.Core.EF.Extensions;
+using CompleetKassa.Database.Core.Entities;
+using CompleetKassa.Database.Core.Services.ResponseTypes;
+using CompleetKassa.Database.Entities;
+using CompleetKassa.Database.Repositories;
+using CompleetKassa.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+
+namespace CompleetKassa.Database.Services
+{
+	public class ProductService : BaseService, IProductService
+	{
+		protected IProductRepository m_productRepository;
+		protected IProductRepository ProductRepository => m_productRepository ?? (m_productRepository = new ProductRepository(UserInfo, DbContext));
+
+		public ProductService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
+			: base (logger, userInfo, dbContext)
+		{
+		}
+
+		public async Task<IListResponse<ProductModel>> GetProductsAsync (int pageSize = 0, int pageNumber = 0)
+		{
+			Logger?.LogInformation (CreateInvokedMethodLog (MethodBase.GetCurrentMethod ().ReflectedType.FullName));
+
+			var response = new ListResponse<ProductModel> ();
+
+			try {
+				//response.Model = await ProductRepository.GetAll (pageSize, pageNumber).ToListAsync ();
+
+				response.Model = await ProductRepository.GetAll(pageSize, pageNumber).Select(o => Mapper.Map<ProductModel>(o)).ToListAsync();
+			}
+			catch (Exception ex) {
+				response.SetError (ex, Logger);
+			}
+
+			return response;
+		}
+
+		public async Task<ISingleResponse<ProductModel>> GetProductByIDAsync(int productID)
+		{
+			Logger?.LogInformation (CreateInvokedMethodLog (MethodBase.GetCurrentMethod ().ReflectedType.FullName));
+
+			var response = new SingleResponse<ProductModel> ();
+
+			try {
+				response.Model = Mapper.Map<ProductModel>(await ProductRepository.GetByIDAsync(productID));
+			}
+			catch (Exception ex) {
+				response.SetError (ex, Logger);
+			}
+
+			return response;
+		}
+
+		public async Task<ISingleResponse<ProductModel>> AddProductAsync (ProductModel details)
+		{
+			var response = new SingleResponse<ProductModel> ();
+
+			using (var transaction = DbContext.Database.BeginTransaction ()) {
+				try {
+					await ProductRepository.AddAsync(Mapper.Map<Product>(details));
+
+					transaction.Commit ();
+
+					response.Model = details;
+				}
+				catch (Exception ex) {
+					transaction.Rollback ();
+					throw ex;
+				}
+			}
+
+			return response;
+		}
+
+
+		public async Task<IListResponse<ProductModel>> AddProductsAsync(IEnumerable<ProductModel> details)
+		{
+			var response = new ListResponse<ProductModel>();
+
+			using (var transaction = DbContext.Database.BeginTransaction())
+			{
+				try
+				{
+					await ProductRepository.AddAsync(details.Select(o => Mapper.Map<Product>(o)).ToAsyncEnumerable());
+
+					transaction.Commit();
+
+					response.Model = details;
+				}
+				catch (Exception ex)
+				{
+					transaction.Rollback();
+					throw ex;
+				}
+			}
+
+			return response;
+		}
+
+		public async Task<ISingleResponse<ProductModel>> UpdateProductAsync (ProductModel updates)
+		{
+			Logger?.LogInformation (CreateInvokedMethodLog (MethodBase.GetCurrentMethod ().ReflectedType.FullName));
+
+			var response = new SingleResponse<ProductModel> ();
+
+			using (var transaction = DbContext.Database.BeginTransaction ()) {
+				try {
+					await ProductRepository.UpdateAsync (Mapper.Map<Product>(updates));
+
+					transaction.Commit ();
+					response.Model = updates;
+				}
+				catch (Exception ex) {
+					transaction.Rollback ();
+					response.SetError (ex, Logger);
+				}
+			}
+
+			return response;
+		}
+
+
+	}
+}

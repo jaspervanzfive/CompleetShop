@@ -27,8 +27,8 @@ namespace CompleetKassa.Modules.Products.ViewModels
 
 			OnCloseCommand = new DelegateCommand(Close);
 
-			_productList = new ObservableCollection<Product> {
-				 new Product
+			_productList = new ObservableCollection<ProductModel> {
+				 new ProductModel
 				{
 					ID = 1,
 					Label = "Cheyene Hawk",
@@ -38,7 +38,7 @@ namespace CompleetKassa.Modules.Products.ViewModels
 					Category = "Shoes",
 					SubCategory = "Running"
 				},
-				new Product
+				new ProductModel
 				{
 					ID = 2,
 					Label = "Shoes 2",
@@ -51,16 +51,16 @@ namespace CompleetKassa.Modules.Products.ViewModels
 			};
 		}
 
-		private ObservableCollection<Product> _productList;
-		public ObservableCollection<Product> ProductList
+		private ObservableCollection<ProductModel> _productList;
+		public ObservableCollection<ProductModel> ProductList
 		{
 			get { return _productList; }
 			set { SetProperty(ref _productList, value); }
 		}
 
 
-		private Product m_selectedroduct;
-		public Product SelectedProduct
+		private ProductModel m_selectedroduct;
+		public ProductModel SelectedProduct
 		{
 			get { return m_selectedroduct; }
 			set { SetProperty(ref m_selectedroduct, value); }

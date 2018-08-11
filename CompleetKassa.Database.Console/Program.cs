@@ -22,16 +22,16 @@ namespace CompleetKassa.Database.Console
 			IUnityContainer container = new UnityContainer();
 
 			#region SQL Server
-			var dbConnection = ConfigurationManager.ConnectionStrings["AppDbConnection"].ConnectionString;
-			container.RegisterType<IDatabaseConnection, DefaultDatabaseConnection>(new InjectionConstructor(dbConnection));
-			var options = new DbContextOptionsBuilder<AppDbContext>()
-			.UseSqlServer(dbConnection)
-			.Options;
+			//var dbConnection = ConfigurationManager.ConnectionStrings["AppDbConnection"].ConnectionString;
+			//container.RegisterType<IDatabaseConnection, DefaultDatabaseConnection>(new InjectionConstructor(dbConnection));
+			//var options = new DbContextOptionsBuilder<AppDbContext>()
+			//.UseSqlServer(dbConnection)
+			//.Options;
 			#endregion SQL Server
 
 			#region SQLite
-			//var options = new DbContextOptionsBuilder<AppDbContext>()
-			//    .UseSqlite("Data Source=AppData.db;").Options;
+			var options = new DbContextOptionsBuilder<AppDbContext>()
+				.UseSqlite("Data Source=AppData.db;").Options;
 			#endregion SQLite
 
 			container.RegisterType<AppDbContext>(new TransientLifetimeManager(), new InjectionConstructor(options));
