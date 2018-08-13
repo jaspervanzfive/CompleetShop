@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2042
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompleetKassa", "CompleetKassa\CompleetKassa.csproj", "{129D980E-DBE4-4841-8CE2-29D26F185628}"
 EndProject
@@ -71,7 +71,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{8A2BE13E-7B77-4B60-81E7-47EDF5888B43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompleetKassa.ObjectMapper", "CompleetKassa.ObjectMapper\CompleetKassa.ObjectMapper.csproj", "{048FB41D-0043-4EA3-814B-682951586D2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompleetKassa.Database.ObjectMapper", "CompleetKassa.ObjectMapper\CompleetKassa.Database.ObjectMapper.csproj", "{048FB41D-0043-4EA3-814B-682951586D2A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{1F10367A-1236-49CB-96DB-2A61161333E6}"
 EndProject

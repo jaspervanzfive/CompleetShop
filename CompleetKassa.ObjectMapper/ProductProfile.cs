@@ -2,7 +2,7 @@
 using CompleetKassa.Database.Entities;
 using CompleetKassa.Models;
 
-namespace CompleetKassa.ObjectMapper
+namespace CompleetKassa.Database.ObjectMapper
 {
 	public class ProductProfile : Profile
 	{

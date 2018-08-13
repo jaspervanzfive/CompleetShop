@@ -7,8 +7,8 @@
     <ProjectGuid>{048FB41D-0043-4EA3-814B-682951586D2A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CompleetKassa.ObjectMapper</RootNamespace>
-    <AssemblyName>CompleetKassa.ObjectMapper</AssemblyName>
+    <RootNamespace>CompleetKassa.Database.ObjectMapper</RootNamespace>
+    <AssemblyName>CompleetKassa.Database.ObjectMapper</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

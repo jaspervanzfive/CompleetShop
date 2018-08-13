@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace CompleetKassa.ObjectMapper
+namespace CompleetKassa.Database.ObjectMapper
 {
 	public class ObjectMapperProvider
 	{
