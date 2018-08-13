@@ -71,13 +71,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{8A2BE13E-7B77-4B60-81E7-47EDF5888B43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompleetKassa.Database.ObjectMapper", "CompleetKassa.ObjectMapper\CompleetKassa.Database.ObjectMapper.csproj", "{048FB41D-0043-4EA3-814B-682951586D2A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{1F10367A-1236-49CB-96DB-2A61161333E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompleetKassa.Web.Services", "CompleetKassa.Web.Services\CompleetKassa.Web.Services.csproj", "{D7B003F8-20D7-433E-8ACE-E077D8B53EF6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompleetKassa.Web.Console", "CompleetKassa.Web.Console\CompleetKassa.Web.Console.csproj", "{325BD99A-77AF-493C-B341-DD4E98AF41F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompleetKassa.Database.ObjectMapper", "CompleetKassa.Database.ObjectMapper\CompleetKassa.Database.ObjectMapper.csproj", "{048FB41D-0043-4EA3-814B-682951586D2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -157,10 +157,6 @@ Global
 		{ADC0DDB7-E795-49F9-96C3-F4FC323DC4EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADC0DDB7-E795-49F9-96C3-F4FC323DC4EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADC0DDB7-E795-49F9-96C3-F4FC323DC4EA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{048FB41D-0043-4EA3-814B-682951586D2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{048FB41D-0043-4EA3-814B-682951586D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{048FB41D-0043-4EA3-814B-682951586D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{048FB41D-0043-4EA3-814B-682951586D2A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D7B003F8-20D7-433E-8ACE-E077D8B53EF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D7B003F8-20D7-433E-8ACE-E077D8B53EF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7B003F8-20D7-433E-8ACE-E077D8B53EF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -169,6 +165,10 @@ Global
 		{325BD99A-77AF-493C-B341-DD4E98AF41F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{325BD99A-77AF-493C-B341-DD4E98AF41F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{325BD99A-77AF-493C-B341-DD4E98AF41F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{048FB41D-0043-4EA3-814B-682951586D2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{048FB41D-0043-4EA3-814B-682951586D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{048FB41D-0043-4EA3-814B-682951586D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{048FB41D-0043-4EA3-814B-682951586D2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -205,6 +205,7 @@ Global
 		{8A2BE13E-7B77-4B60-81E7-47EDF5888B43} = {B8F95C8B-D5CE-40A7-B198-A329C6F42535}
 		{D7B003F8-20D7-433E-8ACE-E077D8B53EF6} = {1F10367A-1236-49CB-96DB-2A61161333E6}
 		{325BD99A-77AF-493C-B341-DD4E98AF41F0} = {1F10367A-1236-49CB-96DB-2A61161333E6}
+		{048FB41D-0043-4EA3-814B-682951586D2A} = {F357FE7F-9E38-45CA-A293-BA716AB40707}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3F1DB79F-86F8-4D78-9D24-F64F61F0FB8E}
