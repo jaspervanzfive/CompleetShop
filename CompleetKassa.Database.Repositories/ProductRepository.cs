@@ -17,8 +17,8 @@ namespace CompleetKassa.Database.Repositories
 
 		#region "Read Method"
 
-		public async Task<Product> GetByIDAsync(int productID)
-				=> await DbContext.Set<Product>().FirstOrDefaultAsync(item => item.ID == productID);
+		public async Task<Product> GetByIDAsync(int entityID)
+				=> await DbContext.Set<Product>().FirstOrDefaultAsync(item => item.ID == entityID);
 
 		public IQueryable<Product> GetAll(int pageSize = 10, int pageNumber = 1)
 				=> DbContext.Paging<Product>(pageSize, pageNumber);

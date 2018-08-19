@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using CompleetKassa.Database.Context;
 using CompleetKassa.Database.Core.Entities;
-using CompleetKassa.Database.Core.Services;
-using CompleetKassa.Database.Entities;
+using CompleetKassa.Database.ObjectMapper;
 using CompleetKassa.Database.Services;
+using CompleetKassa.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Unity;
@@ -31,26 +30,56 @@ namespace CompleetKassa.Database.Console
 
 			#region SQLite
 			var options = new DbContextOptionsBuilder<AppDbContext>()
-				.UseSqlite("Data Source=AppData.db;").Options;
+				.UseSqlite("Data Source=CompleetKassa.db3;").Options;
 			#endregion SQLite
 
 			container.RegisterType<AppDbContext>(new TransientLifetimeManager(), new InjectionConstructor(options));
-			container.RegisterType<IAppUser, AppUser>();
+
+			container.RegisterType<ObjectMapperProvider>(new TransientLifetimeManager());
+			container.RegisterInstance(container.Resolve<ObjectMapperProvider>().Mapper);
+
+			container.RegisterType<IAppUser, AppUser>(new InjectionConstructor(1, "LoggedUser"));
 			container.RegisterType<ILogger>(new InjectionFactory((c) => null));
 			container.RegisterType<IUserService, UserService>();
-			IAppUser user = container.Resolve<IAppUser>();
+			container.RegisterType<ICategoryService, CategoryService>();
 
-			MainAsync(container).Wait();
+			//UserTest(container).Wait();
+			CategoryTest(container).Wait();
 		}
 
-		static async Task MainAsync(IUnityContainer container)
+		static async Task CategoryTest (IUnityContainer container)
+		{
+			ICategoryService repo = container.Resolve<ICategoryService>();
+
+			// Category with no parent
+			var newCategory = new CategoryModel
+			{
+				Name = "Category-" + DateTime.Now.ToString(),
+				Status = 0,
+				Parent = 0
+			};
+
+			await repo.AddCategoryAsync(newCategory);
+
+			// Category with Parent
+			var anotherCategory = new CategoryModel
+			{
+				Name = "Category-" + DateTime.Now.ToString(),
+				Status = 0,
+				Parent = 1
+			};
+
+			await repo.AddCategoryAsync(anotherCategory);
+
+		}
+
+		static async Task UserTest(IUnityContainer container)
 		{
 			IUserService repo = container.Resolve<IUserService>();
 
-			var newUser = new User
+			var newUser = new UserModel
 			{
 				FirstName = "User-" + DateTime.Now.ToString(),
-				BirthDate = DateTime.Now,
 				LastName = "Last Name"
 			};
 

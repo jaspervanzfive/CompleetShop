@@ -9,7 +9,7 @@ namespace CompleetKassa.Database.Context.Configurations
 		public override void Map(EntityTypeBuilder<Product> builder)
 		{
 			builder.HasKey(db => db.ID);
-			builder.HasIndex(db => db.ID);
+			builder.HasIndex(db => new { db.ID, db.Name }).IsUnique();
 
 			builder.Property(db => db.CategoryName).HasColumnName("Category_Name");
 

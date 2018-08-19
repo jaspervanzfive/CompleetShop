@@ -251,50 +251,50 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 				 new ProductModel
 				{
 					ID = 1,
-					Label = "Cheyene Hawk pen Purle with 25mm grip including spacersd dasdas das das",
-					ImagePath ="/CompleetKassa.Modules.Sales;component/Images/SampleSaleProduct.jpg",
+					Name = "Cheyene Hawk pen Purle with 25mm grip including spacersd dasdas das das",
+					Image ="/CompleetKassa.Module.Sales;component/Images/SampleSaleProduct.jpg",
 					Price = 100.0m,
-					Description = "This is sample 1",
+					Detail = "This is sample 1",
 					Category = "Shoes",
 					SubCategory = "Running"
 				},
 				new ProductModel
 				{
 					ID = 2,
-					Label = "Shoes 2",
-					ImagePath ="/CompleetKassa.Modules.Sales;component/Images/SampleSaleProduct.jpg",
+					Name = "Shoes 2",
+					Image ="/CompleetKassa.Module.Sales;component/Images/SampleSaleProduct.jpg",
 					Price = 20.0m,
-					Description = "This is sample 2",
+					Detail = "This is sample 2",
 					Category = "Shoes",
 					SubCategory = "Walking"
 				},
 				new ProductModel
 				{
 					ID = 3,
-					Label = "Bag 1",
-					ImagePath ="/CompleetKassa.Modules.Sales;component/Images/SampleSaleProduct.jpg",
+					Name = "Bag 1",
+					Image ="/CompleetKassa.Module.Sales;component/Images/SampleSaleProduct.jpg",
 					Price = 20.0m,
-					Description = "This is sample 2",
+					Detail = "This is sample 2",
 					Category = "Bag",
 					SubCategory = "Shoulder Bag"
 				},
 				new ProductModel
 				{
 					ID = 4,
-					Label = "Bag 2",
-					ImagePath ="/CompleetKassa.Modules.Sales;component/Images/SampleSaleProduct.jpg",
+					Name = "Bag 2",
+					Image ="/CompleetKassa.Module.Sales;component/Images/SampleSaleProduct.jpg",
 					Price = 20.0m,
-					Description = "This is sample 2",
+					Detail = "This is sample 2",
 					Category = "Bag",
 					SubCategory = "Shoulder Bag"
 				},
 				new ProductModel
 				{
 					ID = 5,
-					Label = "Belt 1",
-					ImagePath ="/CompleetKassa.Modules.Sales;component/Images/SampleSaleProduct.jpg",
+					Name = "Belt 1",
+					Image ="/CompleetKassa.Module.Sales;component/Images/SampleSaleProduct.jpg",
 					Price = 10.0m,
-					Description = "This is Belt 1",
+					Detail = "This is Belt 1",
 					Category = "Belt",
 					SubCategory = "Men's Belt"
 				}

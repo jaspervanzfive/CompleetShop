@@ -16,15 +16,15 @@
                 <Button.CommandParameter>
                     <MultiBinding Converter="{StaticResource PurchasedItemConverter}">
                         <Binding Path="ID"/>
-                        <Binding Path="Label"/>
+                        <Binding Path="Name"/>
                         <Binding Path="Price"/>
                     </MultiBinding>
                 </Button.CommandParameter>
                 <Button.ToolTip>
-                    <TextBlock Text="{Binding Description}" />
+                    <TextBlock Text="{Binding Detail}" />
                 </Button.ToolTip>
                 <StackPanel Orientation="Vertical">
-                    <Image Source="{Binding ImagePath}" />
+                    <Image Source="{Binding Image}" />
                     <TextBlock Text="{Binding Label}" />
                     <TextBlock>
                         <Span>

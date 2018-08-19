@@ -9,7 +9,7 @@ namespace CompleetKassa.Database.Repositories
 	public interface IProductRepository : IRepository
 	{
 		IQueryable<Product> GetAll(int pageSize = 10, int pageNumber = 1);
-		Task<Product> GetByIDAsync(int productID);
+		Task<Product> GetByIDAsync(int entityID);
 		Task<int> AddAsync(Product entity);
 		Task<int> AddAsync(IAsyncEnumerable<Product> entities);
 		Task<int> UpdateAsync(Product changes);

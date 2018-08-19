@@ -31,7 +31,9 @@ namespace CompleetKassa.Database.Entities
 		public string LastUpdateUser { get; set; }
 
 		public DateTime? LastUpdateDateTime { get; set; }
+		public DateTime? Timestamp { get; set; }
 
-		public byte[] Timestamp { get; set; }
+		//Foreign Key
+		public virtual UserCredential UserCredential { get; set; }
 	}
 }

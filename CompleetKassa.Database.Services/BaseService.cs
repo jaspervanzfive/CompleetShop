@@ -1,7 +1,7 @@
-﻿using CompleetKassa.Database.Context;
+﻿using AutoMapper;
+using CompleetKassa.Database.Context;
 using CompleetKassa.Database.Core.Entities;
 using CompleetKassa.Database.Core.Services;
-using CompleetKassa.Database.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace CompleetKassa.Database.Services
@@ -9,13 +9,15 @@ namespace CompleetKassa.Database.Services
 	public abstract class BaseService : IService
 	{
 		protected ILogger Logger;
+		protected IMapper Mapper;
 		protected IAppUser UserInfo;
 		protected bool Disposed;
 		protected readonly AppDbContext DbContext;
 
-		public BaseService(ILogger logger, IAppUser userInfo, AppDbContext dbContext)
+		public BaseService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
 		{
 			Logger = logger;
+			Mapper = mapper;
 			UserInfo = userInfo;
 			DbContext = dbContext;
 		}

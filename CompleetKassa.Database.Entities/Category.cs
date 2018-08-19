@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CompleetKassa.Database.Core.Entities;
 
 namespace CompleetKassa.Database.Entities
@@ -8,13 +9,17 @@ namespace CompleetKassa.Database.Entities
 		public int ID { get; set; }
 		public string Name { get; set; }
 		public string Detail { get; set; }
-		public int Parent { get; set; }
 		public int Status { get; set; }
+		// Links
+		public virtual int? ParentCategoryID { get; set; }
+		public virtual Category ParentCategory { get; set; }
+
+		// For Audit
 		public string CreationUser { get; set; }
 		public DateTime? CreationDateTime { get; set; }
 		public string LastUpdateUser { get; set; }
 		public DateTime? LastUpdateDateTime { get; set; }
-		public byte[] Timestamp { get; set; }
+		public DateTime? Timestamp { get; set; }
 
 		//http://api.shoppreview.nl/public/api/categories
 		//Accept: application/json

@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="CommonServiceLocator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.5.8.6\lib\net47\CommonServiceLocator.dll</HintPath>
       <Private>True</Private>
@@ -96,14 +99,20 @@
     <Reference Include="SQLitePCLRaw.batteries_green, Version=1.1.11.121, Culture=neutral, PublicKeyToken=a84b7dcfb1391f7f, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.11\lib\net45\SQLitePCLRaw.batteries_green.dll</HintPath>
     </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_sqlcipher, Version=1.1.11.121, Culture=neutral, PublicKeyToken=83625171f3d0bf82, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_sqlcipher.1.1.11\lib\net45\SQLitePCLRaw.batteries_sqlcipher.dll</HintPath>
+    </Reference>
     <Reference Include="SQLitePCLRaw.batteries_v2, Version=1.1.11.121, Culture=neutral, PublicKeyToken=8226ea5df37bcae9, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.11\lib\net45\SQLitePCLRaw.batteries_v2.dll</HintPath>
+      <HintPath>..\packages\SQLitePCLRaw.bundle_sqlcipher.1.1.11\lib\net45\SQLitePCLRaw.batteries_v2.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.core, Version=1.1.11.121, Culture=neutral, PublicKeyToken=1488e028ca7ab535, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLitePCLRaw.core.1.1.11\lib\net45\SQLitePCLRaw.core.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.provider.e_sqlite3, Version=1.1.11.121, Culture=neutral, PublicKeyToken=9c301db686d0bd12, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLitePCLRaw.provider.e_sqlite3.net45.1.1.11\lib\net45\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.sqlcipher, Version=1.1.11.121, Culture=neutral, PublicKeyToken=7bbc99275c710061, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCLRaw.provider.sqlcipher.net45.1.1.11\lib\net45\SQLitePCLRaw.provider.sqlcipher.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -136,6 +145,10 @@
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -194,9 +207,17 @@
       <Project>{B489914F-1D65-44DF-BFA6-6DEDD7FB1631}</Project>
       <Name>CompleetKassa.Database.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Database.ObjectMapper\CompleetKassa.Database.ObjectMapper.csproj">
+      <Project>{048FB41D-0043-4EA3-814B-682951586D2A}</Project>
+      <Name>CompleetKassa.Database.ObjectMapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.Database.Services\CompleetKassa.Database.Services.csproj">
       <Project>{EED453AD-9272-48F2-8616-EA2545792D9F}</Project>
       <Name>CompleetKassa.Database.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Models\CompleetKassa.Models.csproj">
+      <Project>{C4466761-0B4D-4BBC-A70E-CBCC77C98C18}</Project>
+      <Name>CompleetKassa.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -208,9 +229,15 @@
     <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.11\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.11\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets'))" />
     <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.11\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.11\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets'))" />
     <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.11\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.11\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets'))" />
+    <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.sqlcipher.linux.1.1.11\build\net35\SQLitePCLRaw.lib.sqlcipher.linux.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.sqlcipher.linux.1.1.11\build\net35\SQLitePCLRaw.lib.sqlcipher.linux.targets'))" />
+    <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.sqlcipher.osx.1.1.11\build\net35\SQLitePCLRaw.lib.sqlcipher.osx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.sqlcipher.osx.1.1.11\build\net35\SQLitePCLRaw.lib.sqlcipher.osx.targets'))" />
+    <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.sqlcipher.windows.1.1.11\build\net35\SQLitePCLRaw.lib.sqlcipher.windows.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.sqlcipher.windows.1.1.11\build\net35\SQLitePCLRaw.lib.sqlcipher.windows.targets'))" />
   </Target>
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.11\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.11\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets')" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.11\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.11\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets')" />
+  <Import Project="..\packages\SQLitePCLRaw.lib.sqlcipher.linux.1.1.11\build\net35\SQLitePCLRaw.lib.sqlcipher.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.sqlcipher.linux.1.1.11\build\net35\SQLitePCLRaw.lib.sqlcipher.linux.targets')" />
+  <Import Project="..\packages\SQLitePCLRaw.lib.sqlcipher.osx.1.1.11\build\net35\SQLitePCLRaw.lib.sqlcipher.osx.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.sqlcipher.osx.1.1.11\build\net35\SQLitePCLRaw.lib.sqlcipher.osx.targets')" />
+  <Import Project="..\packages\SQLitePCLRaw.lib.sqlcipher.windows.1.1.11\build\net35\SQLitePCLRaw.lib.sqlcipher.windows.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.sqlcipher.windows.1.1.11\build\net35\SQLitePCLRaw.lib.sqlcipher.windows.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,10 +1,17 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using CompleetKassa.Database.Context;
+using CompleetKassa.Database.Core.Entities;
+using CompleetKassa.Database.ObjectMapper;
+using CompleetKassa.Database.Services;
 using CompleetKassa.Module.Customer;
 using CompleetKassa.Modules.Products;
 using CompleetKassa.Modules.Sales;
 using CompleetKassa.RegionAdapters;
 using CompleetKassa.Views;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Unity;
@@ -40,6 +47,24 @@ namespace CompleetKassa
 			catalog.AddModule(typeof(SalesModule));
 			catalog.AddModule(typeof(ProductsModule));
 			catalog.AddModule(typeof(CustomersModule));
+		}
+
+		protected override void ConfigureContainer()
+		{
+			base.ConfigureContainer();
+
+			#region SQLite
+			var options = new DbContextOptionsBuilder<AppDbContext>().UseSqlite("Data Source=CompleetKassa.db3;").Options;
+			#endregion SQLite
+
+			Container.RegisterType<AppDbContext>(new TransientLifetimeManager(), new InjectionConstructor(options));
+
+			Container.RegisterType<ObjectMapperProvider>(new TransientLifetimeManager());
+			Container.RegisterInstance(Container.Resolve<ObjectMapperProvider>().Mapper);
+			Container.RegisterType<IAppUser, AppUser>(new InjectionConstructor(1, "LoggedUser"));
+			Container.RegisterType<ILogger>(new InjectionFactory((c) => null));
+			Container.RegisterType<IUserService, UserService>();
+			Container.RegisterType<IProductService, ProductService>();
 		}
 	}
 }

@@ -1,92 +1,231 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows.Data;
+using System.Windows.Forms;
 using System.Windows.Input;
+using CompleetKassa.Common;
+using CompleetKassa.Database.Services;
 using CompleetKassa.Events;
 using CompleetKassa.Models;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Regions;
 
 namespace CompleetKassa.Modules.Products.ViewModels
 {
 	public class ProductsViewModel : BindableBase
 	{
-
+		#region Fields
+		IProductService _productService;
 		IEventAggregator _eventAggregator;
+		IRegionManager _regionManager;
+		#endregion Fields
 
-		public DelegateCommand OnCloseCommand { get; private set; }
+		#region Property
+		public Task Initialization { get; private set; }
+		#endregion Property
 
-		private void Close()
+		#region Command Property
+		public DelegateCommand OnFirstCommand { get; private set; }
+		public DelegateCommand OnPreviousCommand { get; private set; }
+		public DelegateCommand OnNextCommand { get; private set; }
+		public DelegateCommand OnLastCommand { get; private set; }
+		public DelegateCommand OnAddCommand { get; private set; }
+		public DelegateCommand OnSaveCommand { get; private set; }
+		public DelegateCommand<ProductModel> OnDeleteCommand { get; private set; }
+		public DelegateCommand OnCancelCommand { get; private set; }
+		public DelegateCommand OnSelectImageCommand { get; private set; }
+		#endregion Command Property
+
+		#region "Bindable Property"
+		private string _title;
+
+		public string Title
 		{
-			//TODO: How to make it dynamically get the view name?
-			_eventAggregator.GetEvent<CloseEvent>().Publish("Products");
+			get { return _title; }
+			set { SetProperty(ref _title, value); }
 		}
 
-		public ProductsViewModel(IEventAggregator eventAggregator)
+		private bool _newUserFormVisibility;
+		public bool NewProductFormVisibility
 		{
-			_eventAggregator = eventAggregator;
-
-			OnCloseCommand = new DelegateCommand(Close);
-
-			_productList = new ObservableCollection<ProductModel> {
-				 new ProductModel
-				{
-					ID = 1,
-					Label = "Cheyene Hawk",
-					ImagePath ="/CompleetKassa.Modules.Products;component/Images/SampleProduct.png",
-					Price = 100.0m,
-					Description = "This is sample 1",
-					Category = "Shoes",
-					SubCategory = "Running"
-				},
-				new ProductModel
-				{
-					ID = 2,
-					Label = "Shoes 2",
-					ImagePath ="/CompleetKassa.Modules.Products;component/Images/SampleProduct.png",
-					Price = 20.0m,
-					Description = "This is sample 2",
-					Category = "Shoes",
-					SubCategory = "Walking"
-				},
-			};
+			get { return _newUserFormVisibility; }
+			set { SetProperty(ref _newUserFormVisibility, value); }
 		}
 
-		private ObservableCollection<ProductModel> _productList;
-		public ObservableCollection<ProductModel> ProductList
+		#region New Product Object
+		private ProductModel _newProductModel;
+		public ProductModel NewProductModel
 		{
-			get { return _productList; }
-			set { SetProperty(ref _productList, value); }
+			get { return _newProductModel; }
+			set { SetProperty(ref _newProductModel, value); }
 		}
 
-
-		private ProductModel m_selectedroduct;
-		public ProductModel SelectedProduct
+		private string _selectedImagePath;
+		public string SelectedImagePath
 		{
-			get { return m_selectedroduct; }
-			set { SetProperty(ref m_selectedroduct, value); }
+			get { return _selectedImagePath; }
+			set { SetProperty(ref _selectedImagePath, value); }
 		}
 
-		private bool CanDelete
+		private Uri _selectedImageUri;
+		public Uri SelectedImageUri
 		{
-			get { return SelectedProduct != null; }
+			get { return _selectedImageUri; }
+			set { SetProperty(ref _selectedImageUri, value); }
 		}
 
-		private ICommand m_deleteCommand;
-		public ICommand DeleteCommand
+		#endregion New Product Object
+
+		public ICollectionView _ProductListView;
+		public ICollectionView ProductListView
 		{
-			get
+			get { return _ProductListView; }
+			private set { SetProperty(ref _ProductListView, value); }
+		}
+		#endregion "Bindable Property"
+
+		public ProductsViewModel(IUnityContainer container)
+		{
+			_regionManager = container.Resolve<IRegionManager>();
+			_productService = container.Resolve<IProductService>();
+			_eventAggregator = container.Resolve<IEventAggregator>();
+
+			_newProductModel = new ProductModel();
+			_title = "-Product Management Title-";
+			NewProductFormVisibility = false;
+
+			OnFirstCommand = new DelegateCommand(FirstCommandHandler);
+			OnPreviousCommand = new DelegateCommand(PreviousCommandHandler);
+			OnNextCommand = new DelegateCommand(NextCommandHandler);
+			OnLastCommand = new DelegateCommand(LastCommandHandler);
+			OnAddCommand = new DelegateCommand(AddCommandHandler);
+			OnSaveCommand = new DelegateCommand(SaveCommandHandler);
+			OnDeleteCommand = new DelegateCommand<ProductModel>(DeleteCommandHandler);
+			OnCancelCommand = new DelegateCommand(CancelCommandHandler);
+			OnSelectImageCommand = new DelegateCommand(SelectImageHandler);
+
+			Initialization = InitializeAsync();
+			ProductListView.MoveCurrentToFirst();
+		}
+
+		private void SelectImageHandler()
+		{
+			using (OpenFileDialog openFileDialog = new OpenFileDialog())
 			{
-				if (m_deleteCommand == null)
+				openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+				openFileDialog.Filter = "Image Files(*.PNG;*.JPG)|*.PNG;*.JPG|All files (*.*)|*.*";
+				openFileDialog.FilterIndex = 1;
+				openFileDialog.RestoreDirectory = true;
+
+				if (openFileDialog.ShowDialog() == DialogResult.OK)
 				{
-					m_deleteCommand = new DelegateCommand(Delete).ObservesCanExecute(() => CanDelete);
+					var targetPath = Path.Combine(Path.GetTempPath(), ApplicationFolders.ProductsTmpFolder);
+
+					// Create a new target folder, if necessary.
+					if (!Directory.Exists(targetPath))
+					{
+						Directory.CreateDirectory(targetPath);
+					}
+
+					SelectedImagePath = Path.Combine(ApplicationFolders.Products, Path.GetFileName(openFileDialog.FileName));
+					var destFile = Path.Combine (targetPath, Path.GetFileName(openFileDialog.FileName));
+					// To copy a file to another location and 
+					// overwrite the destination file if it already exists.
+					File.Copy(openFileDialog.FileName, destFile, true);
+
+					SelectedImageUri = new Uri(destFile);
 				}
-				return m_deleteCommand;
 			}
 		}
 
-		private void Delete()
+		private async Task InitializeAsync()
 		{
-			ProductList.Remove(SelectedProduct);
+			var result = await _productService.GetProductsAsync();
+			if (result.DidError == false)
+			{
+				ProductListView = CollectionViewSource.GetDefaultView(result.Model.ToList());
+			}
+		}
+
+		private void LastCommandHandler()
+		{
+			ProductListView.MoveCurrentToLast();
+		}
+
+		private void PreviousCommandHandler()
+		{
+			ProductListView.MoveCurrentToPrevious();
+
+			if (ProductListView.IsCurrentBeforeFirst == true)
+			{
+				ProductListView.MoveCurrentToFirst();
+			}
+		}
+
+		private void NextCommandHandler()
+		{
+
+			ProductListView.MoveCurrentToNext();
+
+			if (ProductListView.IsCurrentAfterLast == true)
+			{
+				ProductListView.MoveCurrentToLast();
+			}
+		}
+
+		private void FirstCommandHandler()
+		{
+			ProductListView.MoveCurrentToFirst();
+		}
+
+		private void AddCommandHandler()
+		{
+			NewProductFormVisibility = true;
+			NewProductModel = new ProductModel();
+		}
+
+		private async void SaveCommandHandler()
+		{
+			NewProductFormVisibility = false;
+
+			NewProductModel.Image = SelectedImagePath;
+
+			var targetPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ApplicationFolders.Products);
+			// Create a new target folder, if necessary.
+			if (!Directory.Exists(targetPath))
+			{
+				Directory.CreateDirectory(targetPath);
+			}
+
+			var destFile = Path.Combine(targetPath, Path.GetFileName(SelectedImageUri.ToString()));
+			// To copy a file to another location and 
+			// overwrite the destination file if it already exists.
+			File.Copy(SelectedImageUri.LocalPath, destFile, true);
+
+			var result = await _productService.AddProductAsync(NewProductModel);
+			await InitializeAsync();
+		}
+
+		private async void DeleteCommandHandler(ProductModel user)
+		{
+			if (user != null)
+			{
+				await _productService.RemoveProductAsync(user.ID);
+				await InitializeAsync();
+			}
+		}
+
+		private void CancelCommandHandler()
+		{
+			NewProductFormVisibility = false;
 		}
 	}
 }

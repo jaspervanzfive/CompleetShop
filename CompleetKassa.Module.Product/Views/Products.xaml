@@ -3,39 +3,202 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d" 
+             xmlns:c="clr-namespace:CompleetKassa.Converters;assembly=CompleetKassa.Converters"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <c:RelativeToAbsolutePathConverter x:Key="RelativeToAbsolutePathConverter"/>
+
+        <Style x:Key="Label" TargetType="{x:Type Label}" BasedOn="{x:Null}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Height" Value="23"/>
+        </Style>
+        <Style x:Key="UserTextBox" TargetType="{x:Type TextBox}" BasedOn="{x:Null}">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Height" Value="26"/>
+            <Setter Property="Width" Value="150"/>
+        </Style>
+
+        <Style x:Key="NavButton" TargetType="{x:Type Button}" BasedOn="{x:Null}">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+            <Setter Property="Margin" Value="2,2,2,0"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="auto"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Product Inventory" />
-                <Button Grid.Column="1" Content="Close" Command="{Binding OnCloseCommand}" />
-            </Grid>
-        </StackPanel>
-        <StackPanel Grid.Row="1">
-            <DataGrid ItemsSource="{Binding ProductList}"
-          SelectedItem="{Binding SelectedProduct}"
-          AutoGenerateColumns="False">
 
-                <DataGrid.InputBindings>
-                    <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
-                </DataGrid.InputBindings>
-
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Label" Binding="{Binding Label}" />
-                    <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
-                </DataGrid.Columns>
-            </DataGrid>
+        <StackPanel Orientation="Horizontal" Margin="2,2,2,0" Height="36" VerticalAlignment="Top" Background="Gainsboro">
+            <Button Content="|◄" Command="{Binding OnFirstCommand}" Style="{StaticResource NavButton}"/>
+            <Button Content="◄" Command="{Binding OnPreviousCommand}" Style="{StaticResource NavButton}"/>
+            <Button Content="►" Command="{Binding OnNextCommand}" Style="{StaticResource NavButton}"/>
+            <Button Content="►|" Command="{Binding OnLastCommand}" Style="{StaticResource NavButton}"/>
+            <Button Content="Delete" Command="{Binding OnDeleteCommand}" CommandParameter="{Binding ElementName=ProductsDataGrid, Path=SelectedItem}" FontSize="11" Width="120" Style="{StaticResource NavButton}"/>
+            <Button Content="New" Command="{Binding OnAddCommand}" FontSize="11" Width="80" Style="{StaticResource NavButton}"/>
+            <Button Content="Save" Command="{Binding OnSaveCommand}" FontSize="11" Width="80" Style="{StaticResource NavButton}"/>
+            <Button Content="Cancel" Command="{Binding OnCancelCommand}" FontSize="11" Width="80" Style="{StaticResource NavButton}"/>
         </StackPanel>
+
+        <!-- Selected Product -->
+        <Grid Grid.Row="1" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Background="AntiqueWhite" DataContext="{Binding ProductListView}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="250"/>
+                <ColumnDefinition Width="Auto" MinWidth="50"/>
+                <ColumnDefinition Width="Auto" MinWidth="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.NewProductFormVisibility}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+
+            <Label Content="Product ID:" Grid.Row="0" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="0" IsReadOnly="True" Style="{StaticResource UserTextBox}"
+                  Text="{Binding ElementName=ProductsDataGrid, Path=SelectedItem.ID, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+            <Label Content="Name:" Grid.Row="1" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="1" Style="{StaticResource UserTextBox}"
+                  Text="{Binding ElementName=ProductsDataGrid, Path=SelectedItem.Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+            <Label Content="Detail:" Grid.Row="2" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="2" Style="{StaticResource UserTextBox}"
+                  Text="{Binding ElementName=ProductsDataGrid, Path=SelectedItem.Detail, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+            <Label Content="Quantity:" Grid.Row="3" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="3" Style="{StaticResource UserTextBox}"
+                  Text="{Binding ElementName=ProductsDataGrid, Path=SelectedItem.Quantity, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+            <Label Content="Model:" Grid.Row="4" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="4" Style="{StaticResource UserTextBox}"
+                  Text="{Binding ElementName=ProductsDataGrid, Path=SelectedItem.Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+            <Label Content="Price:" Grid.Row="5" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="5" Style="{StaticResource UserTextBox}"
+                  Text="{Binding ElementName=ProductsDataGrid, Path=SelectedItem.Price, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+            
+            <Label Content="Image:" Grid.Row="6" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="6" Style="{StaticResource UserTextBox}"
+                  Text="{Binding ElementName=ProductsDataGrid, Path=SelectedItem.Image, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+            <Label Content="Status:" Grid.Row="7" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="7" Style="{StaticResource UserTextBox}"
+                  Text="{Binding ElementName=ProductsDataGrid, Path=SelectedItem.Status, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+            <Image Grid.Row="1" Grid.RowSpan="6" Grid.Column="3" Margin="10" Width="200" Height="150" Source="{Binding ElementName=ProductsDataGrid, Path=SelectedItem.Image, Converter={StaticResource RelativeToAbsolutePathConverter}}" />
+        </Grid>
+
+        <!-- List Product from DB -->
+        <DataGrid x:Name="ProductsDataGrid" SelectionUnit="FullRow" SelectionMode="Single"  AutoGenerateColumns="False" CanUserAddRows="false" IsEnabled="True" EnableRowVirtualization="True" Width="auto" ItemsSource="{Binding ProductListView}" Margin="10,10,10,10" Grid.Row="2" RowDetailsVisibilityMode="VisibleWhenSelected" IsSynchronizedWithCurrentItem="True" >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Delete" Command="{Binding Path=DataContext.OnDeleteCommand, RelativeSource= {RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding ID}" IsReadOnly="True" Header="ID" Width="SizeToHeader"/>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Label" Width="SizeToHeader"/>
+                <DataGridTextColumn Binding="{Binding Price}" Header="Price" Width="SizeToHeader"/>
+                <DataGridTextColumn Binding="{Binding Quantity}" Header="Quantity" Width="SizeToHeader"/>
+                <DataGridTextColumn Binding="{Binding Model}" Header="Model" Width="SizeToHeader"/>
+                <DataGridTextColumn Binding="{Binding Price}" Header="Price" Width="SizeToHeader"/>
+                <DataGridTextColumn Binding="{Binding Image}" Header="Image" Width="SizeToHeader"/>
+                <DataGridTextColumn Binding="{Binding Status}" Header="Status" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!--New Product-->
+        <Grid Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" DataContext="{Binding NewProductModel}" Background="CornflowerBlue">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="250"/>
+                <ColumnDefinition Width="Auto" MinWidth="50"/>
+                <ColumnDefinition Width="Auto" MinWidth="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.NewProductFormVisibility}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+
+            <TextBlock Text="New Product Form" Grid.Row="0" />
+            <Label Content="Name:" Grid.Row="1" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="1" Style="{StaticResource UserTextBox}"
+                  Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+
+            <Label Content="Detail:" Grid.Row="2" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="2" Style="{StaticResource UserTextBox}"
+                  Text="{Binding Detail, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+            <Label Content="Quantity:" Grid.Row="3" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="3" Style="{StaticResource UserTextBox}"
+                  Text="{Binding Quantity, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+            <Label Content="Model:" Grid.Row="4" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="4" Style="{StaticResource UserTextBox}"
+                  Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+            <Label Content="Price:" Grid.Row="5" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="5" Style="{StaticResource UserTextBox}"
+                  Text="{Binding Price, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+            <Label Content="Image:" Grid.Row="6" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="6" IsReadOnly="True" Style="{StaticResource UserTextBox}"
+                  Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SelectedImagePath}"/>
+
+            <Label Content="Status:" Grid.Row="7" Style="{StaticResource Label}"/>
+            <TextBox Grid.Row="7" Style="{StaticResource UserTextBox}"
+                  Text="{Binding Status, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+            <Border Background="GhostWhite" Grid.Row="1" Grid.RowSpan="6" Grid.Column="3" Margin="10" BorderBrush="Gainsboro" BorderThickness="1">
+                <StackPanel Margin="5">
+                    <Image  Width="200" Height="150" Source="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SelectedImageUri}" />
+                </StackPanel>
+            </Border>
+
+            <Button Grid.Row="7" Grid.Column="3" Margin="2" Content="Browse..." Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.OnSelectImageCommand}" />
+        </Grid>
     </Grid>
 </UserControl>

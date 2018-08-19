@@ -51,6 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchasedProductModel.cs" />
     <Compile Include="SelectedProductModel.cs" />
+    <Compile Include="UserModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CompleetKassa.DataTypes\CompleetKassa.DataTypes.csproj">

@@ -15,6 +15,9 @@ namespace CompleetKassa.Database.Services
 		Task<ISingleResponse<ProductModel>> UpdateProductAsync(ProductModel updates);
 
 		Task<ISingleResponse<ProductModel>> AddProductAsync(ProductModel details);
+
 		Task<IListResponse<ProductModel>> AddProductsAsync(IEnumerable<ProductModel> details);
+
+		Task<ISingleResponse<ProductModel>> RemoveProductAsync(int productID);
 	}
 }

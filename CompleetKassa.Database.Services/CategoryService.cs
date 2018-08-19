@@ -17,25 +17,24 @@ using Microsoft.Extensions.Logging;
 
 namespace CompleetKassa.Database.Services
 {
-	public class ProductService : BaseService, IProductService
+	public class CategoryService : BaseService, ICategoryService
 	{
-		protected IProductRepository m_productRepository;
-		protected IProductRepository ProductRepository => m_productRepository ?? (m_productRepository = new ProductRepository(UserInfo, DbContext));
+		protected ICategoryRepository _categoryRepository;
+		protected ICategoryRepository CategoryRepository => _categoryRepository ?? (_categoryRepository = new CategoryRepository(UserInfo, DbContext));
 
-		public ProductService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
+		public CategoryService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext) 
 			: base(logger, mapper, userInfo, dbContext)
 		{
 		}
-
-		public async Task<IListResponse<ProductModel>> GetProductsAsync(int pageSize = 0, int pageNumber = 0)
+		public async Task<IListResponse<CategoryModel>> GetCategoriesAsync(int pageSize = 0, int pageNumber = 0)
 		{
 			Logger?.LogInformation(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
-			var response = new ListResponse<ProductModel>();
+			var response = new ListResponse<CategoryModel>();
 
 			try
 			{
-				response.Model = await ProductRepository.GetAll(pageSize, pageNumber).Select(o => Mapper.Map<ProductModel>(o)).ToListAsync();
+				response.Model = await CategoryRepository.GetAll(pageSize, pageNumber).Select(o => Mapper.Map<CategoryModel>(o)).ToListAsync();
 			}
 			catch (Exception ex)
 			{
@@ -45,15 +44,15 @@ namespace CompleetKassa.Database.Services
 			return response;
 		}
 
-		public async Task<ISingleResponse<ProductModel>> GetProductByIDAsync(int productID)
+		public async Task<ISingleResponse<CategoryModel>> GetCategoryByIDAsync(int CategoryID)
 		{
 			Logger?.LogInformation(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
-			var response = new SingleResponse<ProductModel>();
+			var response = new SingleResponse<CategoryModel>();
 
 			try
 			{
-				response.Model = Mapper.Map<ProductModel>(await ProductRepository.GetByIDAsync(productID));
+				response.Model = Mapper.Map<CategoryModel>(await CategoryRepository.GetByIDAsync(CategoryID));
 			}
 			catch (Exception ex)
 			{
@@ -63,21 +62,21 @@ namespace CompleetKassa.Database.Services
 			return response;
 		}
 
-		public async Task<ISingleResponse<ProductModel>> AddProductAsync(ProductModel details)
+		public async Task<ISingleResponse<CategoryModel>> AddCategoryAsync(CategoryModel details)
 		{
-			var response = new SingleResponse<ProductModel>();
+			var response = new SingleResponse<CategoryModel>();
 
 			using (var transaction = DbContext.Database.BeginTransaction())
 			{
 				try
 				{
-					var product = Mapper.Map<Product>(details);
+					var Category = Mapper.Map<Category>(details);;
 
-					await ProductRepository.AddAsync(product);
+					await CategoryRepository.AddAsync(Category);
 
 					transaction.Commit();
 
-					response.Model = Mapper.Map<ProductModel>(product);
+					response.Model = Mapper.Map<CategoryModel>(Category);
 				}
 				catch (Exception ex)
 				{
@@ -90,15 +89,15 @@ namespace CompleetKassa.Database.Services
 		}
 
 
-		public async Task<IListResponse<ProductModel>> AddProductsAsync(IEnumerable<ProductModel> details)
+		public async Task<IListResponse<CategoryModel>> AddCategoriesAsync(IEnumerable<CategoryModel> details)
 		{
-			var response = new ListResponse<ProductModel>();
+			var response = new ListResponse<CategoryModel>();
 
 			using (var transaction = DbContext.Database.BeginTransaction())
 			{
 				try
 				{
-					await ProductRepository.AddAsync(details.Select(o => Mapper.Map<Product>(o)).ToAsyncEnumerable());
+					await CategoryRepository.AddAsync(details.Select(o => Mapper.Map<Category>(o)).ToAsyncEnumerable());
 
 					transaction.Commit();
 
@@ -114,17 +113,17 @@ namespace CompleetKassa.Database.Services
 			return response;
 		}
 
-		public async Task<ISingleResponse<ProductModel>> UpdateProductAsync(ProductModel updates)
+		public async Task<ISingleResponse<CategoryModel>> UpdateCategoryAsync(CategoryModel updates)
 		{
 			Logger?.LogInformation(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
-			var response = new SingleResponse<ProductModel>();
+			var response = new SingleResponse<CategoryModel>();
 
 			using (var transaction = DbContext.Database.BeginTransaction())
 			{
 				try
 				{
-					await ProductRepository.UpdateAsync(Mapper.Map<Product>(updates));
+					await CategoryRepository.UpdateAsync(Mapper.Map<Category>(updates));
 
 					transaction.Commit();
 					response.Model = updates;
@@ -139,23 +138,23 @@ namespace CompleetKassa.Database.Services
 			return response;
 		}
 
-		public async Task<ISingleResponse<ProductModel>> RemoveProductAsync(int productID)
+		public async Task<ISingleResponse<CategoryModel>> RemoveCategoryAsync(int CategoryID)
 		{
 			Logger?.LogInformation(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
-			var response = new SingleResponse<ProductModel>();
+			var response = new SingleResponse<CategoryModel>();
 
 			try
 			{
-				// Retrieve product by id
-				Product product = await ProductRepository.GetByIDAsync(productID);
-				if (product == null)
+				// Retrieve Category by id
+				Category Category = await CategoryRepository.GetByIDAsync(CategoryID);
+				if (Category == null)
 				{
-					throw new DatabaseException("Product record not found.");
+					throw new DatabaseException("Category record not found.");
 				}
 
-				await ProductRepository.DeleteAsync(product);
-				response.Model = Mapper.Map<ProductModel>(product);
+				await CategoryRepository.DeleteAsync(Category);
+				response.Model = Mapper.Map<CategoryModel>(Category);
 			}
 			catch (Exception ex)
 			{

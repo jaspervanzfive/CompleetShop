@@ -120,6 +120,18 @@
       <Project>{934D8065-9B3A-4B4E-8366-FC6F696EB95A}</Project>
       <Name>CompleetKassa.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Converters\CompleetKassa.Converters.csproj">
+      <Project>{dfd048d3-b371-4d38-bf6f-ece305fb7d73}</Project>
+      <Name>CompleetKassa.Converters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Database.Core\CompleetKassa.Database.Core.csproj">
+      <Project>{B81ADCEF-3844-4AB1-BDA2-DDE4E01E3C01}</Project>
+      <Name>CompleetKassa.Database.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Database.Services\CompleetKassa.Database.Services.csproj">
+      <Project>{EED453AD-9272-48F2-8616-EA2545792D9F}</Project>
+      <Name>CompleetKassa.Database.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.Events\CompleetKassa.Events.csproj">
       <Project>{1FDC623C-C6B3-4AE4-B484-0AE8DACEDC6A}</Project>
       <Name>CompleetKassa.Events</Name>

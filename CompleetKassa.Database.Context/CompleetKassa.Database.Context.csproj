@@ -112,8 +112,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\CategoryConfiguration.cs" />
     <Compile Include="Configurations\ChangeLogConfiguration.cs" />
     <Compile Include="Configurations\ChangeLogExclusionConfiguration.cs" />
+    <Compile Include="Configurations\UserCredentialConfiguration.cs" />
     <Compile Include="Configurations\EntityMappingConfiguration.cs" />
     <Compile Include="Configurations\EventLogConfiguration.cs" />
     <Compile Include="Configurations\IEntityMappingConfiguration.cs" />
