@@ -113,10 +113,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CompleetKassa.Common\CompleetKassa.Common.csproj">
-      <Project>{934D8065-9B3A-4B4E-8366-FC6F696EB95A}</Project>
-      <Name>CompleetKassa.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.CustomControls\CompleetKassa.CustomControls.csproj">
       <Project>{bbc206a4-5454-4b02-abad-d050f5d39310}</Project>
       <Name>CompleetKassa.CustomControls</Name>
@@ -124,6 +120,10 @@
     <ProjectReference Include="..\CompleetKassa.DataTypes\CompleetKassa.DataTypes.csproj">
       <Project>{4A30F1E9-0A08-4347-9324-CDCF24F79ABA}</Project>
       <Name>CompleetKassa.DataTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Definitions\CompleetKassa.Definitions.csproj">
+      <Project>{91A059A3-A461-48F2-95DD-79FF50FEDB42}</Project>
+      <Name>CompleetKassa.Definitions</Name>
     </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.Models\CompleetKassa.Models.csproj">
       <Project>{C4466761-0B4D-4BBC-A70E-CBCC77C98C18}</Project>

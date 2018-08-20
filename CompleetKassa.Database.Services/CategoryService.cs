@@ -13,7 +13,7 @@ using CompleetKassa.Database.Entities;
 using CompleetKassa.Database.Repositories;
 using CompleetKassa.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace CompleetKassa.Database.Services
 {
@@ -28,7 +28,7 @@ namespace CompleetKassa.Database.Services
 		}
 		public async Task<IListResponse<CategoryModel>> GetCategoriesAsync(int pageSize = 0, int pageNumber = 0)
 		{
-			Logger?.LogInformation(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
 			var response = new ListResponse<CategoryModel>();
 
@@ -46,7 +46,7 @@ namespace CompleetKassa.Database.Services
 
 		public async Task<ISingleResponse<CategoryModel>> GetCategoryByIDAsync(int CategoryID)
 		{
-			Logger?.LogInformation(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
 			var response = new SingleResponse<CategoryModel>();
 
@@ -64,6 +64,8 @@ namespace CompleetKassa.Database.Services
 
 		public async Task<ISingleResponse<CategoryModel>> AddCategoryAsync(CategoryModel details)
 		{
+			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+
 			var response = new SingleResponse<CategoryModel>();
 
 			using (var transaction = DbContext.Database.BeginTransaction())
@@ -91,6 +93,8 @@ namespace CompleetKassa.Database.Services
 
 		public async Task<IListResponse<CategoryModel>> AddCategoriesAsync(IEnumerable<CategoryModel> details)
 		{
+			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+
 			var response = new ListResponse<CategoryModel>();
 
 			using (var transaction = DbContext.Database.BeginTransaction())
@@ -115,7 +119,7 @@ namespace CompleetKassa.Database.Services
 
 		public async Task<ISingleResponse<CategoryModel>> UpdateCategoryAsync(CategoryModel updates)
 		{
-			Logger?.LogInformation(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
 			var response = new SingleResponse<CategoryModel>();
 
@@ -140,7 +144,7 @@ namespace CompleetKassa.Database.Services
 
 		public async Task<ISingleResponse<CategoryModel>> RemoveCategoryAsync(int CategoryID)
 		{
-			Logger?.LogInformation(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
 			var response = new SingleResponse<CategoryModel>();
 

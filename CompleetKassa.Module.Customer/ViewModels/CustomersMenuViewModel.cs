@@ -1,4 +1,4 @@
-﻿using CompleetKassa.Common;
+﻿using CompleetKassa.Definitions;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;

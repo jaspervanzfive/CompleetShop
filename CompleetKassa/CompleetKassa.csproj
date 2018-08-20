@@ -106,6 +106,9 @@
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.8\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="Org.Interactivity.Recognizer, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFGestureRecognizer.1.0.4\lib\net46\Org.Interactivity.Recognizer.dll</HintPath>
     </Reference>
@@ -144,6 +147,7 @@
       <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
@@ -152,6 +156,7 @@
     <Reference Include="System.Interactive.Async, Version=3.2.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Interactive.Async.3.2.0\lib\net46\System.Interactive.Async.dll</HintPath>
     </Reference>
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
     </Reference>
@@ -163,6 +168,8 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -218,6 +225,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -230,10 +243,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CompleetKassa.Common\CompleetKassa.Common.csproj">
-      <Project>{934d8065-9b3a-4b4e-8366-fc6f696eb95a}</Project>
-      <Name>CompleetKassa.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.Converters\CompleetKassa.Converters.csproj">
       <Project>{dfd048d3-b371-4d38-bf6f-ece305fb7d73}</Project>
       <Name>CompleetKassa.Converters</Name>
@@ -257,6 +266,10 @@
     <ProjectReference Include="..\CompleetKassa.Database.Services\CompleetKassa.Database.Services.csproj">
       <Project>{EED453AD-9272-48F2-8616-EA2545792D9F}</Project>
       <Name>CompleetKassa.Database.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Definitions\CompleetKassa.Definitions.csproj">
+      <Project>{91a059a3-a461-48f2-95dd-79ff50fedb42}</Project>
+      <Name>CompleetKassa.Definitions</Name>
     </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.Events\CompleetKassa.Events.csproj">
       <Project>{1FDC623C-C6B3-4AE4-B484-0AE8DACEDC6A}</Project>

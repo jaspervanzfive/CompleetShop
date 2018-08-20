@@ -117,9 +117,9 @@
     <Resource Include="Images\customer.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CompleetKassa.Common\CompleetKassa.Common.csproj">
-      <Project>{934D8065-9B3A-4B4E-8366-FC6F696EB95A}</Project>
-      <Name>CompleetKassa.Common</Name>
+    <ProjectReference Include="..\CompleetKassa.Definitions\CompleetKassa.Definitions.csproj">
+      <Project>{91A059A3-A461-48F2-95DD-79FF50FEDB42}</Project>
+      <Name>CompleetKassa.Definitions</Name>
     </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.Events\CompleetKassa.Events.csproj">
       <Project>{1FDC623C-C6B3-4AE4-B484-0AE8DACEDC6A}</Project>

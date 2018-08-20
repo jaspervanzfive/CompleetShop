@@ -1,4 +1,4 @@
-﻿using CompleetKassa.Common;
+﻿using CompleetKassa.Definitions;
 using CompleetKassa.Events;
 using Prism.Events;
 using Prism.Mvvm;

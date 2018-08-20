@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        xmlns:region="clr-namespace:CompleetKassa.Common;assembly=CompleetKassa.Common"
+        xmlns:region="clr-namespace:CompleetKassa.Definitions;assembly=CompleetKassa.Definitions"
         Title="{Binding Title}"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"

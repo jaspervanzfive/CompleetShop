@@ -109,6 +109,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -116,10 +117,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CompleetKassa.Common\CompleetKassa.Common.csproj">
-      <Project>{934D8065-9B3A-4B4E-8366-FC6F696EB95A}</Project>
-      <Name>CompleetKassa.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.Converters\CompleetKassa.Converters.csproj">
       <Project>{dfd048d3-b371-4d38-bf6f-ece305fb7d73}</Project>
       <Name>CompleetKassa.Converters</Name>
@@ -131,6 +128,10 @@
     <ProjectReference Include="..\CompleetKassa.Database.Services\CompleetKassa.Database.Services.csproj">
       <Project>{EED453AD-9272-48F2-8616-EA2545792D9F}</Project>
       <Name>CompleetKassa.Database.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Definitions\CompleetKassa.Definitions.csproj">
+      <Project>{91A059A3-A461-48F2-95DD-79FF50FEDB42}</Project>
+      <Name>CompleetKassa.Definitions</Name>
     </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.Events\CompleetKassa.Events.csproj">
       <Project>{1FDC623C-C6B3-4AE4-B484-0AE8DACEDC6A}</Project>

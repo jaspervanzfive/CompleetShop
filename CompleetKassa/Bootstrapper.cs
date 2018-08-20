@@ -10,11 +10,11 @@ using CompleetKassa.Modules.Sales;
 using CompleetKassa.RegionAdapters;
 using CompleetKassa.Views;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Unity;
+using NLog;
 
 namespace CompleetKassa
 {
@@ -62,7 +62,7 @@ namespace CompleetKassa
 			Container.RegisterType<ObjectMapperProvider>(new TransientLifetimeManager());
 			Container.RegisterInstance(Container.Resolve<ObjectMapperProvider>().Mapper);
 			Container.RegisterType<IAppUser, AppUser>(new InjectionConstructor(1, "LoggedUser"));
-			Container.RegisterType<ILogger>(new InjectionFactory((c) => null));
+			Container.RegisterType<ILogger>(new InjectionFactory(l => LogManager.GetCurrentClassLogger()));
 			Container.RegisterType<IUserService, UserService>();
 			Container.RegisterType<IProductService, ProductService>();
 		}

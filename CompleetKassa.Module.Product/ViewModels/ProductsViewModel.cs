@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -7,10 +6,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Forms;
-using System.Windows.Input;
-using CompleetKassa.Common;
 using CompleetKassa.Database.Services;
-using CompleetKassa.Events;
+using CompleetKassa.Definitions;
 using CompleetKassa.Models;
 using Microsoft.Practices.Unity;
 using Prism.Commands;

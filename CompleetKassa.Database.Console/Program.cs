@@ -7,7 +7,7 @@ using CompleetKassa.Database.ObjectMapper;
 using CompleetKassa.Database.Services;
 using CompleetKassa.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using NLog;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
@@ -33,23 +33,30 @@ namespace CompleetKassa.Database.Console
 				.UseSqlite("Data Source=CompleetKassa.db3;").Options;
 			#endregion SQLite
 
+			container.RegisterType<ILogger>(new InjectionFactory(l => LogManager.GetCurrentClassLogger()));
+			//container.RegisterType<ILogger>(LogHelper.GetLogger<NLog>(LogManager.GetCurrentClassLogger()));
 			container.RegisterType<AppDbContext>(new TransientLifetimeManager(), new InjectionConstructor(options));
 
 			container.RegisterType<ObjectMapperProvider>(new TransientLifetimeManager());
 			container.RegisterInstance(container.Resolve<ObjectMapperProvider>().Mapper);
 
 			container.RegisterType<IAppUser, AppUser>(new InjectionConstructor(1, "LoggedUser"));
-			container.RegisterType<ILogger>(new InjectionFactory((c) => null));
+			//container.RegisterType<ILogger>(new InjectionFactory((c) => null));
 			container.RegisterType<IUserService, UserService>();
 			container.RegisterType<ICategoryService, CategoryService>();
 
 			//UserTest(container).Wait();
 			CategoryTest(container).Wait();
+
+			LogManager.Flush();
 		}
 
 		static async Task CategoryTest (IUnityContainer container)
 		{
 			ICategoryService repo = container.Resolve<ICategoryService>();
+			ILogger log = container.Resolve<ILogger>();
+
+			log.Info("This is a test");
 
 			// Category with no parent
 			var newCategory = new CategoryModel

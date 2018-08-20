@@ -13,7 +13,7 @@ using CompleetKassa.Database.Entities;
 using CompleetKassa.Database.Repositories;
 using CompleetKassa.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace CompleetKassa.Database.Services
 {
@@ -29,7 +29,7 @@ namespace CompleetKassa.Database.Services
 
 		public async Task<IListResponse<ProductModel>> GetProductsAsync(int pageSize = 0, int pageNumber = 0)
 		{
-			Logger?.LogInformation(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
 			var response = new ListResponse<ProductModel>();
 
@@ -47,7 +47,7 @@ namespace CompleetKassa.Database.Services
 
 		public async Task<ISingleResponse<ProductModel>> GetProductByIDAsync(int productID)
 		{
-			Logger?.LogInformation(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
 			var response = new SingleResponse<ProductModel>();
 
@@ -116,7 +116,7 @@ namespace CompleetKassa.Database.Services
 
 		public async Task<ISingleResponse<ProductModel>> UpdateProductAsync(ProductModel updates)
 		{
-			Logger?.LogInformation(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
 			var response = new SingleResponse<ProductModel>();
 
@@ -141,7 +141,7 @@ namespace CompleetKassa.Database.Services
 
 		public async Task<ISingleResponse<ProductModel>> RemoveProductAsync(int productID)
 		{
-			Logger?.LogInformation(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
 			var response = new SingleResponse<ProductModel>();
 

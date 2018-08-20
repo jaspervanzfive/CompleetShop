@@ -1,6 +1,6 @@
 ﻿using CompleetKassa.Database.Core.Exception;
 using CompleetKassa.Database.Core.Services.ResponseTypes;
-using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace CompleetKassa.Database.Core.EF.Extensions
 {
@@ -13,11 +13,11 @@ namespace CompleetKassa.Database.Core.EF.Extensions
 			var cast = ex as DatabaseException;
 
 			if (cast == null) {
-				logger?.LogCritical (ex.ToString ());
+				logger?.Fatal (ex.ToString ());
 				response.ErrorMessage = "There was an internal error, please contact to technical support.";
 			}
 			else {
-				logger?.LogError (ex.Message);
+				logger?.Error (ex.Message);
 				response.ErrorMessage = ex.Message;
 			}
 		}
