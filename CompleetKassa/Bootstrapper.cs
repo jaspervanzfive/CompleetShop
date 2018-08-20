@@ -65,6 +65,8 @@ namespace CompleetKassa
 			Container.RegisterType<ILogger>(new InjectionFactory(l => LogManager.GetCurrentClassLogger()));
 			Container.RegisterType<IUserService, UserService>();
 			Container.RegisterType<IProductService, ProductService>();
+			Container.RegisterType<ICategoryService, CategoryService>();
+			
 		}
 	}
 }

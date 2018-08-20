@@ -129,6 +129,10 @@
       <Project>{EED453AD-9272-48F2-8616-EA2545792D9F}</Project>
       <Name>CompleetKassa.Database.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.DataValidation\CompleetKassa.DataValidation.csproj">
+      <Project>{4D5635AE-D979-4085-B910-DD8FD46FA850}</Project>
+      <Name>CompleetKassa.DataValidation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.Definitions\CompleetKassa.Definitions.csproj">
       <Project>{91A059A3-A461-48F2-95DD-79FF50FEDB42}</Project>
       <Name>CompleetKassa.Definitions</Name>

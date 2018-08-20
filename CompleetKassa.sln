@@ -79,6 +79,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Definitions", "Definitions"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompleetKassa.Definitions", "CompleetKassa.Definitions\CompleetKassa.Definitions.csproj", "{91A059A3-A461-48F2-95DD-79FF50FEDB42}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataValidation", "DataValidation", "{58EB0793-21AC-45E6-BCB0-5237349ED671}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompleetKassa.DataValidation", "CompleetKassa.DataValidation\CompleetKassa.DataValidation.csproj", "{4D5635AE-D979-4085-B910-DD8FD46FA850}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -169,6 +173,10 @@ Global
 		{91A059A3-A461-48F2-95DD-79FF50FEDB42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91A059A3-A461-48F2-95DD-79FF50FEDB42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91A059A3-A461-48F2-95DD-79FF50FEDB42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D5635AE-D979-4085-B910-DD8FD46FA850}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D5635AE-D979-4085-B910-DD8FD46FA850}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D5635AE-D979-4085-B910-DD8FD46FA850}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D5635AE-D979-4085-B910-DD8FD46FA850}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -206,6 +214,8 @@ Global
 		{048FB41D-0043-4EA3-814B-682951586D2A} = {F357FE7F-9E38-45CA-A293-BA716AB40707}
 		{05DF6A29-714A-49FB-97F3-61F50F235550} = {B8F95C8B-D5CE-40A7-B198-A329C6F42535}
 		{91A059A3-A461-48F2-95DD-79FF50FEDB42} = {05DF6A29-714A-49FB-97F3-61F50F235550}
+		{58EB0793-21AC-45E6-BCB0-5237349ED671} = {B8F95C8B-D5CE-40A7-B198-A329C6F42535}
+		{4D5635AE-D979-4085-B910-DD8FD46FA850} = {58EB0793-21AC-45E6-BCB0-5237349ED671}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3F1DB79F-86F8-4D78-9D24-F64F61F0FB8E}
