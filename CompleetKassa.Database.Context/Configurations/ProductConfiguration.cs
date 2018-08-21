@@ -9,13 +9,23 @@ namespace CompleetKassa.Database.Context.Configurations
 		public override void Map(EntityTypeBuilder<Product> builder)
 		{
 			builder.HasKey(db => db.ID);
-			builder.HasIndex(db => new { db.ID, db.Name }).IsUnique();
+			builder.HasIndex(db => new { db.ID, db.Code }).IsUnique();
 
-			builder.Property(db => db.CategoryName).HasColumnName("Category_Name");
+			// Exclude property
+			builder.Ignore(db => db.CategoryName);
+			builder.Ignore(db => db.SubCategoryName);
+
+			// Foreign Key
+			builder
+				.HasOne(db => db.Category)
+				.WithMany(db => db.Products)
+				.HasForeignKey(db => db.CategoryID)
+				.OnDelete(DeleteBehavior.SetNull);
 
 			// Set concurrency token for entity
-			builder.Property(db => db.Timestamp)
+			builder.Property(t => t.Timestamp)
 				.ValueGeneratedOnAddOrUpdate()
+				.HasDefaultValueSql("CURRENT_TIMESTAMP")
 				.IsRowVersion();
 		}
 	}

@@ -7,7 +7,7 @@ namespace CompleetKassa.Database.Repositories
 {
 	public static class RepositoryExtensions
 	{
-		public static IQueryable<TEntity> Paging<TEntity>(this DbContext dbContext, Int32 pageSize = 0, Int32 pageNumber = 0) where TEntity : class, IEntity
+		public static IQueryable<TEntity> Paging<TEntity>(this DbContext dbContext, int pageSize = 0, int pageNumber = 0) where TEntity : class, IEntity
 		{
 			var query = dbContext.Set<TEntity>().AsQueryable();
 
@@ -16,7 +16,7 @@ namespace CompleetKassa.Database.Repositories
 				.Take(pageSize) : query;
 		}
 
-		public static IQueryable<TModel> Paging<TModel>(this IQueryable<TModel> query, Int32 pageSize = 0, Int32 pageNumber = 0) where TModel : class
+		public static IQueryable<TModel> Paging<TModel>(this IQueryable<TModel> query, int pageSize = 0, int pageNumber = 0) where TModel : class
 			=> pageSize > 0 && pageNumber > 0 ? query.Skip((pageNumber - 1) * pageSize).Take(pageSize) : query;
 	}
 }

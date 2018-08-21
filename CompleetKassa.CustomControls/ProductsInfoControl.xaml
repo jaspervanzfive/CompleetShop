@@ -24,7 +24,7 @@
                     <TextBlock Text="{Binding Detail}" />
                 </Button.ToolTip>
                 <StackPanel Orientation="Vertical">
-                    <Image Source="{Binding Image}" />
+                    <Image Source="{Binding ImageAbsolutePath}" />
                     <TextBlock Text="{Binding Label}" />
                     <TextBlock>
                         <Span>

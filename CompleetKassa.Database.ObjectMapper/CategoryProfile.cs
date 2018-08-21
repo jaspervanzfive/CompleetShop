@@ -9,11 +9,9 @@ namespace CompleetKassa.Database.ObjectMapper
 		public CategoryProfile()
 		{
 			CreateMap<Category, CategoryModel>()
-				.ForMember(
-					dest => dest.Parent,
-					opt => opt.MapFrom (src => src.ParentCategoryID)
-				);
-
+				.ForMember( dest => dest.Parent, opt => opt.MapFrom (src => src.ParentCategoryID))
+				.ForMember(dest => dest.ParentName,
+					opt => opt.ResolveUsing(src => src.ParentCategory != null ? src.ParentCategory.Name : string.Empty));
 
 			CreateMap<CategoryModel, Category>()
 				.ForMember(

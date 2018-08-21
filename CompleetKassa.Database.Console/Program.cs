@@ -44,19 +44,35 @@ namespace CompleetKassa.Database.Console
 			//container.RegisterType<ILogger>(new InjectionFactory((c) => null));
 			container.RegisterType<IUserService, UserService>();
 			container.RegisterType<ICategoryService, CategoryService>();
+			container.RegisterType<IProductService, ProductService>();
 
 			//UserTest(container).Wait();
 			CategoryTest(container).Wait();
+			ProductTest(container).Wait();
 
 			LogManager.Flush();
+		}
+		static async Task ProductTest(IUnityContainer container)
+		{
+			IProductService repo = container.Resolve<IProductService>();
+
+			var allProductsWithCategory = await repo.GetProductsWithCategoryAsync();
+
+			//var result = await repo.GetByIDWithCategoryAsync(2);
+			// new Product
+			//var newProduct = new ProductModel
+			//{
+			//	Name = "Product-" + DateTime.Now.ToString(),
+			//	CategoryID = 2,
+			//	Status = 1
+			//};
+
+			//await repo.AddProductAsync(newProduct);
 		}
 
 		static async Task CategoryTest (IUnityContainer container)
 		{
 			ICategoryService repo = container.Resolve<ICategoryService>();
-			ILogger log = container.Resolve<ILogger>();
-
-			log.Info("This is a test");
 
 			// Category with no parent
 			var newCategory = new CategoryModel

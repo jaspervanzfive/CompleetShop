@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Data;
+using CompleetKassa.Database.Services;
 using CompleetKassa.DataTypes.Enumerations;
 using CompleetKassa.Models;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -13,6 +16,15 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 {
 	public class SalesViewModel : BindableBase
 	{
+		#region Fields
+		private IProductService _productService;
+
+		#endregion Fields
+
+		#region Property
+		public Task Initialization { get; private set; }
+		#endregion Property
+
 		private IList<ProductModel> _dbProductList;
 
 		private ObservableCollection<ProductCategoryModel> _categories;
@@ -158,33 +170,37 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 
 		#endregion
 
-		public SalesViewModel()
+		public SalesViewModel(IUnityContainer container)
 		{
-			//PurchasedItems = new ObservableCollection<PurchasedProductViewModel>();
-			_categories = new ObservableCollection<ProductCategoryModel>();
-			_purchasedProducts = new ObservableCollection<SelectedProductModel>();
-			_receiptList = new ObservableCollection<PurchasedProductModel>();
+			_productService = container.Resolve<IProductService>();
 
 			_categoryFilter = string.Empty;
 			_subCategoryFilter = string.Empty;
 
-			// TODO: This is where to get data from DB
-			GetProducts();
-			ProductList = CollectionViewSource.GetDefaultView(_dbProductList);
-			ProductList.Filter += ProductCategoryFilter;
-			ProductList.Filter += ProductSubCategoryFilter;
+			_categories = new ObservableCollection<ProductCategoryModel>();
+			_purchasedProducts = new ObservableCollection<SelectedProductModel>();
+			_receiptList = new ObservableCollection<PurchasedProductModel>();
+			SubCategories = new ObservableCollection<ProductSubCategoryModel>();
+			Categories = new ObservableCollection<ProductCategoryModel>();
 
-			// Set the first product as active category
-			_categoryFilter = _categories.FirstOrDefault() == null ? string.Empty : _categories.FirstOrDefault().Name;
-			SetSubCategories(_categoryFilter);
-			SelectFirstCategory();
+			//Get Products from DB
+			Initialization = InitializeProductListAsync();
+			if (Initialization.IsCompleted)
+			{
+				ProductList = CollectionViewSource.GetDefaultView(_dbProductList);
+				ProductList.Filter += ProductCategoryFilter;
+				ProductList.Filter += ProductSubCategoryFilter;
+
+				// Set the first product as active category
+				_categoryFilter = _categories.FirstOrDefault() == null ? string.Empty : _categories.FirstOrDefault().Name;
+				SetSubCategories(_categoryFilter);
+				SelectFirstCategory();
+			}
 
 			CreateNewReceipt();
 
-			// Commands
+			// Event Handlers
 			OnPurchased = new DelegateCommand<SelectedProductModel>(Puchase);
-
-			//TODO: Bind  Commands
 			OnIncrementPurchased = new DelegateCommand(IncrementPurchase);
 			OnDecrementPurchased = new DelegateCommand(DecrementPurchase);
 			OnSelectAllPurchased = new DelegateCommand(SelectAllPurchased);
@@ -206,13 +222,34 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 		private bool ProductSubCategoryFilter(Object item)
 		{
 			var product = item as ProductModel;
-			return (product.Category.Contains(_categoryFilter) &&
+
+			if(string.IsNullOrEmpty(_subCategoryFilter) == true)
+			{
+				return true;
+			}
+
+			if(product.SubCategory == null)
+			{
+				return product.Category.Contains(_categoryFilter);
+			}
+			else
+			{
+				return (product.Category.Contains(_categoryFilter) &&
 				product.SubCategory.Contains(_subCategoryFilter));
+			}
 		}
 
 		private void SetSubCategories(string category)
 		{
-			SubCategories = new ObservableCollection<ProductSubCategoryModel>(_categories.Where(x => x.Name == category).First().SubCategories);
+			if(0 < _categories.Count)
+			{
+				var result = _categories.Where(x => x.Name == category).FirstOrDefault();
+				if(result != null)
+				{
+					SubCategories = new ObservableCollection<ProductSubCategoryModel>(result.SubCategories);
+				}
+			}
+			
 			SubCategoryFilter = string.Empty;
 		}
 
@@ -245,62 +282,14 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 			}
 		}
 
-		private void GetProducts()
+		private async Task InitializeProductListAsync()
 		{
-			_dbProductList = new List<ProductModel> {
-				 new ProductModel
-				{
-					ID = 1,
-					Name = "Cheyene Hawk pen Purle with 25mm grip including spacersd dasdas das das",
-					Image ="/CompleetKassa.Module.Sales;component/Images/SampleSaleProduct.jpg",
-					Price = 100.0m,
-					Detail = "This is sample 1",
-					Category = "Shoes",
-					SubCategory = "Running"
-				},
-				new ProductModel
-				{
-					ID = 2,
-					Name = "Shoes 2",
-					Image ="/CompleetKassa.Module.Sales;component/Images/SampleSaleProduct.jpg",
-					Price = 20.0m,
-					Detail = "This is sample 2",
-					Category = "Shoes",
-					SubCategory = "Walking"
-				},
-				new ProductModel
-				{
-					ID = 3,
-					Name = "Bag 1",
-					Image ="/CompleetKassa.Module.Sales;component/Images/SampleSaleProduct.jpg",
-					Price = 20.0m,
-					Detail = "This is sample 2",
-					Category = "Bag",
-					SubCategory = "Shoulder Bag"
-				},
-				new ProductModel
-				{
-					ID = 4,
-					Name = "Bag 2",
-					Image ="/CompleetKassa.Module.Sales;component/Images/SampleSaleProduct.jpg",
-					Price = 20.0m,
-					Detail = "This is sample 2",
-					Category = "Bag",
-					SubCategory = "Shoulder Bag"
-				},
-				new ProductModel
-				{
-					ID = 5,
-					Name = "Belt 1",
-					Image ="/CompleetKassa.Module.Sales;component/Images/SampleSaleProduct.jpg",
-					Price = 10.0m,
-					Detail = "This is Belt 1",
-					Category = "Belt",
-					SubCategory = "Men's Belt"
-				}
-			};
-
-			GetCategories(_dbProductList);
+			var result = await _productService.GetProductsWithCategoryAsync();
+			if (result.DidError == false)
+			{
+				_dbProductList = result.Model.ToList();
+				GetCategories(_dbProductList);
+			}
 		}
 
 		private void SelectFirstCategory()

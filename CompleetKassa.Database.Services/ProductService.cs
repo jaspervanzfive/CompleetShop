@@ -45,6 +45,24 @@ namespace CompleetKassa.Database.Services
 			return response;
 		}
 
+		public async Task<IListResponse<ProductModel>> GetProductsWithCategoryAsync(int pageSize = 0, int pageNumber = 0)
+		{
+			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+
+			var response = new ListResponse<ProductModel>();
+
+			try
+			{
+				response.Model = await ProductRepository.GetAllWithCategory(pageSize, pageNumber).Select(o => Mapper.Map<ProductModel>(o)).ToListAsync();
+			}
+			catch (Exception ex)
+			{
+				response.SetError(ex, Logger);
+			}
+
+			return response;
+		}
+
 		public async Task<ISingleResponse<ProductModel>> GetProductByIDAsync(int productID)
 		{
 			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
@@ -54,6 +72,24 @@ namespace CompleetKassa.Database.Services
 			try
 			{
 				response.Model = Mapper.Map<ProductModel>(await ProductRepository.GetByIDAsync(productID));
+			}
+			catch (Exception ex)
+			{
+				response.SetError(ex, Logger);
+			}
+
+			return response;
+		}
+
+		public async Task<ISingleResponse<ProductModel>> GetProductByIDWithCategoryAsync(int productID)
+		{
+			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+
+			var response = new SingleResponse<ProductModel>();
+
+			try
+			{
+				response.Model = Mapper.Map<ProductModel>(await ProductRepository.GetByIDWithCategoryAsync(productID));
 			}
 			catch (Exception ex)
 			{

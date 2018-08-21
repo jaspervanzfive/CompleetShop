@@ -44,6 +44,24 @@ namespace CompleetKassa.Database.Services
 			return response;
 		}
 
+		public async Task<IListResponse<CategoryModel>> GetCategoriesWithParentCategoriesAsync(int pageSize = 0, int pageNumber = 0)
+		{
+			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+
+			var response = new ListResponse<CategoryModel>();
+
+			try
+			{
+				response.Model = await CategoryRepository.GetAllWithParentCategory(pageSize, pageNumber).Select(o => Mapper.Map<CategoryModel>(o)).ToListAsync();
+			}
+			catch (Exception ex)
+			{
+				response.SetError(ex, Logger);
+			}
+
+			return response;
+		}
+
 		public async Task<ISingleResponse<CategoryModel>> GetCategoryByIDAsync(int CategoryID)
 		{
 			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
@@ -53,6 +71,24 @@ namespace CompleetKassa.Database.Services
 			try
 			{
 				response.Model = Mapper.Map<CategoryModel>(await CategoryRepository.GetByIDAsync(CategoryID));
+			}
+			catch (Exception ex)
+			{
+				response.SetError(ex, Logger);
+			}
+
+			return response;
+		}
+
+		public async Task<ISingleResponse<CategoryModel>> GetCategoryByIDWithParentCategoryAsync(int CategoryID)
+		{
+			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+
+			var response = new SingleResponse<CategoryModel>();
+
+			try
+			{
+				response.Model = Mapper.Map<CategoryModel>(await CategoryRepository.GetByIDWithParentCategoryAsync(CategoryID));
 			}
 			catch (Exception ex)
 			{

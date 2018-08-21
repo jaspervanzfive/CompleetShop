@@ -11,6 +11,7 @@ namespace CompleetKassa.Database.Context.Configurations
 			builder.HasKey(db => db.ID);
 			builder.HasIndex(db => new { db.ID, db.Name }).IsUnique();
 
+			// A category(subcategory) can have a parent category
 			builder
 				.HasOne(db => db.ParentCategory)
 				.WithMany()

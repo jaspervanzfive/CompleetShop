@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CompleetKassa.Database.Context;
 using CompleetKassa.Database.Core.Entities;
 using CompleetKassa.Database.Entities;
+using CompleetKassa.Database.Repositories.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace CompleetKassa.Database.Repositories
@@ -21,6 +22,12 @@ namespace CompleetKassa.Database.Repositories
 
 		public async Task<Category> GetByIDAsync(int entityID)
 				=> await DbContext.Set<Category>().FirstOrDefaultAsync(item => item.ID == entityID);
+
+		public async Task<Category> GetByIDWithParentCategoryAsync(int entityID)
+				=> await DbContext.Set<Category>().EagerWhere(m => m.ID == entityID).FirstOrDefaultAsync();
+
+		public IQueryable<Category> GetAllWithParentCategory(int pageSize = 10, int pageNumber = 1)
+				=> DbContext.Set<Category>().PagingWithParentCategory(pageSize, pageNumber);
 
 		public IQueryable<Category> GetAll(int pageSize = 10, int pageNumber = 1)
 				=> DbContext.Paging<Category>(pageSize, pageNumber);

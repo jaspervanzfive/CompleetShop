@@ -9,7 +9,9 @@ namespace CompleetKassa.Database.Repositories
 	public interface ICategoryRepository : IRepository
 	{
 		IQueryable<Category> GetAll(int pageSize = 10, int pageNumber = 1);
+		IQueryable<Category> GetAllWithParentCategory(int pageSize = 10, int pageNumber = 1);
 		Task<Category> GetByIDAsync(int entityID);
+		Task<Category> GetByIDWithParentCategoryAsync(int entityID);
 		Task<int> AddAsync(Category entity);
 		Task<int> AddAsync(IAsyncEnumerable<Category> entities);
 		Task<int> UpdateAsync(Category changes);
