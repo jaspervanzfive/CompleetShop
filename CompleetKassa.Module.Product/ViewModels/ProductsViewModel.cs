@@ -323,11 +323,14 @@ namespace CompleetKassa.Modules.Products.ViewModels
 
 		private void HoldSelectedCategory (CategoryModel category)
 		{
-			HoldCategoryID = category.ID;
-			HoldCategoryName = category.Name;
-			HoldCategoryDetail = category.Detail;
-			HoldCategoryStatus = category.Status;
-			HoldCategoryParent = category.Parent;
+			if (category != null)
+			{
+				HoldCategoryID = category.ID;
+				HoldCategoryName = category.Name;
+				HoldCategoryDetail = category.Detail;
+				HoldCategoryStatus = category.Status;
+				HoldCategoryParent = category.Parent;
+			}
 		}
 
 		private void InitializeNewCategory()
@@ -529,7 +532,7 @@ namespace CompleetKassa.Modules.Products.ViewModels
 		private void EditCategoryCommandHandler(CategoryModel category)
 		{
 			_currentCommand = Commands.EditCategory;
-			EnableProductList = false;
+			EnableCategoryList = false;
 			ReadOnlyNewCategoryForm = false;
 		}
 
@@ -623,8 +626,10 @@ namespace CompleetKassa.Modules.Products.ViewModels
 			else if (SelectedTabIndex == (int)TabIndexes.Category)
 			{
 				NewCategoryFormVisibility = false;
-				EnableProductList = false;
+				EnableCategoryList = true;
 				ReadOnlyNewCategoryForm = true;
+
+				HoldSelectedCategory(SelectedCategory);
 			}
 		}
 
