@@ -31,6 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{C92FF00F
 	ProjectSection(SolutionItems) = preProject
 		Notes\design-patterns.png = Notes\design-patterns.png
 		Notes\n-tier-mvvm.png = Notes\n-tier-mvvm.png
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PresentationLayer", "PresentationLayer", "{B8F95C8B-D5CE-40A7-B198-A329C6F42535}"

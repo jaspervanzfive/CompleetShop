@@ -73,6 +73,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Definitions\Enumeration.cs" />
     <Compile Include="ProductsModule.cs" />
     <Compile Include="ViewModels\ProductsMenuViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModel.cs" />

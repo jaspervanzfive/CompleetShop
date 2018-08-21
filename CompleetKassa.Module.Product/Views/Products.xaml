@@ -53,9 +53,9 @@
         <Style x:Key="NavButton" TargetType="{x:Type Button}" BasedOn="{x:Null}">
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
-            <Setter Property="Margin" Value="2,2,2,0"/>
-            <Setter Property="Width" Value="40"/>
-            <Setter Property="Height" Value="auto"/>
+            <Setter Property="Margin" Value="1,1,1,1"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="40"/>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -65,16 +65,64 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="2,2,2,0" Height="36" VerticalAlignment="Top" Background="Gainsboro">
+        <DockPanel Margin="1,1,1,1" VerticalAlignment="Top" Background="Gainsboro">
             <Button Content="|◄" Command="{Binding OnFirstCommand}" Style="{StaticResource NavButton}"/>
             <Button Content="◄" Command="{Binding OnPreviousCommand}" Style="{StaticResource NavButton}"/>
             <Button Content="►" Command="{Binding OnNextCommand}" Style="{StaticResource NavButton}"/>
             <Button Content="►|" Command="{Binding OnLastCommand}" Style="{StaticResource NavButton}"/>
-            <Button Content="Delete" Command="{Binding OnDeleteCommand}" CommandParameter="{Binding ElementName=ProductsDataGrid, Path=SelectedItem}" FontSize="11" Width="120" Style="{StaticResource NavButton}"/>
-            <Button Content="New" Command="{Binding OnAddCommand}" FontSize="11" Width="80" Style="{StaticResource NavButton}"/>
-            <Button Content="Save" Command="{Binding OnSaveCommand}" FontSize="11" Width="80" Style="{StaticResource NavButton}"/>
-            <Button Content="Cancel" Command="{Binding OnCancelCommand}" FontSize="11" Width="80" Style="{StaticResource NavButton}"/>
-        </StackPanel>
+            <Button Content="New" FontSize="11" Command="{Binding OnAddCommand}" Style="{StaticResource NavButton}"/>
+            <Button Content="Edit" FontSize="11" Command="{Binding OnEditProductCommand}" CommandParameter="{Binding ElementName=ProductsDataGrid, Path=SelectedItem}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource NavButton}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SelectedTabIndex}" Value="1">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Edit" FontSize="11" Command="{Binding OnEditCategoryCommand}" CommandParameter="{Binding ElementName=CategoriesDataGrid, Path=SelectedItem}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource NavButton}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SelectedTabIndex}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Delete" FontSize="11" Command="{Binding OnDeleteProductCommand}" CommandParameter="{Binding ElementName=ProductsDataGrid, Path=SelectedItem}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource NavButton}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SelectedTabIndex}" Value="1">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Delete" FontSize="11" Command="{Binding OnDeleteCategoryCommand}" CommandParameter="{Binding ElementName=CategoriesDataGrid, Path=SelectedItem}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource NavButton}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SelectedTabIndex}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Save" FontSize="11" Command="{Binding OnSaveCommand}" Style="{StaticResource NavButton}"/>
+            <Button Content="Cancel" FontSize="11" Command="{Binding OnCancelCommand}" Style="{StaticResource NavButton}"/>
+            <Button Content="Close" FontSize="11" HorizontalAlignment="Right" Command="{Binding OnCloseCommand}" Style="{StaticResource NavButton}"/>
+        </DockPanel>
 
         <TabControl Grid.Row="1" SelectedIndex="{Binding SelectedTabIndex}">
             <TabItem Header="Products">
@@ -165,7 +213,7 @@
                     </Grid>
 
                     <!-- List Product from DB -->
-                    <DataGrid Grid.Row="1" x:Name="ProductsDataGrid" SelectionUnit="FullRow" SelectionMode="Single"  AutoGenerateColumns="False" CanUserAddRows="false" IsEnabled="True" IsReadOnly="True" EnableRowVirtualization="True" Width="auto" ItemsSource="{Binding ProductListView}" Margin="10,10,10,10"  RowDetailsVisibilityMode="VisibleWhenSelected" IsSynchronizedWithCurrentItem="True" >
+                    <DataGrid Grid.Row="1" x:Name="ProductsDataGrid" SelectionUnit="FullRow" SelectionMode="Single"  AutoGenerateColumns="False" CanUserAddRows="false" IsEnabled="{Binding EnableProductList}" IsReadOnly="True" EnableRowVirtualization="True" Width="auto" ItemsSource="{Binding ProductListView}" Margin="10,10,10,10"  RowDetailsVisibilityMode="VisibleWhenSelected" IsSynchronizedWithCurrentItem="True" >
                         <DataGrid.Columns>
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
@@ -307,7 +355,7 @@
                     </Grid.RowDefinitions>
 
                     <!-- Selected Category -->
-                    <Grid Grid.Row="0" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Background="AntiqueWhite" DataContext="{Binding CategoryListView}">
+                    <Grid Grid.Row="0" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Background="AntiqueWhite">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" MinWidth="250"/>
                             <ColumnDefinition Width="Auto" MinWidth="50"/>
@@ -318,12 +366,13 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.Style>
                             <Style TargetType="Grid">
                                 <Setter Property="Visibility" Value="Visible"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.NewCategoryFormVisibility}" Value="True">
+                                    <DataTrigger Binding="{Binding NewCategoryFormVisibility}" Value="True">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -332,35 +381,59 @@
 
                         <Label Content="Category ID:" Grid.Row="0" Style="{StaticResource Label}"/>
                         <TextBox Grid.Row="0" IsReadOnly="True" Style="{StaticResource UserTextBox}"
-                  Text="{Binding ElementName=CategoriesDataGrid, Path=SelectedItem.ID, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                  Text="{Binding HoldCategoryID, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
 
                         <Label Content="Name:" Grid.Row="1" Style="{StaticResource Label}"/>
-                        <TextBox Grid.Row="1" Style="{StaticResource UserTextBox}"
-                  Text="{Binding ElementName=CategoriesDataGrid, Path=SelectedItem.Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                        <TextBox Grid.Row="1" IsReadOnly="{Binding ReadOnlyNewCategoryForm}" Style="{StaticResource UserTextBox}"
+                  Text="{Binding HoldCategoryName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
 
-                        <Label Content="Status:" Grid.Row="2" Style="{StaticResource Label}"/>
-                        <ComboBox Grid.Row="2" Width="150" Margin="3" HorizontalAlignment="Right" IsEditable="True" SelectedValuePath="Tag" SelectedValue="{Binding ElementName=CategoriesDataGrid, Path=SelectedItem.Status, Mode=TwoWay}">
+                        <Label Content="Detail:" Grid.Row="2" Style="{StaticResource Label}"/>
+                        <TextBox Grid.Row="2" IsReadOnly="{Binding ReadOnlyNewCategoryForm}" Style="{StaticResource UserTextBox}"
+                  Text="{Binding HoldCategoryDetail, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+                        <Label Content="Status:" Grid.Row="3" Style="{StaticResource Label}"/>
+                        <ComboBox Grid.Row="3" IsReadOnly="{Binding ReadOnlyNewCategoryForm}" Width="150" Margin="3" HorizontalAlignment="Right" IsEditable="True" SelectedValuePath="Tag" SelectedValue="{Binding HoldCategoryStatus, Mode=TwoWay}">
+                            <ComboBox.Style>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ReadOnlyNewCategoryForm}" Value="True">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
                             <ComboBoxItem Content="Disabled" Tag="0"/>
                             <ComboBoxItem Content="Enabled" Tag="1"/>
                         </ComboBox>
 
-                        <Label Content="Parent:" Grid.Row="3" Style="{StaticResource Label}"/>
-                        <ComboBox Grid.Row="3"
-                                IsEditable="True"
-                                Margin="3"
-                                HorizontalAlignment="Right"
-                                Width="150"
-                                ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.MainCategoryListView}"
-                                SelectedValue="{Binding ElementName=CategoriesDataGrid, Path=SelectedItem.Parent, Mode=TwoWay}"
-                                SelectedValuePath="ID" 
-                                DisplayMemberPath="Name"
+                        <Label Content="Parent:" Grid.Row="4" Style="{StaticResource Label}"/>
+                        <ComboBox Grid.Row="4"
+                                  IsReadOnly="{Binding ReadOnlyNewCategoryForm}"
+                                  IsEditable="True"
+                                  Margin="3"
+                                  HorizontalAlignment="Right"
+                                  Width="150"
+                                  ItemsSource="{Binding MainCategoryListView}"
+                                  SelectedValue="{Binding HoldCategoryParent, Mode=TwoWay}"
+                                  SelectedValuePath="ID" 
+                                  DisplayMemberPath="Name"
                                 >
+                            <ComboBox.Style>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ReadOnlyNewCategoryForm}" Value="True">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
                         </ComboBox>
-                        
                     </Grid>
 
                     <!-- List Category from DB -->
-                    <DataGrid Grid.Row="1" x:Name="CategoriesDataGrid" SelectionUnit="FullRow" SelectionMode="Single"  AutoGenerateColumns="False" CanUserAddRows="false" IsReadOnly="True" IsEnabled="True" EnableRowVirtualization="True" Width="auto" ItemsSource="{Binding CategoryListView}" Margin="10,10,10,10"  RowDetailsVisibilityMode="VisibleWhenSelected" IsSynchronizedWithCurrentItem="True" >
+                    <DataGrid Grid.Row="1" x:Name="CategoriesDataGrid" SelectionUnit="FullRow" SelectionMode="Single"  AutoGenerateColumns="False" CanUserAddRows="false" IsReadOnly="True" IsEnabled="{Binding EnableCategoryList}" EnableRowVirtualization="True" Width="auto" ItemsSource="{Binding CategoryListView}" SelectedValue="{Binding SelectedCategory}" Margin="10,10,10,10"  RowDetailsVisibilityMode="VisibleWhenSelected" IsSynchronizedWithCurrentItem="True" >
                         <DataGrid.Columns>
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
@@ -371,6 +444,7 @@
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Binding="{Binding ID}" IsReadOnly="True" Header="ID" Width="SizeToHeader"/>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="SizeToHeader"/>
+                            <DataGridTextColumn Binding="{Binding Detail}" Header="Detail" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Status" Width="SizeToHeader">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
@@ -417,11 +491,11 @@
                         <TextBlock Text="New Category Form" Grid.Row="0" />
                         <Label Content="Name:" Grid.Row="1" Style="{StaticResource Label}"/>
                         <TextBox Grid.Row="1" Style="{StaticResource UserTextBox}"
-                  Text="{Binding NewCategoryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                  Text="{Binding HoldCategoryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
                         <Label Content="Detail:" Grid.Row="2" Style="{StaticResource Label}"/>
                         <TextBox Grid.Row="2" Style="{StaticResource UserTextBox}"
-                  Text="{Binding NewCategoryDetail, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                  Text="{Binding HoldCategoryDetail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=true}"/>
 
                         <Label Content="Status:" Grid.Row="3" Style="{StaticResource Label}"/>
                         <ComboBox 
@@ -431,7 +505,7 @@
                             HorizontalAlignment="Right"
                             IsEditable="True"
                             SelectedValuePath="Tag"
-                            SelectedValue="{Binding NewCategoryStatus, Mode=TwoWay}"
+                            SelectedValue="{Binding HoldCategoryStatus, Mode=TwoWay}"
                             >
                             <ComboBoxItem Content="Disabled" Tag="0"/>
                             <ComboBoxItem Content="Enabled" Tag="1"/>
@@ -445,7 +519,7 @@
                             HorizontalAlignment="Right"
                             Width="150"
                             ItemsSource="{Binding MainCategoryListView}"
-                            SelectedValue="{Binding NewCategoryParent, Mode=OneWayToSource}"
+                            SelectedValue="{Binding HoldCategoryParent, Mode=TwoWay}"
                             SelectedValuePath="ID" 
                             DisplayMemberPath="Name"
                                />

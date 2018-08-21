@@ -261,11 +261,17 @@ namespace CompleetKassa.Modules.Sales.ViewModels
 			foreach (var category in categories)
 			{
 				var subCategories = products.Where(x => x.Category == category)
-									.Select(x => x.SubCategory).Distinct();
+									.Select(x => x.SubCategory)
+									.Distinct();
 
 				var productSubCategories = new List<ProductSubCategoryModel>();
 				foreach (var subCategory in subCategories)
 				{
+					if (string.IsNullOrEmpty(subCategory) == true)
+					{
+						continue;
+					}
+
 					productSubCategories.Add(new ProductSubCategoryModel
 					{
 						Name = subCategory,

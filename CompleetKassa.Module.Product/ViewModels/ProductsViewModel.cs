@@ -9,11 +9,14 @@ using System.Windows.Forms;
 using CompleetKassa.Database.Services;
 using CompleetKassa.DataValidation;
 using CompleetKassa.Definitions;
+using CompleetKassa.Events;
 using CompleetKassa.Models;
+using CompleetKassa.Module.Product.Definitions;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
+using static CompleetKassa.Module.Product.Definitions.Enumeration;
 
 namespace CompleetKassa.Modules.Products.ViewModels
 {
@@ -36,10 +39,13 @@ namespace CompleetKassa.Modules.Products.ViewModels
 		public DelegateCommand OnNextCommand { get; private set; }
 		public DelegateCommand OnLastCommand { get; private set; }
 		public DelegateCommand OnAddCommand { get; private set; }
-		public DelegateCommand OnAddCategoryCommand { get; private set; }
+		public DelegateCommand<CategoryModel> OnEditCategoryCommand { get; private set; }
+		public DelegateCommand<ProductModel> OnEditProductCommand { get; private set; }
 		public DelegateCommand OnSaveCommand { get; private set; }
-		public DelegateCommand<ProductModel> OnDeleteCommand { get; private set; }
+		public DelegateCommand<ProductModel> OnDeleteProductCommand { get; private set; }
+		public DelegateCommand<CategoryModel> OnDeleteCategoryCommand { get; private set; }
 		public DelegateCommand OnCancelCommand { get; private set; }
+		public DelegateCommand OnCloseCommand { get; private set; }
 		public DelegateCommand OnSelectImageCommand { get; private set; }
 		#endregion Command Property
 
@@ -58,6 +64,16 @@ namespace CompleetKassa.Modules.Products.ViewModels
 			set { SetProperty(ref _selectedTabIndex, value); }
 		}
 
+		private Commands _currentCommand;
+
+		#region Product Bindable Property
+		private bool _enableProductList;
+		public bool EnableProductList
+		{
+			get { return _enableProductList; }
+			set { SetProperty(ref _enableProductList, value); }
+		}
+
 		private bool _newProductFormVisibility;
 		public bool NewProductFormVisibility
 		{
@@ -72,7 +88,6 @@ namespace CompleetKassa.Modules.Products.ViewModels
 			private set { SetProperty(ref _productListView, value); }
 		}
 
-		#region New Product
 		private string _newProductCode;
 		public string NewProductCode
 		{
@@ -143,42 +158,28 @@ namespace CompleetKassa.Modules.Products.ViewModels
 			set { SetProperty(ref _selectedImageUri, value); }
 		}
 
-		#endregion New Product
+		#endregion Product Bindable Property
 
-		#region New Category
+		#region Category Bindable Property
+		private bool _readOnlyNewCategoryForm;
+		public bool ReadOnlyNewCategoryForm
+		{
+			get { return _readOnlyNewCategoryForm; }
+			set { SetProperty(ref _readOnlyNewCategoryForm, value); }
+		}
+
+		private bool _enableCategoryList;
+		public bool EnableCategoryList
+		{
+			get { return _enableCategoryList; }
+			set { SetProperty(ref _enableCategoryList, value); }
+		}
+
 		private bool _newCategoryFormVisibility;
 		public bool NewCategoryFormVisibility
 		{
 			get { return _newCategoryFormVisibility; }
 			set { SetProperty(ref _newCategoryFormVisibility, value); }
-		}
-
-		private string _newCategoryName;
-		public string NewCategoryName
-		{
-			get { return _newCategoryName; }
-			set { SetProperty(ref _newCategoryName, value); }
-		}
-
-		private string _newCategoryDetail;
-		public string NewCategoryDetail
-		{
-			get { return _newCategoryDetail; }
-			set { SetProperty(ref _newCategoryDetail, value); }
-		}
-
-		private int _newCategoryStatus;
-		public int NewCategoryStatus
-		{
-			get { return _newCategoryStatus; }
-			set { SetProperty(ref _newCategoryStatus, value); }
-		}
-
-		private int _newCategoryParent;
-		public int NewCategoryParent
-		{
-			get { return _newCategoryParent; }
-			set { SetProperty(ref _newCategoryParent, value); }
 		}
 
 		// All categories
@@ -205,7 +206,52 @@ namespace CompleetKassa.Modules.Products.ViewModels
 			private set { SetProperty(ref _activeCategoryListView, value); }
 		}
 
-		#endregion New Category
+		private CategoryModel _selectedCategory;
+		public CategoryModel SelectedCategory
+		{
+			get { return _selectedCategory; }
+			set {
+				SetProperty(ref _selectedCategory, value);
+				HoldSelectedCategory(_selectedCategory);
+			}
+		}
+
+		private int _holdCategoryID;
+		public int HoldCategoryID
+		{
+			get { return _holdCategoryID; }
+			set { SetProperty(ref _holdCategoryID, value); }
+		}
+
+		private string _holdCategoryName;
+		public string HoldCategoryName
+		{
+			get { return _holdCategoryName; }
+			set { SetProperty(ref _holdCategoryName, value); }
+		}
+
+		private string _holdCategoryDetail;
+		public string HoldCategoryDetail
+		{
+			get { return _holdCategoryDetail; }
+			set { SetProperty(ref _holdCategoryDetail, value); }
+		}
+
+		private int _holdCategoryStatus;
+		public int HoldCategoryStatus
+		{
+			get { return _holdCategoryStatus; }
+			set { SetProperty(ref _holdCategoryStatus, value); }
+		}
+
+		private int _holdCategoryParent;
+		public int HoldCategoryParent
+		{
+			get { return _holdCategoryParent; }
+			set { SetProperty(ref _holdCategoryParent, value); }
+		}
+
+		#endregion Category Bindable Property
 
 
 		#endregion "Bindable Property"
@@ -226,8 +272,12 @@ namespace CompleetKassa.Modules.Products.ViewModels
 			CategoryListView.MoveCurrentToFirst();
 
 			_title = "-Product Management Title-";
+			_currentCommand = Commands.None;
 			NewProductFormVisibility = false;
 			NewCategoryFormVisibility = false;
+			EnableProductList = true;
+			EnableCategoryList = true;
+			ReadOnlyNewCategoryForm = true;
 
 			SetCategoryValidationRules();
 			SetProductValidationRules();
@@ -238,36 +288,24 @@ namespace CompleetKassa.Modules.Products.ViewModels
 			OnNextCommand = new DelegateCommand(NextCommandHandler);
 			OnLastCommand = new DelegateCommand(LastCommandHandler);
 			OnAddCommand = new DelegateCommand(AddCommandHandler);
+			OnEditCategoryCommand = new DelegateCommand<CategoryModel>(EditCategoryCommandHandler);
+			OnEditProductCommand = new DelegateCommand<ProductModel>(EditProductCommandHandler);
 			OnSaveCommand = new DelegateCommand(SaveCommandHandler);
-			OnDeleteCommand = new DelegateCommand<ProductModel>(DeleteCommandHandler);
+			OnDeleteProductCommand = new DelegateCommand<ProductModel>(DeleteProductCommandHandler);
+			OnDeleteCategoryCommand = new DelegateCommand<CategoryModel>(DeleteCategoryCommandHandler);
 			OnCancelCommand = new DelegateCommand(CancelCommandHandler);
+			OnCloseCommand = new DelegateCommand(CloseCommandHandler);
 			OnSelectImageCommand = new DelegateCommand(SelectImageHandler);
 		}
 
 		private void SetCategoryValidationRules()
 		{
-			AddRule(() => NewCategoryName, () => string.IsNullOrEmpty(NewCategoryName) == true || NewCategoryName.Length == 5, "Must be 5 characters.");
+			AddRule(() => HoldCategoryName, () => string.IsNullOrEmpty(HoldCategoryName) == true || HoldCategoryName.Length == 5, "Must be 5 characters.");
 		}
 
 		private void SetProductValidationRules()
 		{
 			AddRule(() => NewProductName, () => string.IsNullOrEmpty(NewProductName) == true || NewProductName.Length == 5, "Must be 5 characters.");
-		}
-
-		private void AddCommandHandler()
-		{
-			// Products
-			if (SelectedTabIndex == 0)
-			{
-				InitializeNewProduct();
-				NewProductFormVisibility = true;
-			}
-			// Category
-			else if (SelectedTabIndex == 1)
-			{
-				InitializeNewCategory();
-				NewCategoryFormVisibility = true;
-			}
 		}
 
 		private void InitializeNewProduct()
@@ -283,22 +321,31 @@ namespace CompleetKassa.Modules.Products.ViewModels
 			NewProductCategory = 0;
 		}
 
+		private void HoldSelectedCategory (CategoryModel category)
+		{
+			HoldCategoryID = category.ID;
+			HoldCategoryName = category.Name;
+			HoldCategoryDetail = category.Detail;
+			HoldCategoryStatus = category.Status;
+			HoldCategoryParent = category.Parent;
+		}
+
 		private void InitializeNewCategory()
 		{
-			NewCategoryName = string.Empty;
-			NewCategoryDetail = string.Empty;
-			NewCategoryStatus = 1;
-			NewCategoryParent = 0;
+			HoldCategoryName = string.Empty;
+			HoldCategoryDetail = string.Empty;
+			HoldCategoryStatus = 1;
+			HoldCategoryParent = 0;
 		}
 
 		private CategoryModel CreateNewCategory()
 		{
 			return new CategoryModel
 			{
-				Name = NewCategoryName,
-				Detail = NewCategoryDetail,
-				Status = NewCategoryStatus,
-				Parent = NewCategoryParent
+				Name = HoldCategoryName,
+				Detail = HoldCategoryDetail,
+				Status = HoldCategoryStatus,
+				Parent = HoldCategoryParent
 			};
 		}
 
@@ -386,12 +433,12 @@ namespace CompleetKassa.Modules.Products.ViewModels
 		private void LastCommandHandler()
 		{
 			// Product
-			if (SelectedTabIndex == 0)
+			if (SelectedTabIndex == (int)TabIndexes.Product)
 			{
 				ProductListView.MoveCurrentToLast();
 			}
 			// Category
-			else if (SelectedTabIndex == 1)
+			else if (SelectedTabIndex == (int)TabIndexes.Category)
 			{
 				CategoryListView.MoveCurrentToLast();
 			}
@@ -400,7 +447,7 @@ namespace CompleetKassa.Modules.Products.ViewModels
 		private void PreviousCommandHandler()
 		{
 			// Product
-			if (SelectedTabIndex == 0)
+			if (SelectedTabIndex == (int)TabIndexes.Product)
 			{
 				ProductListView.MoveCurrentToPrevious();
 
@@ -410,7 +457,7 @@ namespace CompleetKassa.Modules.Products.ViewModels
 				}
 			}
 			// Category
-			else if (SelectedTabIndex == 1)
+			else if (SelectedTabIndex == (int)TabIndexes.Category)
 			{
 				CategoryListView.MoveCurrentToPrevious();
 
@@ -424,7 +471,7 @@ namespace CompleetKassa.Modules.Products.ViewModels
 		private void NextCommandHandler()
 		{
 			// Product
-			if (SelectedTabIndex == 0)
+			if (SelectedTabIndex == (int)TabIndexes.Product)
 			{
 				ProductListView.MoveCurrentToNext();
 
@@ -434,7 +481,7 @@ namespace CompleetKassa.Modules.Products.ViewModels
 				}
 			}
 			// Category
-			else if (SelectedTabIndex == 1)
+			else if (SelectedTabIndex == (int)TabIndexes.Category)
 			{
 				CategoryListView.MoveCurrentToNext();
 
@@ -448,52 +495,114 @@ namespace CompleetKassa.Modules.Products.ViewModels
 		private void FirstCommandHandler()
 		{
 			// Product
-			if (SelectedTabIndex == 0)
+			if (SelectedTabIndex == (int)TabIndexes.Product)
 			{
 				ProductListView.MoveCurrentToFirst();
 			}
 			// Category
-			else if (SelectedTabIndex == 1)
+			else if (SelectedTabIndex == (int)TabIndexes.Category)
 			{
 				CategoryListView.MoveCurrentToFirst();
 			}
 		}
 
+		private void AddCommandHandler()
+		{
+			// Products
+			if (SelectedTabIndex == (int)TabIndexes.Product)
+			{
+				_currentCommand = Commands.AddProduct;
+				InitializeNewProduct();
+				NewProductFormVisibility = true;
+				EnableProductList = false;
+			}
+			// Category
+			else if (SelectedTabIndex == (int)TabIndexes.Category)
+			{
+				_currentCommand = Commands.AddCategory;
+				InitializeNewCategory();
+				NewCategoryFormVisibility = true;
+				EnableCategoryList = false;
+			}
+		}
+
+		private void EditCategoryCommandHandler(CategoryModel category)
+		{
+			_currentCommand = Commands.EditCategory;
+			EnableProductList = false;
+			ReadOnlyNewCategoryForm = false;
+		}
+
+		private void EditProductCommandHandler(ProductModel product)
+		{
+			_currentCommand = Commands.EditProduct;
+			EnableProductList = false;
+		}
+
 		private async void SaveCommandHandler()
 		{
-			if (SelectedTabIndex == 0 && NewProductFormVisibility == true)
+			if (SelectedTabIndex == (int)TabIndexes.Product && NewProductFormVisibility == true)
 			{
 				NewProductFormVisibility = false;
+				EnableProductList = true;
 
-				ProductModel newProduct = CreateNewProduct();
-
-				var targetPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ApplicationFolders.Products);
-				// Create a new target folder, if necessary.
-				if (!Directory.Exists(targetPath))
+				if(_currentCommand == Commands.AddProduct)
 				{
-					Directory.CreateDirectory(targetPath);
+					await SaveNewProduct();
 				}
-
-				var destFile = Path.Combine(targetPath, Path.GetFileName(SelectedImageUri.ToString()));
-				// To copy a file to another location and 
-				// overwrite the destination file if it already exists.
-				File.Copy(SelectedImageUri.LocalPath, destFile, true);
-
-				var result = await _productService.AddProductAsync(newProduct);
-				await InitializeProductListAsync();
+				
 			}
-			else if (SelectedTabIndex == 1 && NewCategoryFormVisibility == true)
+			else if (SelectedTabIndex == (int)TabIndexes.Category && NewCategoryFormVisibility == true)
 			{
 				NewCategoryFormVisibility = false;
+				EnableCategoryList = true;
+				ReadOnlyNewCategoryForm = true;
 
-				CategoryModel newCategory = CreateNewCategory();
-				await _categoryService.AddCategoryAsync(newCategory);
+				if (_currentCommand == Commands.AddCategory)
+				{
+					await SaveNewCategory();
+				}
+			}
+		}
 
+		private async Task SaveNewProduct()
+		{
+			ProductModel newProduct = CreateNewProduct();
+
+			var targetPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ApplicationFolders.Products);
+			// Create a new target folder, if necessary.
+			if (!Directory.Exists(targetPath))
+			{
+				Directory.CreateDirectory(targetPath);
+			}
+
+			var destFile = Path.Combine(targetPath, Path.GetFileName(SelectedImageUri.ToString()));
+			// To copy a file to another location and 
+			// overwrite the destination file if it already exists.
+			File.Copy(SelectedImageUri.LocalPath, destFile, true);
+
+			var result = await _productService.AddProductAsync(newProduct);
+			await InitializeProductListAsync();
+		}
+
+		private async Task SaveNewCategory()
+		{
+			CategoryModel newCategory = CreateNewCategory();
+			await _categoryService.AddCategoryAsync(newCategory);
+
+			await InitializeCategoryListAsync();
+		}
+
+		private async void DeleteCategoryCommandHandler(CategoryModel category)
+		{
+			if (category != null)
+			{
+				await _categoryService.RemoveCategoryAsync(category.ID);
 				await InitializeCategoryListAsync();
 			}
 		}
 
-		private async void DeleteCommandHandler(ProductModel product)
+		private async void DeleteProductCommandHandler(ProductModel product)
 		{
 			if (product != null)
 			{
@@ -505,15 +614,23 @@ namespace CompleetKassa.Modules.Products.ViewModels
 		private void CancelCommandHandler()
 		{
 			// Product
-			if (SelectedTabIndex == 0)
+			if (SelectedTabIndex == (int)TabIndexes.Product)
 			{
 				NewProductFormVisibility = false;
+				EnableProductList = true;
 			}
 			// Category
-			else if (SelectedTabIndex == 1)
+			else if (SelectedTabIndex == (int)TabIndexes.Category)
 			{
 				NewCategoryFormVisibility = false;
+				EnableProductList = false;
+				ReadOnlyNewCategoryForm = true;
 			}
+		}
+
+		private void CloseCommandHandler()
+		{
+			_eventAggregator.GetEvent<CloseEvent>().Publish("Products");
 		}
 	}
 }

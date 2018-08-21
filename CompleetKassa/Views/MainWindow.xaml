@@ -10,12 +10,12 @@
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
         SnapsToDevicePixels="True"
-        Keyboard.PreviewKeyDown="Window_PreviewKeyDown"
         Height="768"
         Width="1366"
         >
-        
-        <!--Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
+
+    <!--Keyboard.PreviewKeyDown="Window_PreviewKeyDown"-->
+    <!--Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
         Width="{x:Static SystemParameters.PrimaryScreenWidth}"--> 
        
          <!--MinHeight="768"
