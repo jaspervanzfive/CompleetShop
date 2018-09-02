@@ -20,7 +20,7 @@ using static CompleetKassa.Module.Product.Definitions.Enumeration;
 
 namespace CompleetKassa.Modules.Products.ViewModels
 {
-	public class ProductsViewModel : ModelValidationBase
+	public class ProductsViewModel : ViewModelValidationBase
 	{
 		#region Fields
 		private IProductService _productService;

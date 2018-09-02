@@ -8,7 +8,7 @@ using Prism.Mvvm;
 
 namespace CompleetKassa.DataValidation
 {
-	public abstract class ModelValidationBase : BindableBase, IDataErrorInfo
+	public abstract class ViewModelValidationBase : BindableBase, IDataErrorInfo
 	{
 		private Dictionary<string, Binder> ruleMap = new Dictionary<string, Binder>();
 

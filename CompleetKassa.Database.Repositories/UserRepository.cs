@@ -7,43 +7,52 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CompleetKassa.Database.Repositories
 {
-    public class UserRepository : BaseRepository, IUserRepository
-    {
-        public UserRepository(IAppUser userInfo, AppDbContext dbContext)
-            : base(userInfo, dbContext)
-        {
-        }
+	public class UserRepository : BaseRepository, IUserRepository
+	{
+		public UserRepository (IAppUser userInfo, AppDbContext dbContext)
+			: base (userInfo, dbContext)
+		{
+		}
 
-        #region "Read Method"
+		#region "Read Method"
 
-        public async Task<User> GetByIDAsync(int entityID)
-                => await DbContext.Set<User>().FirstOrDefaultAsync(item => item.ID == entityID);
+		public async Task<User> GetByIDAsync (int userID)
+				=> await DbContext.Set<User> ().FirstOrDefaultAsync (item => item.ID == userID);
 
-        public IQueryable<User> GetAll(int pageSize = 10, int pageNumber = 1)
-                => DbContext.Paging<User>(pageSize, pageNumber);
-        #endregion "Read Method"
+		public async Task<User> GetByIDWithCredentialsAsync (int entityID)
+				=> await DbContext.Set<User> ().EagerWhere (x => x.UserCredential, m => m.ID == entityID).FirstOrDefaultAsync ();
 
-        #region "Write Method"
-        public async Task<int> AddAsync(User entity)
-        {
-            Add(entity);
+		public IQueryable<User> GetAll (int pageSize = 10, int pageNumber = 1)
+				=> DbContext.Paging<User> (pageSize, pageNumber);
 
-            return await CommitChangesAsync();
-        }
+		public IQueryable<User> GetAllWithCredentials (int pageSize = 10, int pageNumber = 1)
+				=> DbContext.Set<User> ().Paging (x => x.UserCredential);
 
-        public async Task<int> DeleteAsync(User entity)
-        {
-            Remove(entity);
+		#endregion "Read Method"
 
-            return await CommitChangesAsync();
-        }
+		#region "Write Method"
+		public async Task<int> AddAsync (User entity)
+		{
+			Add (entity);
 
-        public async Task<int> UpdateAsync(User changes)
-        {
-            Update(changes);
+			DbContext.Set<User> ().Include (x => x.UserCredential);
 
-            return await CommitChangesAsync();
-        }
-        #endregion "Write Method"
-    }
+			return await CommitChangesAsync ();
+		}
+
+		public async Task<int> DeleteAsync (User entity)
+		{
+			Remove (entity);
+
+			return await CommitChangesAsync ();
+		}
+
+		public async Task<int> UpdateAsync (User changes)
+		{
+			Update (changes);
+
+			return await CommitChangesAsync ();
+		}
+		#endregion "Write Method"
+	}
 }

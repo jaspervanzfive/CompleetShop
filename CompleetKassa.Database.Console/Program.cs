@@ -109,7 +109,7 @@ namespace CompleetKassa.Database.Console
 
 			await repo.AddUserAsync(newUser);
 
-			var updateUser = repo.GetUsersByIDAsync(1);
+			var updateUser = repo.GetUserByIDAsync(1);
 			updateUser.Result.Model.FirstName = "Modified First Name";
 
 			await repo.UpdateUserAsync(updateUser.Result.Model);

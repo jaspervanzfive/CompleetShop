@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CompleetKassa.Database.Context;
 using CompleetKassa.Database.Core.Entities;
 using CompleetKassa.Database.Entities;
-using CompleetKassa.Database.Repositories.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace CompleetKassa.Database.Repositories
 {
-	public class CategoryRepository : BaseRepository, ICategoryRepository
+    public class CategoryRepository : BaseRepository, ICategoryRepository
 	{
 		public CategoryRepository(IAppUser CategoryInfo, AppDbContext dbContext)
 				   : base(CategoryInfo, dbContext)
@@ -24,10 +21,10 @@ namespace CompleetKassa.Database.Repositories
 				=> await DbContext.Set<Category>().FirstOrDefaultAsync(item => item.ID == entityID);
 
 		public async Task<Category> GetByIDWithParentCategoryAsync(int entityID)
-				=> await DbContext.Set<Category>().EagerWhere(m => m.ID == entityID).FirstOrDefaultAsync();
+				=> await DbContext.Set<Category>().EagerWhere(p => p.ParentCategory, m => m.ID == entityID).FirstOrDefaultAsync();
 
 		public IQueryable<Category> GetAllWithParentCategory(int pageSize = 10, int pageNumber = 1)
-				=> DbContext.Set<Category>().PagingWithParentCategory(pageSize, pageNumber);
+				=> DbContext.Set<Category>().Paging(p => p.ParentCategory, pageSize, pageNumber);
 
 		public IQueryable<Category> GetAll(int pageSize = 10, int pageNumber = 1)
 				=> DbContext.Paging<Category>(pageSize, pageNumber);

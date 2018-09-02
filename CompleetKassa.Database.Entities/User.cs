@@ -22,18 +22,22 @@ namespace CompleetKassa.Database.Entities
 
 		public string LastName { get; set; }
 
-		public DateTime? BirthDate { get; set; }
-
 		public string CreationUser { get; set; }
+
+		public string CreationIPv4 { get; set; }
+
+		public string CreationHostName { get; set; }
 
 		public DateTime? CreationDateTime { get; set; }
 
 		public string LastUpdateUser { get; set; }
 
 		public DateTime? LastUpdateDateTime { get; set; }
+
 		public DateTime? Timestamp { get; set; }
 
 		//Foreign Key
 		public virtual UserCredential UserCredential { get; set; }
+
 	}
 }

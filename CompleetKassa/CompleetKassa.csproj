@@ -287,6 +287,10 @@
       <Project>{506688b0-3095-4c3f-8c24-f85126b7b66c}</Project>
       <Name>CompleetKassa.Module.Sales</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Module.UserManagement\CompleetKassa.Module.UserManagement.csproj">
+      <Project>{68DF6E30-9D68-4D30-B89A-D8C64FB981A7}</Project>
+      <Name>CompleetKassa.Module.UserManagement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.SharedResourceDictionary\CompleetKassa.SharedResourceDictionary.csproj">
       <Project>{66d3d53f-1c33-42fe-9338-7073b0da4b30}</Project>
       <Name>CompleetKassa.SharedResourceDictionary</Name>
