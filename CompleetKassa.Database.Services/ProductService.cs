@@ -17,188 +17,188 @@ using NLog;
 
 namespace CompleetKassa.Database.Services
 {
-	public class ProductService : BaseService, IProductService
-	{
-		protected IProductRepository m_productRepository;
-		protected IProductRepository ProductRepository => m_productRepository ?? (m_productRepository = new ProductRepository(UserInfo, DbContext));
+    public class ProductService : BaseService, IProductService
+    {
+        protected IProductRepository m_productRepository;
+        protected IProductRepository ProductRepository => m_productRepository ?? (m_productRepository = new ProductRepository(UserInfo, DbContext));
 
-		public ProductService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
-			: base(logger, mapper, userInfo, dbContext)
-		{
-		}
+        public ProductService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
+            : base(logger, mapper, userInfo, dbContext)
+        {
+        }
 
-		public async Task<IListResponse<ProductModel>> GetProductsAsync(int pageSize = 0, int pageNumber = 0)
-		{
-			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+        public async Task<IListResponse<ProductModel>> GetProductsAsync(int pageSize = 0, int pageNumber = 0)
+        {
+            Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
-			var response = new ListResponse<ProductModel>();
+            var response = new ListResponse<ProductModel>();
 
-			try
-			{
-				response.Model = await ProductRepository.GetAll(pageSize, pageNumber).Select(o => Mapper.Map<ProductModel>(o)).ToListAsync();
-			}
-			catch (Exception ex)
-			{
-				response.SetError(ex, Logger);
-			}
+            try
+            {
+                response.Model = await ProductRepository.GetAll(pageSize, pageNumber).Select(o => Mapper.Map<ProductModel>(o)).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                response.SetError(ex, Logger);
+            }
 
-			return response;
-		}
+            return response;
+        }
 
-		public async Task<IListResponse<ProductModel>> GetProductsWithCategoryAsync(int pageSize = 0, int pageNumber = 0)
-		{
-			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+        public async Task<IListResponse<ProductModel>> GetProductsWithCategoryAsync(int pageSize = 0, int pageNumber = 0)
+        {
+            Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
-			var response = new ListResponse<ProductModel>();
+            var response = new ListResponse<ProductModel>();
 
-			try
-			{
-				response.Model = await ProductRepository.GetAllWithCategory(pageSize, pageNumber).Select(o => Mapper.Map<ProductModel>(o)).ToListAsync();
-			}
-			catch (Exception ex)
-			{
-				response.SetError(ex, Logger);
-			}
+            try
+            {
+                response.Model = await ProductRepository.GetAllWithCategory(pageSize, pageNumber).Select(o => Mapper.Map<ProductModel>(o)).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                response.SetError(ex, Logger);
+            }
 
-			return response;
-		}
+            return response;
+        }
 
-		public async Task<ISingleResponse<ProductModel>> GetProductByIDAsync(int productID)
-		{
-			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+        public async Task<ISingleResponse<ProductModel>> GetProductByIDAsync(int productID)
+        {
+            Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
-			var response = new SingleResponse<ProductModel>();
+            var response = new SingleResponse<ProductModel>();
 
-			try
-			{
-				response.Model = Mapper.Map<ProductModel>(await ProductRepository.GetByIDAsync(productID));
-			}
-			catch (Exception ex)
-			{
-				response.SetError(ex, Logger);
-			}
+            try
+            {
+                response.Model = Mapper.Map<ProductModel>(await ProductRepository.GetByIDAsync(productID));
+            }
+            catch (Exception ex)
+            {
+                response.SetError(ex, Logger);
+            }
 
-			return response;
-		}
+            return response;
+        }
 
-		public async Task<ISingleResponse<ProductModel>> GetProductByIDWithCategoryAsync(int productID)
-		{
-			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+        public async Task<ISingleResponse<ProductModel>> GetProductByIDWithCategoryAsync(int productID)
+        {
+            Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
-			var response = new SingleResponse<ProductModel>();
+            var response = new SingleResponse<ProductModel>();
 
-			try
-			{
-				response.Model = Mapper.Map<ProductModel>(await ProductRepository.GetByIDWithCategoryAsync(productID));
-			}
-			catch (Exception ex)
-			{
-				response.SetError(ex, Logger);
-			}
+            try
+            {
+                response.Model = Mapper.Map<ProductModel>(await ProductRepository.GetByIDWithCategoryAsync(productID));
+            }
+            catch (Exception ex)
+            {
+                response.SetError(ex, Logger);
+            }
 
-			return response;
-		}
+            return response;
+        }
 
-		public async Task<ISingleResponse<ProductModel>> AddProductAsync(ProductModel details)
-		{
-			var response = new SingleResponse<ProductModel>();
+        public async Task<ISingleResponse<ProductModel>> AddProductAsync(ProductModel details)
+        {
+            var response = new SingleResponse<ProductModel>();
 
-			using (var transaction = DbContext.Database.BeginTransaction())
-			{
-				try
-				{
-					var product = Mapper.Map<Product>(details);
+            using (var transaction = DbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    var product = Mapper.Map<Product>(details);
 
-					await ProductRepository.AddAsync(product);
+                    await ProductRepository.AddAsync(product);
 
-					transaction.Commit();
+                    transaction.Commit();
 
-					response.Model = Mapper.Map<ProductModel>(product);
-				}
-				catch (Exception ex)
-				{
-					transaction.Rollback();
-					throw ex;
-				}
-			}
+                    response.Model = Mapper.Map<ProductModel>(product);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    response.SetError(ex, Logger);
+                }
+            }
 
-			return response;
-		}
+            return response;
+        }
 
 
-		public async Task<IListResponse<ProductModel>> AddProductsAsync(IEnumerable<ProductModel> details)
-		{
-			var response = new ListResponse<ProductModel>();
+        public async Task<IListResponse<ProductModel>> AddProductsAsync(IEnumerable<ProductModel> details)
+        {
+            var response = new ListResponse<ProductModel>();
 
-			using (var transaction = DbContext.Database.BeginTransaction())
-			{
-				try
-				{
-					await ProductRepository.AddAsync(details.Select(o => Mapper.Map<Product>(o)).ToAsyncEnumerable());
+            using (var transaction = DbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    await ProductRepository.AddAsync(details.Select(o => Mapper.Map<Product>(o)).ToAsyncEnumerable());
 
-					transaction.Commit();
+                    transaction.Commit();
 
-					response.Model = details;
-				}
-				catch (Exception ex)
-				{
-					transaction.Rollback();
-					throw ex;
-				}
-			}
+                    response.Model = details;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    response.SetError(ex, Logger);
+                }
+            }
 
-			return response;
-		}
+            return response;
+        }
 
-		public async Task<ISingleResponse<ProductModel>> UpdateProductAsync(ProductModel updates)
-		{
-			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+        public async Task<ISingleResponse<ProductModel>> UpdateProductAsync(ProductModel updates)
+        {
+            Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
-			var response = new SingleResponse<ProductModel>();
+            var response = new SingleResponse<ProductModel>();
 
-			using (var transaction = DbContext.Database.BeginTransaction())
-			{
-				try
-				{
-					await ProductRepository.UpdateAsync(Mapper.Map<Product>(updates));
+            using (var transaction = DbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    await ProductRepository.UpdateAsync(Mapper.Map<Product>(updates));
 
-					transaction.Commit();
-					response.Model = updates;
-				}
-				catch (Exception ex)
-				{
-					transaction.Rollback();
-					response.SetError(ex, Logger);
-				}
-			}
+                    transaction.Commit();
+                    response.Model = updates;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    response.SetError(ex, Logger);
+                }
+            }
 
-			return response;
-		}
+            return response;
+        }
 
-		public async Task<ISingleResponse<ProductModel>> RemoveProductAsync(int productID)
-		{
-			Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+        public async Task<ISingleResponse<ProductModel>> RemoveProductAsync(int productID)
+        {
+            Logger?.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
 
-			var response = new SingleResponse<ProductModel>();
+            var response = new SingleResponse<ProductModel>();
 
-			try
-			{
-				// Retrieve product by id
-				Product product = await ProductRepository.GetByIDAsync(productID);
-				if (product == null)
-				{
-					throw new DatabaseException("Product record not found.");
-				}
+            try
+            {
+                // Retrieve product by id
+                Product product = await ProductRepository.GetByIDAsync(productID);
+                if (product == null)
+                {
+                    throw new DatabaseException("Product record not found.");
+                }
 
-				await ProductRepository.DeleteAsync(product);
-				response.Model = Mapper.Map<ProductModel>(product);
-			}
-			catch (Exception ex)
-			{
-				response.SetError(ex, Logger);
-			}
+                await ProductRepository.DeleteAsync(product);
+                response.Model = Mapper.Map<ProductModel>(product);
+            }
+            catch (Exception ex)
+            {
+                response.SetError(ex, Logger);
+            }
 
-			return response;
-		}
-	}
+            return response;
+        }
+    }
 }

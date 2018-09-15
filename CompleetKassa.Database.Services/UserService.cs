@@ -123,6 +123,7 @@ namespace CompleetKassa.Database.Services
                     await _userCredentialRepository.AddAsync(userCredential);
 
                     transaction.Commit();
+
                     response.Model = Mapper.Map<UserModel>(user);
                 }
                 catch (Exception ex)
