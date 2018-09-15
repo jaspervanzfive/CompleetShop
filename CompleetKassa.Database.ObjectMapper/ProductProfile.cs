@@ -11,6 +11,7 @@ namespace CompleetKassa.Database.ObjectMapper
 		public ProductProfile()
 		{
 			string applicationPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
 			CreateMap<Product, ProductModel>()
 				.ForMember(dest => dest.Category,
 						opt => opt.ResolveUsing(src => src.Category.ParentCategory != null ? src.Category.ParentCategory.Name : src.Category.Name))

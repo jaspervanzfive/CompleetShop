@@ -10,8 +10,9 @@ namespace CompleetKassa.Database.Entities
 		public string Name { get; set; }
 		public string Detail { get; set; }
 		public int Status { get; set; }
+        public string Color { get; set; }
 
-		public ICollection<Product> Products { get; set; }
+        public ICollection<Product> Products { get; set; }
 
 		// Foreign Key
 		public virtual int? ParentCategoryID { get; set; }
