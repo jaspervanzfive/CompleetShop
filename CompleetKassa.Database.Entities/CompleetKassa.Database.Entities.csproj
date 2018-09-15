@@ -44,8 +44,12 @@
     <Compile Include="ChangeLog.cs" />
     <Compile Include="ChangeLogExclusion.cs" />
     <Compile Include="EventLog.cs" />
+    <Compile Include="JRoleResource.cs" />
+    <Compile Include="JUserRole.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource.cs" />
+    <Compile Include="Role.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserCredential.cs" />
   </ItemGroup>

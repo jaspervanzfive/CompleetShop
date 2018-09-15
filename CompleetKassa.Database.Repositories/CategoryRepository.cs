@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CompleetKassa.Database.Repositories
 {
-    public class CategoryRepository : BaseRepository, ICategoryRepository
+    public class CategoryRepository : BaseAuditRepository, ICategoryRepository
 	{
 		public CategoryRepository(IAppUser CategoryInfo, AppDbContext dbContext)
 				   : base(CategoryInfo, dbContext)

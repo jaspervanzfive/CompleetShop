@@ -5,15 +5,15 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
 using CompleetKassa.Database.Context;
-using CompleetKassa.Database.Core.EF.Extensions;
 using CompleetKassa.Database.Core.Entities;
 using CompleetKassa.Database.Core.Exception;
 using CompleetKassa.Database.Core.Services.ResponseTypes;
 using CompleetKassa.Database.Entities;
 using CompleetKassa.Database.Repositories;
+using CompleetKassa.Database.Services.Extensions;
+using CompleetKassa.Log.Core;
 using CompleetKassa.Models;
 using Microsoft.EntityFrameworkCore;
-using NLog;
 
 namespace CompleetKassa.Database.Services
 {

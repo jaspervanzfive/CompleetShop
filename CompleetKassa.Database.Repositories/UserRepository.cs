@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CompleetKassa.Database.Repositories
 {
-	public class UserRepository : BaseRepository, IUserRepository
+	public class UserRepository : BaseAuditRepository, IUserRepository
 	{
 		public UserRepository (IAppUser userInfo, AppDbContext dbContext)
 			: base (userInfo, dbContext)

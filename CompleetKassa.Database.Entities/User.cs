@@ -3,8 +3,8 @@ using CompleetKassa.Database.Core.Entities;
 
 namespace CompleetKassa.Database.Entities
 {
-	public class User : IAuditableEntity
-	{
+	public class User : AuditableBaseEntity, IAuditableEntity
+    {
 		public User()
 		{
 		}
@@ -14,25 +14,11 @@ namespace CompleetKassa.Database.Entities
 			ID = userID;
 		}
 
-		public int ID { get; set; }
-
 		public string FirstName { get; set; }
 
 		public string MiddleName { get; set; }
 
 		public string LastName { get; set; }
-
-		public string CreationUser { get; set; }
-
-		public string CreationIPv4 { get; set; }
-
-		public string CreationHostName { get; set; }
-
-		public DateTime? CreationDateTime { get; set; }
-
-		public string LastUpdateUser { get; set; }
-
-		public DateTime? LastUpdateDateTime { get; set; }
 
 		public DateTime? Timestamp { get; set; }
 

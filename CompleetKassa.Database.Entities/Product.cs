@@ -3,9 +3,8 @@ using CompleetKassa.Database.Core.Entities;
 
 namespace CompleetKassa.Database.Entities
 {
-    public class Product : IAuditableEntity
+    public class Product : AuditableBaseEntity, IAuditableEntity
     {
-        public int ID { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public string Brand { get; set; }
@@ -24,10 +23,6 @@ namespace CompleetKassa.Database.Entities
         public virtual int? CategoryID { get; set; }
         public virtual Category Category { get; set; }
 
-        public string CreationUser { get; set; }
-        public DateTime? CreationDateTime { get; set; }
-        public string LastUpdateUser { get; set; }
-        public DateTime? LastUpdateDateTime { get; set; }
         public DateTime? Timestamp { get; set; }
     }
 }

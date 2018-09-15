@@ -2,7 +2,7 @@
 using CompleetKassa.Database.Context;
 using CompleetKassa.Database.Core.Entities;
 using CompleetKassa.Database.Core.Services;
-using NLog;
+using CompleetKassa.Log.Core;
 
 namespace CompleetKassa.Database.Services
 {

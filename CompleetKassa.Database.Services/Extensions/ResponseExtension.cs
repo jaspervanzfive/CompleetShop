@@ -1,8 +1,8 @@
 ﻿using CompleetKassa.Database.Core.Exception;
 using CompleetKassa.Database.Core.Services.ResponseTypes;
-using NLog;
+using CompleetKassa.Log.Core;
 
-namespace CompleetKassa.Database.Core.EF.Extensions
+namespace CompleetKassa.Database.Services.Extensions
 {
 	internal static class ResponseExtension
 	{
