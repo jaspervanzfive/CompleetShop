@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CompleetKassa.ObjectMapper")]
+[assembly: AssemblyTitle("CompleetKassa.Log")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CompleetKassa.ObjectMapper")]
+[assembly: AssemblyProduct("CompleetKassa.Log")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("048fb41d-0043-4ea3-814b-682951586d2a")]
+[assembly: Guid("5a138b84-c68b-42cc-9243-71fa693adb85")]
 
 // Version information for an assembly consists of the following four values:
 //
