@@ -28,6 +28,7 @@ namespace CompleetKassa.Module.UserManagement
 			IRegion region = _regionManager.Regions[ModuleRegionNames.ModuleContentRegion];
 			region.Add (_container.Resolve<Views.UserRegistration> ());
 			region.Add (_container.Resolve<Views.RoleRegistration> ());
+			region.Add (_container.Resolve<Views.ResourceRegistration> ());
 		}
 	}
 }

@@ -83,10 +83,14 @@
     <Compile Include="Definitions\Enumeration.cs" />
     <Compile Include="Definitions\ModuleRegionNames.cs" />
     <Compile Include="UserManagementModule.cs" />
+    <Compile Include="ViewModels\ResourceRegistrationViewModel.cs" />
     <Compile Include="ViewModels\RoleRegistrationViewModel.cs" />
     <Compile Include="ViewModels\UserManagementMenuViewModel.cs" />
     <Compile Include="ViewModels\UserManagementViewModel.cs" />
     <Compile Include="ViewModels\UserRegistrationViewModel.cs" />
+    <Compile Include="Views\ResourceRegistration.xaml.cs">
+      <DependentUpon>ResourceRegistration.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RoleRegistration.xaml.cs">
       <DependentUpon>RoleRegistration.xaml</DependentUpon>
     </Compile>
@@ -99,6 +103,10 @@
     <Compile Include="Views\UserRegistration.xaml.cs">
       <DependentUpon>UserRegistration.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\ResourceRegistration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\RoleRegistration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

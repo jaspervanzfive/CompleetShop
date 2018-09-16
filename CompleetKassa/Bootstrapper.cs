@@ -4,6 +4,8 @@ using CompleetKassa.Database.Context;
 using CompleetKassa.Database.Core.Entities;
 using CompleetKassa.Database.ObjectMapper;
 using CompleetKassa.Database.Services;
+using CompleetKassa.Log;
+using CompleetKassa.Log.Core;
 using CompleetKassa.Module.Customer;
 using CompleetKassa.Module.UserManagement;
 using CompleetKassa.Modules.Products;
@@ -12,7 +14,6 @@ using CompleetKassa.RegionAdapters;
 using CompleetKassa.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Practices.Unity;
-using NLog;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Unity;
@@ -64,11 +65,14 @@ namespace CompleetKassa
             Container.RegisterType<ObjectMapperProvider>(new TransientLifetimeManager());
             Container.RegisterInstance(Container.Resolve<ObjectMapperProvider>().Mapper);
             Container.RegisterType<IAppUser, AppUser>(new InjectionConstructor(1, "LoggedUser"));
-            Container.RegisterType<ILogger>(new InjectionFactory(l => LogManager.GetCurrentClassLogger()));
-            Container.RegisterType<IUserService, UserService>();
+            Container.RegisterType<ILogger, Logger>(new InjectionConstructor());
+
             Container.RegisterType<IProductService, ProductService>();
             Container.RegisterType<ICategoryService, CategoryService>();
+
             Container.RegisterType<IUserService, UserService>();
+            Container.RegisterType<IRoleService, RoleService>();
+            Container.RegisterType<IResourceService, ResourceService>();
 
         }
     }

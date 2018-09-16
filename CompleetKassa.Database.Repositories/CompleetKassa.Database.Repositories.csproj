@@ -124,12 +124,14 @@
     <Compile Include="CategoryRepository.cs" />
     <Compile Include="ICategoryRepository.cs" />
     <Compile Include="IJRoleResourceRepository.cs" />
+    <Compile Include="IJUserRoleRepository.cs" />
     <Compile Include="IProductRepository.cs" />
     <Compile Include="IResourceRepository.cs" />
     <Compile Include="IRoleRepository.cs" />
     <Compile Include="IUserCredentialRepository.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="JRoleResourceRepository.cs" />
+    <Compile Include="JUserRoleRepository.cs" />
     <Compile Include="ProductRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BaseRepository.cs" />

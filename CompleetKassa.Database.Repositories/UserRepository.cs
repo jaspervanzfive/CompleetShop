@@ -19,14 +19,17 @@ namespace CompleetKassa.Database.Repositories
 		public async Task<User> GetByIDAsync (int userID)
 				=> await DbContext.Set<User> ().FirstOrDefaultAsync (item => item.ID == userID);
 
-		public async Task<User> GetByIDWithCredentialsAsync (int entityID)
+		public async Task<User> GetByIDWithDetailsAsync (int entityID)
 				=> await DbContext.Set<User> ().EagerWhere (x => x.UserCredential, m => m.ID == entityID).FirstOrDefaultAsync ();
 
 		public IQueryable<User> GetAll (int pageSize = 10, int pageNumber = 1)
 				=> DbContext.Paging<User> (pageSize, pageNumber);
 
-		public IQueryable<User> GetAllWithCredentials (int pageSize = 10, int pageNumber = 1)
+		public IQueryable<User> GetAllWithDetails (int pageSize = 10, int pageNumber = 1)
 				=> DbContext.Set<User> ().Paging (x => x.UserCredential);
+
+		public IQueryable <User> GetAllDetailsWithRole (int entityID)
+				=> DbContext.Set<User> ().EagerWhere (x => x.UserRole, m => m.ID == (entityID != 0 ? entityID : 0) );
 
 		#endregion "Read Method"
 

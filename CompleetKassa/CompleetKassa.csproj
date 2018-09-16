@@ -106,9 +106,6 @@
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.5.8\lib\net45\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="Org.Interactivity.Recognizer, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFGestureRecognizer.1.0.4\lib\net46\Org.Interactivity.Recognizer.dll</HintPath>
     </Reference>
@@ -228,9 +225,6 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="NLog.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -274,6 +268,14 @@
     <ProjectReference Include="..\CompleetKassa.Events\CompleetKassa.Events.csproj">
       <Project>{1FDC623C-C6B3-4AE4-B484-0AE8DACEDC6A}</Project>
       <Name>CompleetKassa.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Log.Core\CompleetKassa.Log.Core.csproj">
+      <Project>{BBE63BE4-579A-4558-BDD5-904B5EC4BB55}</Project>
+      <Name>CompleetKassa.Log.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Log\CompleetKassa.Log.csproj">
+      <Project>{5A138B84-C68B-42CC-9243-71FA693ADB85}</Project>
+      <Name>CompleetKassa.Log</Name>
     </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.Module.Customer\CompleetKassa.Module.Customer.csproj">
       <Project>{ADC0DDB7-E795-49F9-96C3-F4FC323DC4EA}</Project>

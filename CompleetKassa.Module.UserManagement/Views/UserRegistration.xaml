@@ -9,14 +9,20 @@
              mc:Ignorable="d"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
-			 xmlns:cc="clr-namespace:CompleetKassa.CustomControls;assembly=CompleetKassa.CustomControls"
-             d:DesignHeight="300" d:DesignWidth="300">
+			 xmlns:cc="clr-namespace:CompleetKassa.CustomControls;assembly=CompleetKassa.CustomControls">
     <UserControl.Resources>
         <Style x:Key="Label" TargetType="{x:Type Label}" BasedOn="{x:Null}">
 			<Setter Property="HorizontalAlignment" Value="Left"/>
 			<Setter Property="VerticalAlignment" Value="Center"/>
 			<Setter Property="Margin" Value="3"/>
 			<Setter Property="Height" Value="23"/>
+		</Style>
+		<Style x:Key="ComboBox" TargetType="{x:Type ComboBox}" BasedOn="{x:Null}">
+			<Setter Property="HorizontalAlignment" Value="Right"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Height" Value="26"/>
+			<Setter Property="Width" Value="150"/>
+			<Setter Property="Margin" Value="3"/>
 		</Style>
 		<Style x:Key="UserTextBox" TargetType="{x:Type TextBox}" BasedOn="{x:Null}">
 			<Setter Property="HorizontalAlignment" Value="Right"/>
@@ -53,6 +59,7 @@
 				<ColumnDefinition Width="Auto" MinWidth="50"/>
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
@@ -129,6 +136,40 @@
 					</cc:ValidationErrorEventTrigger>
 				</i:Interaction.Triggers>
 			</TextBox>
+
+			
+			<!--<ComboBox Grid.Row="6" 
+					  Style="{StaticResource ComboBox}" 
+					  ItemsSource="{Binding RoleListView}"
+					  DisplayMemberPath="Name"
+					  SelectedValue="{Binding SelRoleView, UpdateSourceTrigger=PropertyChanged}"
+					  />-->
+			<StackPanel Grid.Row="6">
+				<Label Content="Role:" Grid.Row="6" Style="{StaticResource Label}"/>
+				<GroupBox Header="{Binding Path=ResourceHeader}" Grid.Row="6" Height="100">
+					<ListView ItemsSource="{Binding RoleListView}" 
+							  SelectionMode="Single" >
+						<ListView.ItemTemplate>
+							<DataTemplate>
+								<StackPanel>
+									<CheckBox Content="{Binding Path=Name}" IsChecked="{Binding Path=Allow}"/>
+								</StackPanel>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</GroupBox>
+			</StackPanel>
+			
+			
+			<!--<TextBox Grid.Row="6" Style="{StaticResource UserTextBox}"
+					  IsReadOnly="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.IsUserFormReadOnly}"
+                  Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SelRoleView.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True, NotifyOnValidationError=true}">
+				<i:Interaction.Triggers>
+					<cc:ValidationErrorEventTrigger>
+						<i:InvokeCommandAction Command="{Binding OnValidationErrorCommand}"/>
+					</cc:ValidationErrorEventTrigger>
+				</i:Interaction.Triggers>
+			</TextBox>-->
 		</Grid>
 
 		<!-- List of Users from DB -->
@@ -155,6 +196,8 @@
 				<ColumnDefinition Width="Auto" MinWidth="50"/>
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
@@ -227,6 +270,23 @@
 					</cc:ValidationErrorEventTrigger>
 				</i:Interaction.Triggers>
 			</TextBox>
+
+			<StackPanel Grid.Row="7">
+				<Label Content="Role:" Grid.Row="7" Style="{StaticResource Label}"/>
+				<GroupBox Header="{Binding Path=ResourceHeader}" Grid.Row="6" Height="100">
+					<ListView ItemsSource="{Binding RoleListView}" 
+                                            SelectionMode="Single"
+                                            >
+						<ListView.ItemTemplate>
+							<DataTemplate>
+								<StackPanel>
+									<CheckBox Content="{Binding Path=Name}" IsChecked="{Binding Path=Allow}"/>
+								</StackPanel>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</GroupBox>
+			</StackPanel>
 		</Grid>
 	</Grid>
 </UserControl>

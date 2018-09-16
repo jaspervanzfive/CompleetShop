@@ -19,16 +19,15 @@ using System.Windows.Media;
 
 namespace CompleetKassa.Module.UserManagement.ViewModels
 {
-	public class RoleRegistrationViewModel : ViewModelValidationBase, IActiveAware
+	public class ResourceRegistrationViewModel : ViewModelValidationBase, IActiveAware
 	{
 		#region Fields
-		private IRoleService _roleService;
 		private IResourceService _resourceService;
 		private IEventAggregator _eventAggregator;
 		private IRegionManager _regionManager;
 		IModuleCommands _moduleCommands;
 
-		private int _roleListViewCount;
+		private int _resourceListViewCount;
 		private ExecutionTypes _currentExecutionType;
 		#endregion Fields
 
@@ -37,39 +36,39 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 		#endregion Property
 
 		#region Enable/disable Command Property
-		private bool _canAddRoleInfo;
-		public bool CanAddRoleInfo
+		private bool _canAddResourceInfo;
+		public bool CanAddResourceInfo
 		{
-			get { return _canAddRoleInfo; }
-			set { SetProperty (ref _canAddRoleInfo, value); }
+			get { return _canAddResourceInfo; }
+			set { SetProperty (ref _canAddResourceInfo, value); }
 		}
 
-		private bool _canEditRole;
-		public bool CanEditRole
+		private bool _canEditResource;
+		public bool CanEditResource
 		{
-			get { return _canEditRole; }
-			set { SetProperty (ref _canEditRole, value); }
+			get { return _canEditResource; }
+			set { SetProperty (ref _canEditResource, value); }
 		}
 
-		private bool _canDeleteRole;
-		public bool CanDeleteRole
+		private bool _canDeleteResource;
+		public bool CanDeleteResource
 		{
-			get { return _canDeleteRole; }
-			set { SetProperty (ref _canDeleteRole, value); }
+			get { return _canDeleteResource; }
+			set { SetProperty (ref _canDeleteResource, value); }
 		}
 
-		private bool _canSaveRole;
-		public bool CanSaveRole
+		private bool _canSaveResource;
+		public bool CanSaveResource
 		{
-			get { return _canSaveRole; }
-			set { SetProperty (ref _canSaveRole, value); }
+			get { return _canSaveResource; }
+			set { SetProperty (ref _canSaveResource, value); }
 		}
 
-		private bool _canCancelRole;
-		public bool CanCancelRole
+		private bool _canCancelResource;
+		public bool CanCancelResource
 		{
-			get { return _canCancelRole; }
-			set { SetProperty (ref _canCancelRole, value); }
+			get { return _canCancelResource; }
+			set { SetProperty (ref _canCancelResource, value); }
 		}
 
 		private bool _canNavToFirst;
@@ -107,7 +106,7 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 		public DelegateCommand OnSaveCommand { get; private set; }
 		public DelegateCommand OnDeleteCommand { get; private set; }
 		public DelegateCommand OnCancelCommand { get; private set; }
-		public DelegateCommand<RoleModel> OnDeleteRoleCommand { get; private set; }
+		public DelegateCommand<ResourceModel> OnDeleteResourceCommand { get; private set; }
 
 		public DelegateCommand OnFirstNavCommand { get; private set; }
 		public DelegateCommand OnPreviousNavCommand { get; private set; }
@@ -118,47 +117,32 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 		#endregion Command Property
 
 		#region Bindable Property
-		private int _roleID;
-		public int RoleID
+		private int _resourceID;
+		public int ResourceID
 		{
-			get { return _roleID; }
+			get { return _resourceID; }
 			set
 			{
-				SetProperty (ref _roleID, value);
+				SetProperty (ref _resourceID, value);
 
 			}
 		}
 
-		private string _roleName;
-		public string RoleName
+		private string _resourceName;
+		public string ResourceName
 		{
-			get { return _roleName; }
+			get { return _resourceName; }
 			set
 			{
-				SetProperty (ref _roleName, value);
+				SetProperty (ref _resourceName, value);
 			}
 		}
 
-		private string _roleDescription;
-		public string RoleDescription
+		private string _resourceDescription;
+		public string ResourceDescription
 		{
-			get { return _roleDescription; }
-			set { SetProperty (ref _roleDescription, value); }
-		}
-
-		private ICollectionView _roleListView;
-		public ICollectionView RoleListView
-		{
-			get { return _roleListView; }
-			private set
-			{
-
-				SetProperty (ref _roleListView, value);
-
-				if (_roleListView != null) {
-					_roleListViewCount = _roleListView.Cast<object> ().Count ();
-				}
-			}
+			get { return _resourceDescription; }
+			set { SetProperty (ref _resourceDescription, value); }
 		}
 
 		private ICollectionView _resourceListView;
@@ -167,37 +151,39 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 			get { return _resourceListView; }
 			private set
 			{
+
 				SetProperty (ref _resourceListView, value);
+
+				if (_resourceListView != null) {
+					_resourceListViewCount = _resourceListView.Cast<object> ().Count ();
+				}
 			}
 		}
 
-		private int _selectedRoleIndex;
-		public int SelectedRoleIndex
+		private int _selectedResourceIndex;
+		public int SelectedResourceIndex
 		{
-			get { return _selectedRoleIndex; }
+			get { return _selectedResourceIndex; }
 			set
 			{
-				SetProperty (ref _selectedRoleIndex, value);
+				SetProperty (ref _selectedResourceIndex, value);
 				SetCommandEnableStatus (ExecutionTypes.None);
 				SetNavigationCommandEnableStatus ();
 			}
 		}
 
-		private RoleModel _selectedRole;
-		public RoleModel SelectedRole
+		private ResourceModel _selectedResource;
+		public ResourceModel SelectedResource
 		{
-			get { return _selectedRole; }
+			get { return _selectedResource; }
 			set
 			{
-				SetProperty (ref _selectedRole, value);
+				SetProperty (ref _selectedResource, value);
 
-				RoleID = _selectedRole.ID;
-				RoleName = _selectedRole.Name;
-				RoleDescription = _selectedRole.Description;
+				ResourceID = _selectedResource.ID;
+				ResourceName = _selectedResource.Name;
+				ResourceDescription = _selectedResource.Description;
 
-				if (_selectedRole.Resource != null) {
-					ResourceListView = new CollectionView (_selectedRole.Resource);
-				}
 			}
 		}
 
@@ -219,44 +205,44 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 			}
 		}
 
-		private bool _roleInfoFormVisibility;
-		public bool RoleInfoFormVisibility
+		private bool _resourceInfoFormVisibility;
+		public bool ResourceInfoFormVisibility
 		{
-			get { return _roleInfoFormVisibility; }
+			get { return _resourceInfoFormVisibility; }
 			set
 			{
-				SetProperty (ref _roleInfoFormVisibility, value);
+				SetProperty (ref _resourceInfoFormVisibility, value);
 			}
 		}
 
-		private bool _isRoleListEnabled;
-		public bool IsRoleListEnabled
+		private bool _isResourceListEnabled;
+		public bool IsResourceListEnabled
 		{
-			get { return _isRoleListEnabled; }
+			get { return _isResourceListEnabled; }
 			set
 			{
-				SetProperty (ref _isRoleListEnabled, value);
+				SetProperty (ref _isResourceListEnabled, value);
 			}
 		}
 
-		private bool _isRoleFormReadOnly;
-		public bool IsRoleFormReadOnly
+		private bool _isResourceFormReadOnly;
+		public bool IsResourceFormReadOnly
 		{
-			get { return _isRoleFormReadOnly; }
+			get { return _isResourceFormReadOnly; }
 			set
 			{
-				SetProperty (ref _isRoleFormReadOnly, value);
-				RoleFormColor = _isRoleFormReadOnly == true ? new SolidColorBrush (Colors.LightBlue) : new SolidColorBrush (Colors.CornflowerBlue);
+				SetProperty (ref _isResourceFormReadOnly, value);
+				ResourceFormColor = _isResourceFormReadOnly == true ? new SolidColorBrush (Colors.LightBlue) : new SolidColorBrush (Colors.CornflowerBlue);
 			}
 		}
 
-		private Brush _roleFormColor;
-		public Brush RoleFormColor
+		private Brush _resourceFormColor;
+		public Brush ResourceFormColor
 		{
-			get { return _roleFormColor; }
+			get { return _resourceFormColor; }
 			set
 			{
-				SetProperty (ref _roleFormColor, value);
+				SetProperty (ref _resourceFormColor, value);
 			}
 		}
 		#endregion Bindable Property
@@ -264,10 +250,10 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 		public event EventHandler IsActiveChanged;
 
 		#region Constructor
-		public RoleRegistrationViewModel (IUnityContainer container)
+		public ResourceRegistrationViewModel (IUnityContainer container)
 		{
 			_regionManager = container.Resolve<IRegionManager> ();
-			_roleService = container.Resolve<IRoleService> ();
+			_resourceService = container.Resolve<IResourceService> ();
 			_resourceService = container.Resolve<IResourceService> ();
 			_eventAggregator = container.Resolve<IEventAggregator> ();
 			_moduleCommands = container.Resolve<IModuleCommands> ();
@@ -278,25 +264,25 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 
 			Initialization = InitializeAsync ();
 
-			Title = "Role";
+			Title = "Resource";
 		}
 		#endregion Constructor
 
 		#region Methods
 		private void InitializeFields ()
 		{
-			_roleListViewCount = 0;
+			_resourceListViewCount = 0;
 			_currentExecutionType = ExecutionTypes.None;
 		}
 		private void InitializeCommandHandler ()
 		{
-			// Role operations
-			OnAddCommand = new DelegateCommand (AddCommandHandler).ObservesCanExecute (() => CanAddRoleInfo);
-			OnEditCommand = new DelegateCommand (EditCommandHandler).ObservesCanExecute (() => CanEditRole);
-			OnDeleteCommand = new DelegateCommand (DeleteCommandHandler).ObservesCanExecute (() => CanDeleteRole);
-			OnSaveCommand = new DelegateCommand (SaveCommandHandler).ObservesCanExecute (() => CanSaveRole);
-			OnCancelCommand = new DelegateCommand (CancelCommandHandler).ObservesCanExecute (() => CanCancelRole);
-			OnDeleteRoleCommand = new DelegateCommand<RoleModel> (DeleteRoleCommandHandler).ObservesCanExecute (() => CanDeleteRole);
+			// Resource operations
+			OnAddCommand = new DelegateCommand (AddCommandHandler).ObservesCanExecute (() => CanAddResourceInfo);
+			OnEditCommand = new DelegateCommand (EditCommandHandler).ObservesCanExecute (() => CanEditResource);
+			OnDeleteCommand = new DelegateCommand (DeleteCommandHandler).ObservesCanExecute (() => CanDeleteResource);
+			OnSaveCommand = new DelegateCommand (SaveCommandHandler).ObservesCanExecute (() => CanSaveResource);
+			OnCancelCommand = new DelegateCommand (CancelCommandHandler).ObservesCanExecute (() => CanCancelResource);
+			OnDeleteResourceCommand = new DelegateCommand<ResourceModel> (DeleteResourceCommandHandler).ObservesCanExecute (() => CanDeleteResource);
 
 			// Navigation
 			OnFirstNavCommand = new DelegateCommand (FirstNavCommandHandler).ObservesCanExecute (() => CanNavToFirst);
@@ -321,9 +307,9 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 
 		private async Task InitializeAsync ()
 		{
-			var result = await _roleService.GetRolesAsync ();
+			var result = await _resourceService.GetResourcesAsync ();
 			if (result.DidError == false) {
-				RoleListView = CollectionViewSource.GetDefaultView (result.Model.ToList ());
+				ResourceListView = CollectionViewSource.GetDefaultView (result.Model.ToList ());
 			}
 		}
 
@@ -351,37 +337,37 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 
 		private void LastNavCommandHandler ()
 		{
-			RoleListView.MoveCurrentToLast ();
-			SelectedRole = (RoleModel)RoleListView.CurrentItem;
+			ResourceListView.MoveCurrentToLast ();
+			SelectedResource = (ResourceModel)ResourceListView.CurrentItem;
 		}
 
 		private void PreviousNavCommandHandler ()
 		{
-			RoleListView.MoveCurrentToPrevious ();
+			ResourceListView.MoveCurrentToPrevious ();
 
-			if (RoleListView.IsCurrentBeforeFirst == true) {
-				RoleListView.MoveCurrentToFirst ();
+			if (ResourceListView.IsCurrentBeforeFirst == true) {
+				ResourceListView.MoveCurrentToFirst ();
 			}
 
-			SelectedRole = (RoleModel)RoleListView.CurrentItem;
+			SelectedResource = (ResourceModel)ResourceListView.CurrentItem;
 		}
 
 		private void NextNavCommandHandler ()
 		{
-			RoleListView.MoveCurrentToNext ();
+			ResourceListView.MoveCurrentToNext ();
 
-			if (RoleListView.IsCurrentAfterLast == true) {
-				RoleListView.MoveCurrentToLast ();
+			if (ResourceListView.IsCurrentAfterLast == true) {
+				ResourceListView.MoveCurrentToLast ();
 			}
 
-			SelectedRole = (RoleModel)RoleListView.CurrentItem;
+			SelectedResource = (ResourceModel)ResourceListView.CurrentItem;
 		}
 
 		private void FirstNavCommandHandler ()
 		{
-			RoleListView.MoveCurrentToFirst ();
+			ResourceListView.MoveCurrentToFirst ();
 
-			SelectedRole = (RoleModel)RoleListView.CurrentItem;
+			SelectedResource = (ResourceModel)ResourceListView.CurrentItem;
 		}
 
 		private void CancelCommandHandler ()
@@ -393,7 +379,7 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 		{
 			SetCommandEnableStatus (ExecutionTypes.Add);
 
-			InitializeRoleInfoModel ();
+			InitializeResourceInfoModel ();
 		}
 
 		private void EditCommandHandler ()
@@ -403,16 +389,16 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 
 		private void DeleteCommandHandler ()
 		{
-			if (SelectedRole != null) {
-				DeleteRoleCommandHandler (SelectedRole);
+			if (SelectedResource != null) {
+				DeleteResourceCommandHandler (SelectedResource);
 			}
 		}
 
-		private async void DeleteRoleCommandHandler (RoleModel role)
+		private async void DeleteResourceCommandHandler (ResourceModel resource)
 		{
 			SetCommandEnableStatus (ExecutionTypes.Delete);
-			if (role != null) {
-				await _roleService.RemoveRoleAsync (role.ID);
+			if (resource != null) {
+				await _resourceService.RemoveResourceAsync (resource.ID);
 				await InitializeAsync ();
 				FirstNavCommandHandler ();
 			}
@@ -422,24 +408,24 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 		{
 			switch (_currentExecutionType) {
 				case ExecutionTypes.Add: {
-						var newRoleModel = new RoleModel
+						var newResourceModel = new ResourceModel
 						{
-							Name = RoleName,
-							Description = RoleDescription
+							Name = ResourceName,
+							Description = ResourceDescription
 						};
 
-						var result = await _roleService.AddRoleAsync (newRoleModel);
+						var result = await _resourceService.AddResourceAsync (newResourceModel);
 					}
 					break;
 
 				case ExecutionTypes.Edit: {
-						var result = await _roleService.GetRoleByIDAsync (RoleID);
+						var result = await _resourceService.GetResourceByIDAsync (ResourceID);
 						if (result.DidError == false) {
-							RoleModel targetRole = result.Model;
-							targetRole.Name = RoleName;
-							targetRole.Description = RoleDescription;
+							ResourceModel targetResource = result.Model;
+							targetResource.Name = ResourceName;
+							targetResource.Description = ResourceDescription;
 
-							await _roleService.UpdateRoleAsync (targetRole);
+							await _resourceService.UpdateResourceAsync (targetResource);
 						}
 					}
 					break;
@@ -461,40 +447,40 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 				case ExecutionTypes.Add:
 				case ExecutionTypes.Edit:
 				case ExecutionTypes.Delete: {
-						CanCancelRole = true;
-						CanAddRoleInfo = false;
-						CanEditRole = false;
-						CanDeleteRole = false;
-						CanSaveRole = true;
+						CanCancelResource = true;
+						CanAddResourceInfo = false;
+						CanEditResource = false;
+						CanDeleteResource = false;
+						CanSaveResource = true;
 
-						IsRoleListEnabled = false;
+						IsResourceListEnabled = false;
 
 						if (activeType == ExecutionTypes.Edit) {
-							IsRoleFormReadOnly = false;
+							IsResourceFormReadOnly = false;
 						}
 					}
 					break;
 
 				default: {
-						CanCancelRole = false;
-						CanAddRoleInfo = true;
-						CanEditRole = false;
-						CanDeleteRole = false;
-						CanSaveRole = false;
+						CanCancelResource = false;
+						CanAddResourceInfo = true;
+						CanEditResource = false;
+						CanDeleteResource = false;
+						CanSaveResource = false;
 
-						if (SelectedRoleIndex != -1) {
-							CanEditRole = true;
-							CanDeleteRole = true;
+						if (SelectedResourceIndex != -1) {
+							CanEditResource = true;
+							CanDeleteResource = true;
 						}
 
-						IsRoleListEnabled = true;
-						IsRoleFormReadOnly = true;
+						IsResourceListEnabled = true;
+						IsResourceFormReadOnly = true;
 					}
 					break;
 			}
 
 			// Show New Form if execution type is Add
-			RoleInfoFormVisibility = activeType == ExecutionTypes.Add ? true : false;
+			ResourceInfoFormVisibility = activeType == ExecutionTypes.Add ? true : false;
 		}
 
 		private void SetNavigationCommandEnableStatus ()
@@ -504,21 +490,21 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 			CanNavToNext = false;
 			CanNavToLast = false;
 
-			if (SelectedRoleIndex < _roleListViewCount - 1) {
+			if (SelectedResourceIndex < _resourceListViewCount - 1) {
 				CanNavToLast = true;
 				CanNavToNext = true;
 			}
 
-			if (0 < SelectedRoleIndex) {
+			if (0 < SelectedResourceIndex) {
 				CanNavToFirst = true;
 				CanNavToPrevious = true;
 			}
 		}
 
-		private void InitializeRoleInfoModel ()
+		private void InitializeResourceInfoModel ()
 		{
-			RoleName = string.Empty;
-			RoleDescription = string.Empty;
+			ResourceName = string.Empty;
+			ResourceDescription = string.Empty;
 		}
 
 		#endregion
