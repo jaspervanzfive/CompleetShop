@@ -5,9 +5,10 @@ using CompleetKassa.Database.Context;
 using CompleetKassa.Database.Core.Entities;
 using CompleetKassa.Database.ObjectMapper;
 using CompleetKassa.Database.Services;
+using CompleetKassa.Log;
+using CompleetKassa.Log.Core;
 using CompleetKassa.Models;
 using Microsoft.EntityFrameworkCore;
-using NLog;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
@@ -33,7 +34,7 @@ namespace CompleetKassa.Database.Console
                 .UseSqlite("Data Source=CompleetKassa.db3;").Options;
             #endregion SQLite
 
-            container.RegisterType<ILogger>(new InjectionFactory(l => LogManager.GetCurrentClassLogger()));
+            //container.RegisterType<ILogger>(new InjectionFactory(l => LogManager.GetCurrentClassLogger()));
             //container.RegisterType<ILogger>(LogHelper.GetLogger<NLog>(LogManager.GetCurrentClassLogger()));
             container.RegisterType<AppDbContext>(new TransientLifetimeManager(), new InjectionConstructor(options));
 
@@ -41,17 +42,18 @@ namespace CompleetKassa.Database.Console
             container.RegisterInstance(container.Resolve<ObjectMapperProvider>().Mapper);
 
             container.RegisterType<IAppUser, AppUser>(new InjectionConstructor(1, "LoggedUser"));
-            //container.RegisterType<ILogger>(new InjectionFactory((c) => null));
+            container.RegisterType<ILogger, Logger>(new InjectionConstructor());
             container.RegisterType<IUserService, UserService>();
+            container.RegisterType<IRoleService, RoleService>();
+            container.RegisterType<IResourceService, ResourceService>();
             container.RegisterType<ICategoryService, CategoryService>();
             container.RegisterType<IProductService, ProductService>();
 
             //UserTest(container).Wait();
             //CategoryTest(container).Wait();
             //ProductTest(container).Wait();
-            ProductWithCategoryTest(container).Wait();
-
-            LogManager.Flush();
+            //ProductWithCategoryTest(container).Wait();
+            UserWithRolesAndResourcesTest(container).Wait();
         }
 
         private static async Task ProductTest(IUnityContainer container)
@@ -147,6 +149,92 @@ namespace CompleetKassa.Database.Console
 
 
             System.Console.WriteLine(list.Count);
+        }
+
+        private static async Task UserWithRolesAndResourcesTest(IUnityContainer container)
+        {
+            IUserService userService = container.Resolve<IUserService>();
+            IRoleService roleService = container.Resolve<IRoleService>();
+            IResourceService resourceService = container.Resolve<IResourceService>();
+
+            // About this test
+            // 1. Create User
+            // 2. Create Roles
+            // 3. Create Resources
+            // 4. Create Role <-> Resources
+            // 5. Create User <-> Role
+
+            // 1. Create User
+            var newUser = new UserModel
+            {
+                FirstName = "User-" + DateTime.Now.ToString(),
+                LastName = "Last Name",
+                UserName = "User Name",
+                Password = "Password"
+            };
+
+            await userService.AddUserAsync(newUser);
+
+            #region "Roles"
+            // 2. Create Roles
+            var role1 = new RoleModel
+            {
+                Name = "Role 1",
+                Description = "Role 1 Description"
+            };
+
+            await roleService.AddRoleAsync(role1);
+
+            var role2 = new RoleModel
+            {
+                Name = "Role 2",
+                Description = "Role 2 Description"
+            };
+
+            await roleService.AddRoleAsync(role2);
+            #endregion "Roles"
+
+            #region "Resources"
+            // 3. Create Resources
+            var resource1 = new ResourceModel
+            {
+                Name = "Resource 1",
+                Description = "Resource 1 Description"
+            };
+
+            await resourceService.AddResourceAsync(resource1);
+
+            var resource2 = new ResourceModel
+            {
+                Name = "Resource 2",
+                Description = "Resource 2 Description"
+            };
+
+            await resourceService.AddResourceAsync(resource2);
+
+            var resource3 = new ResourceModel
+            {
+                Name = "Resource 3",
+                Description = "Resource 3 Description"
+            };
+
+            await resourceService.AddResourceAsync(resource3);
+
+            var resource4 = new ResourceModel
+            {
+                Name = "Resource 4",
+                Description = "Resource 4 Description"
+            };
+
+            await resourceService.AddResourceAsync(resource4);
+            #endregion "Resources"
+
+            #region Role Resources
+            // 4. Create Role <-> Resources
+            
+
+            #endregion Role Resources
+
         }
     }
 }

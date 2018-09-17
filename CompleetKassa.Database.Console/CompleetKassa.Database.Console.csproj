@@ -228,6 +228,14 @@
       <Project>{EED453AD-9272-48F2-8616-EA2545792D9F}</Project>
       <Name>CompleetKassa.Database.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Log.Core\CompleetKassa.Log.Core.csproj">
+      <Project>{BBE63BE4-579A-4558-BDD5-904B5EC4BB55}</Project>
+      <Name>CompleetKassa.Log.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompleetKassa.Log\CompleetKassa.Log.csproj">
+      <Project>{5A138B84-C68B-42CC-9243-71FA693ADB85}</Project>
+      <Name>CompleetKassa.Log</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CompleetKassa.Models\CompleetKassa.Models.csproj">
       <Project>{C4466761-0B4D-4BBC-A70E-CBCC77C98C18}</Project>
       <Name>CompleetKassa.Models</Name>
