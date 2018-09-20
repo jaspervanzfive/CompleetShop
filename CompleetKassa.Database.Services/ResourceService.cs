@@ -18,71 +18,63 @@ namespace CompleetKassa.Database.Services
 {
     public class ResourceService : BaseService, IResourceService
     {
-        protected IResourceRepository _resourceRepository;
 
-        public ResourceService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
-            : base(logger, mapper, userInfo, dbContext)
+        public ResourceService (ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
+            : base (logger, mapper, userInfo, dbContext)
         {
-            _resourceRepository = new ResourceRepository(userInfo, this.DbContext);
+
         }
 
-        public async Task<IListResponse<ResourceModel>> GetResourcesAsync(int pageSize = 0, int pageNumber = 0)
+        public async Task<IListResponse<ResourceModel>> GetResourcesAsync (int pageSize = 0, int pageNumber = 0)
         {
-            Logger.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+            Logger.Info (CreateInvokedMethodLog (MethodBase.GetCurrentMethod ().ReflectedType.FullName));
 
-            var response = new ListResponse<ResourceModel>();
+            var response = new ListResponse<ResourceModel> ();
 
-            try
-            {
-                response.Model = await _resourceRepository.GetAll(pageSize, pageNumber).Select(o => Mapper.Map<ResourceModel>(o)).ToListAsync();
+            try {
+                response.Model = await ResourceRepository.GetAll (pageSize, pageNumber).Select (o => Mapper.Map<ResourceModel> (o)).ToListAsync ();
             }
-            catch (Exception ex)
-            {
-                response.SetError(ex, Logger);
+            catch (Exception ex) {
+                response.SetError (ex, Logger);
             }
 
             return response;
         }
 
-        public async Task<ISingleResponse<ResourceModel>> GetResourceByIDAsync(int resourceID)
+        public async Task<ISingleResponse<ResourceModel>> GetResourceByIDAsync (int resourceID)
         {
-            Logger.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+            Logger.Info (CreateInvokedMethodLog (MethodBase.GetCurrentMethod ().ReflectedType.FullName));
 
-            var response = new SingleResponse<ResourceModel>();
+            var response = new SingleResponse<ResourceModel> ();
 
-            try
-            {
-                var userDetails = await _resourceRepository.GetByIDAsync(resourceID);
+            try {
+                var userDetails = await ResourceRepository.GetByIDAsync (resourceID);
 
-                response.Model = Mapper.Map<ResourceModel>(userDetails);
+                response.Model = Mapper.Map<ResourceModel> (userDetails);
             }
-            catch (Exception ex)
-            {
-                response.SetError(ex, Logger);
+            catch (Exception ex) {
+                response.SetError (ex, Logger);
             }
 
             return response;
         }
 
-        public async Task<ISingleResponse<ResourceModel>> AddResourceAsync(ResourceModel details)
+        public async Task<ISingleResponse<ResourceModel>> AddResourceAsync (ResourceModel details)
         {
-            Logger.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
-            var response = new SingleResponse<ResourceModel>();
+            Logger.Info (CreateInvokedMethodLog (MethodBase.GetCurrentMethod ().ReflectedType.FullName));
+            var response = new SingleResponse<ResourceModel> ();
 
-            using (var transaction = DbContext.Database.BeginTransaction())
-            {
-                try
-                {
+            using (var transaction = DbContext.Database.BeginTransaction ()) {
+                try {
 
-                    var resource = Mapper.Map<Resource>(details);
-                    await _resourceRepository.AddAsync(resource);
+                    var resource = Mapper.Map<Resource> (details);
+                    await ResourceRepository.AddAsync (resource);
 
-                    transaction.Commit();
-                    response.Model = Mapper.Map<ResourceModel>(resource);
+                    transaction.Commit ();
+                    response.Model = Mapper.Map<ResourceModel> (resource);
                 }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
+                catch (Exception ex) {
+                    transaction.Rollback ();
                     throw ex;
                 }
             }
@@ -90,61 +82,54 @@ namespace CompleetKassa.Database.Services
             return response;
         }
 
-        public async Task<ISingleResponse<ResourceModel>> UpdateResourceAsync(ResourceModel updates)
+        public async Task<ISingleResponse<ResourceModel>> UpdateResourceAsync (ResourceModel updates)
         {
-            Logger.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+            Logger.Info (CreateInvokedMethodLog (MethodBase.GetCurrentMethod ().ReflectedType.FullName));
 
-            var response = new SingleResponse<ResourceModel>();
+            var response = new SingleResponse<ResourceModel> ();
 
-            using (var transaction = DbContext.Database.BeginTransaction())
-            {
-                try
-                {
+            using (var transaction = DbContext.Database.BeginTransaction ()) {
+                try {
 
-                    Resource resource = await _resourceRepository.GetByIDAsync(updates.ID);
-                    if (resource == null)
-                    {
-                        throw new DatabaseException("Resource record not found.");
+                    Resource resource = await ResourceRepository.GetByIDAsync (updates.ID);
+                    if (resource == null) {
+                        throw new DatabaseException ("Resource record not found.");
                     }
 
-                    Mapper.Map(updates, resource);
+                    Mapper.Map (updates, resource);
 
-                    await _resourceRepository.UpdateAsync(resource);
+                    await ResourceRepository.UpdateAsync (resource);
 
-                    transaction.Commit();
-                    response.Model = Mapper.Map<ResourceModel>(resource);
+                    transaction.Commit ();
+                    response.Model = Mapper.Map<ResourceModel> (resource);
                 }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    response.SetError(ex, Logger);
+                catch (Exception ex) {
+                    transaction.Rollback ();
+                    response.SetError (ex, Logger);
                 }
             }
 
             return response;
         }
 
-        public async Task<ISingleResponse<ResourceModel>> RemoveResourceAsync(int resourceID)
+        public async Task<ISingleResponse<ResourceModel>> RemoveResourceAsync (int resourceID)
         {
-            Logger.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+            Logger.Info (CreateInvokedMethodLog (MethodBase.GetCurrentMethod ().ReflectedType.FullName));
 
-            var response = new SingleResponse<ResourceModel>();
+            var response = new SingleResponse<ResourceModel> ();
 
-            try
-            {
+            try {
                 // Retrieve user by id
-                Resource resource = await _resourceRepository.GetByIDAsync(resourceID);
-                if (resource == null)
-                {
-                    throw new DatabaseException("User record not found.");
+                Resource resource = await ResourceRepository.GetByIDAsync (resourceID);
+                if (resource == null) {
+                    throw new DatabaseException ("User record not found.");
                 }
 
-                await _resourceRepository.DeleteAsync(resource);
-                response.Model = Mapper.Map<ResourceModel>(resource);
+                await ResourceRepository.DeleteAsync (resource);
+                response.Model = Mapper.Map<ResourceModel> (resource);
             }
-            catch (Exception ex)
-            {
-                response.SetError(ex, Logger);
+            catch (Exception ex) {
+                response.SetError (ex, Logger);
             }
 
             return response;

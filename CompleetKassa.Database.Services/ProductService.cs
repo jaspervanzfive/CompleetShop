@@ -19,9 +19,6 @@ namespace CompleetKassa.Database.Services
 {
     public class ProductService : BaseService, IProductService
     {
-        protected IProductRepository m_productRepository;
-        protected IProductRepository ProductRepository => m_productRepository ?? (m_productRepository = new ProductRepository(UserInfo, DbContext));
-
         public ProductService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
             : base(logger, mapper, userInfo, dbContext)
         {

@@ -19,9 +19,6 @@ namespace CompleetKassa.Database.Services
 {
     public class CategoryService : BaseService, ICategoryService
     {
-        protected ICategoryRepository _categoryRepository;
-        protected ICategoryRepository CategoryRepository => _categoryRepository ?? (_categoryRepository = new CategoryRepository(UserInfo, DbContext));
-
         public CategoryService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
             : base(logger, mapper, userInfo, dbContext)
         {
