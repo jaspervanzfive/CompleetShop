@@ -73,21 +73,40 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\IModuleCommands.cs" />
+    <Compile Include="Commands\ModuleCommands.cs" />
     <Compile Include="Definitions\Enumeration.cs" />
+    <Compile Include="Definitions\ModuleRegionNames.cs" />
     <Compile Include="ProductsModule.cs" />
-    <Compile Include="ViewModels\ProductsMenuViewModel.cs" />
-    <Compile Include="ViewModels\ProductsViewModel.cs" />
-    <Compile Include="Views\Products.xaml.cs">
-      <DependentUpon>Products.xaml</DependentUpon>
+    <Compile Include="ViewModels\CategoryRegistrationViewModel.cs" />
+    <Compile Include="ViewModels\ProductsManagementMenuViewModel.cs" />
+    <Compile Include="ViewModels\ProductsManagementViewModel.cs" />
+    <Compile Include="ViewModels\ProductsRegistrationViewModel.cs" />
+    <Compile Include="Views\CategoryRegistration.xaml.cs">
+      <DependentUpon>CategoryRegistration.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ProductsMenu.xaml.cs">
-      <DependentUpon>ProductsMenu.xaml</DependentUpon>
+    <Compile Include="Views\ProductsManagement.xaml.cs">
+      <DependentUpon>ProductsManagement.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\Products.xaml">
+    <Compile Include="Views\ProductsManagementMenu.xaml.cs">
+      <DependentUpon>ProductsManagementMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProductsRegistration.xaml.cs">
+      <DependentUpon>ProductsRegistration.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\CategoryRegistration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProductsManagement.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ProductsMenu.xaml">
+    <Page Include="Views\ProductsManagementMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProductsRegistration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
