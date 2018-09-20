@@ -25,7 +25,7 @@ namespace CompleetKassa.Module.UserManagement
 			_regionManager.RegisterViewWithRegion (RegionNames.MenuBarRegion, () => _container.Resolve<Views.UserManagementMenu> ());
 			_regionManager.RegisterViewWithRegion (RegionNames.ContentRegion, () => _container.Resolve<Views.UserManagement> ());
 
-			IRegion region = _regionManager.Regions[ModuleRegionNames.ModuleContentRegion];
+			IRegion region = _regionManager.Regions[ModuleRegionNames.UserModuleContentRegion];
 			region.Add (_container.Resolve<Views.UserRegistration> ());
 			region.Add (_container.Resolve<Views.RoleRegistration> ());
 			region.Add (_container.Resolve<Views.ResourceRegistration> ());

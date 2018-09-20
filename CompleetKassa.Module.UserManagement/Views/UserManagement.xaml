@@ -43,6 +43,6 @@
 			
 		</StackPanel>
 
-		<TabControl Grid.Row="1" Margin="10" prism:RegionManager.RegionName="{x:Static r:ModuleRegionNames.ModuleContentRegion}" />
+		<TabControl Grid.Row="1" Margin="10" prism:RegionManager.RegionName="{x:Static r:ModuleRegionNames.UserModuleContentRegion}" />
 	</Grid>
 </UserControl>
