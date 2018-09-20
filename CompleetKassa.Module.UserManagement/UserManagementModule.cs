@@ -7,28 +7,28 @@ using Prism.Regions;
 
 namespace CompleetKassa.Module.UserManagement
 {
-	public class UserManagementModule : IModule
-	{
-		private IRegionManager _regionManager;
-		private IUnityContainer _container;
+    public class UserManagementModule : IModule
+    {
+        private IRegionManager _regionManager;
+        private IUnityContainer _container;
 
-		public UserManagementModule (IUnityContainer container)
-		{
-			_container = container;
-			_regionManager = container.Resolve<IRegionManager> ();
+        public UserManagementModule(IUnityContainer container)
+        {
+            _container = container;
+            _regionManager = container.Resolve<IRegionManager>();
 
-			container.RegisterType<IModuleCommands, ModuleCommands> (new ContainerControlledLifetimeManager ());
-		}
+            container.RegisterType<IModuleCommands, ModuleCommands>(new ContainerControlledLifetimeManager());
+        }
 
-		public void Initialize ()
-		{
-			_regionManager.RegisterViewWithRegion (RegionNames.MenuBarRegion, () => _container.Resolve<Views.UserManagementMenu> ());
-			_regionManager.RegisterViewWithRegion (RegionNames.ContentRegion, () => _container.Resolve<Views.UserManagement> ());
+        public void Initialize()
+        {
+            _regionManager.RegisterViewWithRegion(RegionNames.MenuBarRegion, () => _container.Resolve<Views.UserManagementMenu>());
+            _regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, () => _container.Resolve<Views.UserManagement>());
 
-			IRegion region = _regionManager.Regions[ModuleRegionNames.UserModuleContentRegion];
-			region.Add (_container.Resolve<Views.UserRegistration> ());
-			region.Add (_container.Resolve<Views.RoleRegistration> ());
-			region.Add (_container.Resolve<Views.ResourceRegistration> ());
-		}
-	}
+            IRegion region = _regionManager.Regions[ModuleRegionNames.UserModuleContentRegion];
+            region.Add(_container.Resolve<Views.UserRegistration>());
+            region.Add(_container.Resolve<Views.RoleRegistration>());
+            region.Add(_container.Resolve<Views.ResourceRegistration>());
+        }
+    }
 }

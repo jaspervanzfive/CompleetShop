@@ -1,7 +1,7 @@
 ﻿using Prism.Commands;
 
 
-namespace CompleetKassa.Module.Product.Commands
+namespace CompleetKassa.Module.ProductManagement.Commands
 {
     class ModuleCommands:IModuleCommands
     {

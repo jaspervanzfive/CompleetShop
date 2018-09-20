@@ -3,9 +3,9 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 
-namespace CompleetKassa.Modules.Products.ViewModels
+namespace CompleetKassa.Module.ProductManagement.ViewModels
 {
-	public class ProductsMenuViewModel : BindableBase
+	public class ProductManagementMenuViewModel : BindableBase
 	{
 		private readonly IRegionManager _regionManager;
 
@@ -17,7 +17,7 @@ namespace CompleetKassa.Modules.Products.ViewModels
 
 		public string ImagePath { get; private set; }
 
-		public ProductsMenuViewModel(IRegionManager regionManager)
+		public ProductManagementMenuViewModel(IRegionManager regionManager)
 		{
 			_regionManager = regionManager;
 
@@ -30,7 +30,7 @@ namespace CompleetKassa.Modules.Products.ViewModels
 
 		private void Navigate()
 		{
-			_regionManager.RequestNavigate(RegionNames.ContentRegion, Name);
+			_regionManager.RequestNavigate(RegionNames.ContentRegion, typeof(Views.ProductManagement).ToString());
 		}
 	}
 }

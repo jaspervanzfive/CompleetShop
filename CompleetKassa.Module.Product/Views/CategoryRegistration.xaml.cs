@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CompleetKassa.Module.Product.Views
+namespace CompleetKassa.Module.ProductManagement.Views
 {
     /// <summary>
     /// Interaction logic for CategoryRegistration.xaml

@@ -48,7 +48,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CustomControls", "CustomCon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompleetKassa.CustomControls", "CompleetKassa.CustomControls\CompleetKassa.CustomControls.csproj", "{BBC206A4-5454-4B02-ABAD-D050F5D39310}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompleetKassa.Module.Product", "CompleetKassa.Module.Product\CompleetKassa.Module.Product.csproj", "{25863B10-8A95-4370-8CA2-2697B3ED7A5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompleetKassa.Module.ProductManagement", "CompleetKassa.Module.Product\CompleetKassa.Module.ProductManagement.csproj", "{25863B10-8A95-4370-8CA2-2697B3ED7A5D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{8141FF39-3382-408C-B39F-F0EB977FB052}"
 EndProject

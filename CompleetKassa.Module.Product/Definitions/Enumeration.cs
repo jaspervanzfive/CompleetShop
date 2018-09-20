@@ -1,4 +1,4 @@
-﻿namespace CompleetKassa.Module.Product.Definitions
+﻿namespace CompleetKassa.Module.ProductManagement.Definitions
 {
 	public class Enumeration
 	{

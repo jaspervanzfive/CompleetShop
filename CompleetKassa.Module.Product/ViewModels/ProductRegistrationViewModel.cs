@@ -1,29 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
+using System.Windows.Data;
+using System.Windows.Forms;
+using CompleetKassa.Database.Services;
 using CompleetKassa.DataValidation;
+using CompleetKassa.Definitions;
+using CompleetKassa.Events;
+using CompleetKassa.Models;
 using Microsoft.Practices.Unity;
 using Prism;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
-using Prism.Commands;
-using CompleetKassa.Models;
-using CompleetKassa.Database.Services;
-using System.Windows.Data;
-using System.ComponentModel;
-using static CompleetKassa.Module.Product.Definitions.Enumeration;
-using System.Windows.Media;
-using CompleetKassa.Events;
-using System.Windows.Forms;
-using System.IO;
-using CompleetKassa.Definitions;
-using System.Reflection;
 
-namespace CompleetKassa.Module.Product.ViewModels
+namespace CompleetKassa.Module.ProductManagement.ViewModels
 {
-    class ProductsRegistrationViewModel : ViewModelValidationBase, IActiveAware
+    internal class ProductRegistrationViewModel : ViewModelValidationBase, IActiveAware
     {
         #region Fields
         private IProductService _productService;
@@ -66,7 +62,7 @@ namespace CompleetKassa.Module.Product.ViewModels
             get { return _selectedTabIndex; }
             set { SetProperty(ref _selectedTabIndex, value); }
         }
-        private CompleetKassa.Module.Product.Definitions.Enumeration.Commands _currentCommand;
+        private CompleetKassa.Module.ProductManagement.Definitions.Enumeration.Commands _currentCommand;
 
         #region Product Bindable Property
         private bool _enableProductList;
@@ -221,14 +217,14 @@ namespace CompleetKassa.Module.Product.ViewModels
             get { return _activeCategoryListView; }
             private set { SetProperty(ref _activeCategoryListView, value); }
         }
-        
+
         #endregion Category Bindable Property
 
 
         #endregion "Bindable Property"
 
         #region Constructor
-        public ProductsRegistrationViewModel(IUnityContainer container)
+        public ProductRegistrationViewModel(IUnityContainer container)
         {
 
             // Resolve services
@@ -253,7 +249,7 @@ namespace CompleetKassa.Module.Product.ViewModels
             OnNextCommand = new DelegateCommand(NextCommandHandler);
             OnLastCommand = new DelegateCommand(LastCommandHandler);
             OnAddCommand = new DelegateCommand(AddCommandHandler);
-          
+
             OnEditProductCommand = new DelegateCommand<ProductModel>(EditProductCommandHandler);
             OnSaveCommand = new DelegateCommand(SaveCommandHandler);
             OnDeleteProductCommand = new DelegateCommand<ProductModel>(DeleteProductCommandHandler);
@@ -263,7 +259,32 @@ namespace CompleetKassa.Module.Product.ViewModels
             OnSelectImageCommand = new DelegateCommand(SelectImageHandler);
         }
         #endregion Constructor
-        public bool IsActive { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        private bool _isActive;
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set
+            {
+                _isActive = value;
+                OnIsActiveChanged();
+            }
+        }
+        private void OnIsActiveChanged()
+        {
+            OnCancelCommand.IsActive = IsActive;
+            OnAddCommand.IsActive = IsActive;
+            //OnEditCommand.IsActive = IsActive;
+            //OnDeleteCommand.IsActive = IsActive;
+            //OnSaveCommand.IsActive = IsActive;
+
+            //OnFirstNavCommand.IsActive = IsActive;
+            //OnPreviousNavCommand.IsActive = IsActive;
+            //OnNextNavCommand.IsActive = IsActive;
+            //OnLastNavCommand.IsActive = IsActive;
+
+            IsActiveChanged?.Invoke(this, new EventArgs());
+        }
 
         public event EventHandler IsActiveChanged;
 
@@ -289,7 +310,7 @@ namespace CompleetKassa.Module.Product.ViewModels
             NewProductCategory = 0;
         }
 
-       
+
         private ProductModel CreateNewProduct()
         {
             return new ProductModel
@@ -338,7 +359,7 @@ namespace CompleetKassa.Module.Product.ViewModels
             }
         }
 
-      
+
         private async Task InitializeProductListAsync()
         {
             var result = await _productService.GetProductsWithCategoryAsync();
@@ -386,7 +407,7 @@ namespace CompleetKassa.Module.Product.ViewModels
             EnableProductList = false;
         }
 
-      
+
 
         private void EditProductCommandHandler(ProductModel product)
         {
@@ -425,8 +446,8 @@ namespace CompleetKassa.Module.Product.ViewModels
             await InitializeProductListAsync();
         }
 
-      
-      
+
+
 
         private async void DeleteProductCommandHandler(ProductModel product)
         {

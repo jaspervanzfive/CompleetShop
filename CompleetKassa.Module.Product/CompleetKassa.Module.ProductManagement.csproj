@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{25863B10-8A95-4370-8CA2-2697B3ED7A5D}</ProjectGuid>
     <OutputType>library</OutputType>
-    <RootNamespace>CompleetKassa.Module.Product</RootNamespace>
-    <AssemblyName>CompleetKassa.Module.Product</AssemblyName>
+    <RootNamespace>CompleetKassa.Module.ProductManagement</RootNamespace>
+    <AssemblyName>CompleetKassa.Module.ProductManagement</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -77,36 +77,36 @@
     <Compile Include="Commands\ModuleCommands.cs" />
     <Compile Include="Definitions\Enumeration.cs" />
     <Compile Include="Definitions\ModuleRegionNames.cs" />
-    <Compile Include="ProductsModule.cs" />
+    <Compile Include="ProductModule.cs" />
     <Compile Include="ViewModels\CategoryRegistrationViewModel.cs" />
-    <Compile Include="ViewModels\ProductsManagementMenuViewModel.cs" />
-    <Compile Include="ViewModels\ProductsManagementViewModel.cs" />
-    <Compile Include="ViewModels\ProductsRegistrationViewModel.cs" />
+    <Compile Include="ViewModels\ProductManagementMenuViewModel.cs" />
+    <Compile Include="ViewModels\ProductManagementViewModel.cs" />
+    <Compile Include="ViewModels\ProductRegistrationViewModel.cs" />
     <Compile Include="Views\CategoryRegistration.xaml.cs">
       <DependentUpon>CategoryRegistration.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ProductsManagement.xaml.cs">
-      <DependentUpon>ProductsManagement.xaml</DependentUpon>
+    <Compile Include="Views\ProductManagement.xaml.cs">
+      <DependentUpon>ProductManagement.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ProductsManagementMenu.xaml.cs">
-      <DependentUpon>ProductsManagementMenu.xaml</DependentUpon>
+    <Compile Include="Views\ProductManagementMenu.xaml.cs">
+      <DependentUpon>ProductManagementMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ProductsRegistration.xaml.cs">
-      <DependentUpon>ProductsRegistration.xaml</DependentUpon>
+    <Compile Include="Views\ProductRegistration.xaml.cs">
+      <DependentUpon>ProductRegistration.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\CategoryRegistration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ProductsManagement.xaml">
+    <Page Include="Views\ProductManagement.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ProductsManagementMenu.xaml">
+    <Page Include="Views\ProductManagementMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ProductsRegistration.xaml">
+    <Page Include="Views\ProductRegistration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

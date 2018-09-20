@@ -13,11 +13,11 @@ using CompleetKassa.Models;
 using CompleetKassa.Database.Services;
 using System.Windows.Data;
 using System.ComponentModel;
-using static CompleetKassa.Module.Product.Definitions.Enumeration;
+using static CompleetKassa.Module.ProductManagement.Definitions.Enumeration;
 using System.Windows.Media;
 using CompleetKassa.Events;
 
-namespace CompleetKassa.Module.Product.ViewModels
+namespace CompleetKassa.Module.ProductManagement.ViewModels
 {
     class CategoryRegistrationViewModel : ViewModelValidationBase, IActiveAware
     {
@@ -60,7 +60,7 @@ namespace CompleetKassa.Module.Product.ViewModels
             set { SetProperty(ref _selectedTabIndex, value); }
         }
 
-        private CompleetKassa.Module.Product.Definitions.Enumeration.Commands _currentCommand;
+        private CompleetKassa.Module.ProductManagement.Definitions.Enumeration.Commands _currentCommand;
 
         #region Category Bindable Property
         private bool _readOnlyNewCategoryForm;
@@ -188,7 +188,7 @@ namespace CompleetKassa.Module.Product.ViewModels
             CategoryListView.MoveCurrentToFirst();
 
             _title = "-Product Management Category Title-";
-            _currentCommand = CompleetKassa.Module.Product.Definitions.Enumeration.Commands.None;
+            _currentCommand = CompleetKassa.Module.ProductManagement.Definitions.Enumeration.Commands.None;
            
             NewCategoryFormVisibility = false;
           

@@ -13,16 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CompleetKassa.Modules.Products.Views
+namespace CompleetKassa.Module.ProductManagement.Views
 {
-	/// <summary>
-	/// Interaction logic for ProductsMenu.xaml
-	/// </summary>
-	public partial class ProductsMenu : UserControl
-	{
-		public ProductsMenu()
-		{
-			InitializeComponent();
-		}
-	}
+    /// <summary>
+    /// Interaction logic for ProductsRegistration.xaml
+    /// </summary>
+    public partial class ProductRegistration : UserControl
+    {
+        public ProductRegistration()
+        {
+            InitializeComponent();
+        }
+    }
 }

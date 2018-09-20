@@ -8,7 +8,7 @@ using CompleetKassa.Log;
 using CompleetKassa.Log.Core;
 using CompleetKassa.Module.Customer;
 using CompleetKassa.Module.UserManagement;
-using CompleetKassa.Modules.Products;
+using CompleetKassa.Module.ProductManagement;
 using CompleetKassa.Modules.Sales;
 using CompleetKassa.RegionAdapters;
 using CompleetKassa.Views;
@@ -47,7 +47,7 @@ namespace CompleetKassa
 
 
             catalog.AddModule(typeof(SalesModule));
-            catalog.AddModule(typeof(ProductsModule));
+            catalog.AddModule(typeof(ProductModule));
             catalog.AddModule(typeof(CustomersModule));
             catalog.AddModule(typeof(UserManagementModule));
         }

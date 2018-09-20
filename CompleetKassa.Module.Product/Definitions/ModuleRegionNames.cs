@@ -1,11 +1,11 @@
-﻿namespace CompleetKassa.Module.Product.Definitions
+﻿namespace CompleetKassa.Module.ProductManagement.Definitions
 {
     internal class ModuleRegionNames
     {
         /// <summary>
-		/// The main region
-		/// </summary>
-		public static string ProductModuleContentRegion = "ProductModuleContentRegion";
+        /// The main region
+        /// </summary>
+        public static string ProductModuleContentRegion = "ProductModuleContentRegion";
 
         /// <summary>
         /// The header region

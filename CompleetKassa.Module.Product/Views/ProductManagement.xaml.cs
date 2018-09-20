@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
 
-namespace CompleetKassa.Modules.Products.Views
+namespace CompleetKassa.Module.ProductManagement.Views
 {
 	/// <summary>
 	/// Interaction logic for ProductsView.xaml
 	/// </summary>
-	public partial class Products : UserControl
+	public partial class ProductManagement : UserControl
     {
-        public Products()
+        public ProductManagement()
         {
             InitializeComponent();
         }

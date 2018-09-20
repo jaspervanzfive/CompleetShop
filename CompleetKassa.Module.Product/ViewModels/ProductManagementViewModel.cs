@@ -1,7 +1,7 @@
-﻿using CompleetKassa.Module.Product.Commands;
+﻿using CompleetKassa.Module.ProductManagement.Commands;
 using Microsoft.Practices.Unity;
 using Prism.Mvvm;
-namespace CompleetKassa.Module.Product.ViewModels
+namespace CompleetKassa.Module.ProductManagement.ViewModels
 {
     class ProductManagementViewModel : BindableBase
     {
