@@ -195,8 +195,8 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 				RoleName = _selectedRole.Name;
 				RoleDescription = _selectedRole.Description;
 
-				if (_selectedRole.Resource != null) {
-					ResourceListView = new CollectionView (_selectedRole.Resource);
+				if (_selectedRole.Resources != null) {
+					ResourceListView = new CollectionView (_selectedRole.Resources);
 				}
 			}
 		}

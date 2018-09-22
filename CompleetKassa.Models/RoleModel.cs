@@ -12,6 +12,6 @@ namespace CompleetKassa.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public bool Allow { get; set; }
-        public List<ResourceModel> Resource { get; set; }
+        public List<ResourceModel> Resources { get; set; }
     }
 }

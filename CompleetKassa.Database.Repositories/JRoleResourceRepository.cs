@@ -18,6 +18,8 @@ namespace CompleetKassa.Database.Repositories
 
         public IQueryable<JRoleResource> GetAll(int pageSize = 10, int pageNumber = 1)
                 => DbContext.Paging<JRoleResource>(pageSize, pageNumber);
+
+
         #endregion "Read Method"
 
         #region "Write Method"

@@ -15,7 +15,7 @@ namespace CompleetKassa.Database.Services
 		Task<ISingleResponse<RoleModel>> UpdateRoleAsync (RoleModel updates);
 
 		Task<ISingleResponse<RoleModel>> AddRoleAsync (RoleModel details);
-		Task<ISingleResponse<RoleModel>> AddRoleResourceAsync (RoleModel role, ICollection<ResourceModel> resources);
+		Task<ISingleResponse<RoleModel>> AddRoleResourcesAsync (RoleModel role, ICollection<ResourceModel> resources);
 
 		Task<ISingleResponse<RoleModel>> RemoveRoleAsync (int roleID);
 	}

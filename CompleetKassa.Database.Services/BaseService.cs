@@ -11,121 +11,45 @@ namespace CompleetKassa.Database.Services
     {
         protected bool Disposed;
 
-        private readonly AppDbContext _dbContext;
-        private readonly ILogger _logger;
-        private IMapper _mapper;
-        private IAppUser _userInfo;
+        protected AppDbContext DbContext { get; }
 
-        private IResourceRepository _resourceRepository;
-        private IProductRepository _productRepository;
-        private IRoleRepository _roleRepository;
-        private ICategoryRepository _categoryRepository;
-        private IUserRepository _userRepository;
-        private IUserCredentialRepository _userCredentialRepository;
-        private IJUserRoleRepository _userRoleRepository;
+        protected ILogger Logger { get; }
 
-        protected AppDbContext DbContext
-        {
-            get
-            {
-                return _dbContext;
-            }
-        }
+        protected IMapper Mapper { get; }
 
-        protected ILogger Logger
-        {
-            get
-            {
-                return _logger;
-            }
-        }
+        protected IAppUser UserInfo { get; }
 
-        protected IMapper Mapper
-        {
-            get
-            {
-                return _mapper;
-            }
-        }
+        protected IResourceRepository ResourceRepository { get; }
 
-        protected IAppUser UserInfo
-        {
-            get
-            {
-                return _userInfo;
-            }
-        }
+        protected IProductRepository ProductRepository { get; }
 
-        protected IResourceRepository ResourceRepository
-        {
-            get
-            {
-                return _resourceRepository;
-            }
-        }
+        protected IRoleRepository RoleRepository { get; }
 
-        protected IProductRepository ProductRepository
-        {
-            get
-            {
-                return _productRepository;
-            }
-        }
+        protected ICategoryRepository CategoryRepository { get; }
 
-        protected IRoleRepository RoleRepository
-        {
-            get
-            {
-                return _roleRepository;
-            }
-        }
+        protected IUserRepository UserRepository { get; }
 
-        protected ICategoryRepository CategoryRepository
-        {
-            get
-            {
-                return _categoryRepository;
-            }
-        }
+        protected IUserCredentialRepository UserCredentialRepository { get; }
 
-        protected IUserRepository UserRepository
-        {
-            get
-            {
-                return _userRepository;
-            }
-        }
+        protected IJUserRoleRepository UserRoleRepository { get; }
 
-        protected IUserCredentialRepository UserCredentialRepository
-        {
-            get
-            {
-                return _userCredentialRepository;
-            }
-        }
-
-        protected IJUserRoleRepository UserRoleRepository
-        {
-            get
-            {
-                return _userRoleRepository;
-            }
-        }
+        protected IJRoleResourceRepository RoleResourceRepository { get; }
 
         public BaseService (ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
         {
-            _logger = logger;
-            _mapper = mapper;
-            _userInfo = userInfo;
-            _dbContext = dbContext;
+            Logger = logger;
+            Mapper = mapper;
+            UserInfo = userInfo;
+            DbContext = dbContext;
 
-            _productRepository = new ProductRepository (userInfo, _dbContext);
-            _resourceRepository = new ResourceRepository (userInfo, _dbContext);
-            _roleRepository = new RoleRepository (userInfo, _dbContext);
-            _categoryRepository = new CategoryRepository (userInfo, DbContext);
-            _userCredentialRepository = new UserCredentialRepository (userInfo, _dbContext);
-            _userRoleRepository = new JUserRoleRepository (userInfo, _dbContext);
-            _userRepository = new UserRepository (userInfo, _dbContext);
+            ProductRepository = new ProductRepository (userInfo, DbContext);
+            ResourceRepository = new ResourceRepository (userInfo, DbContext);
+            RoleRepository = new RoleRepository (userInfo, DbContext);
+            CategoryRepository = new CategoryRepository (userInfo, DbContext);
+            UserCredentialRepository = new UserCredentialRepository (userInfo, DbContext);
+            UserRoleRepository = new JUserRoleRepository (userInfo, DbContext);
+            UserRepository = new UserRepository (userInfo, DbContext);
+            RoleResourceRepository = new JRoleResourceRepository(userInfo, DbContext);
         }
 
         public void Dispose ()

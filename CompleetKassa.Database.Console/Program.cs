@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CompleetKassa.Database.Context;
@@ -48,12 +49,15 @@ namespace CompleetKassa.Database.Console
             container.RegisterType<IResourceService, ResourceService>();
             container.RegisterType<ICategoryService, CategoryService>();
             container.RegisterType<IProductService, ProductService>();
+            container.RegisterType<IAccountService, AccountService>();
 
             //UserTest(container).Wait();
             //CategoryTest(container).Wait();
             //ProductTest(container).Wait();
             //ProductWithCategoryTest(container).Wait();
-            UserWithRolesAndResourcesTest(container).Wait();
+            //UserWithRolesAndResourcesTest(container).Wait();
+            AccountServiceTest(container).Wait();
+
         }
 
         private static async Task ProductTest(IUnityContainer container)
@@ -235,6 +239,82 @@ namespace CompleetKassa.Database.Console
 
             #endregion Role Resources
 
+        }
+
+        private static async Task AccountServiceTest(IUnityContainer container)
+        {
+            IAccountService accountService = container.Resolve<IAccountService>();
+
+            #region "Roles"
+            // Create Roles
+            var role1 = new RoleModel
+            {
+                Name = "Role 1",
+                Description = "Role 1 Description"
+            };
+
+            var userRole1 = await accountService.AddRoleAsync(role1);
+
+            var role2 = new RoleModel
+            {
+                Name = "Role 2",
+                Description = "Role 2 Description"
+            };
+
+            var userRole2 = await accountService.AddRoleAsync(role2);
+            #endregion "Roles"
+
+            #region "Resources"
+            // Create Resources
+            var resource1 = new ResourceModel
+            {
+                Name = "Resource 1",
+                Description = "Resource 1 Description"
+            };
+
+            var userResource1 = await accountService.AddResourceAsync(resource1);
+
+            var resource2 = new ResourceModel
+            {
+                Name = "Resource 2",
+                Description = "Resource 2 Description"
+            };
+
+            var userResource2 =  await accountService.AddResourceAsync(resource2);
+
+            var resource3 = new ResourceModel
+            {
+                Name = "Resource 3",
+                Description = "Resource 3 Description"
+            };
+
+            var userResource3 = await accountService.AddResourceAsync(resource3);
+
+            var resource4 = new ResourceModel
+            {
+                Name = "Resource 4",
+                Description = "Resource 4 Description"
+            };
+
+            var userResource4 = await accountService.AddResourceAsync(resource4);
+            #endregion "Resources"
+
+            #region Role Resources
+            //role1.Resource
+
+            #endregion Role Resources
+
+            // Create User
+            var newUser = new UserModel
+            {
+                FirstName = "User-" + DateTime.Now.ToString(),
+                LastName = "Last Name",
+                UserName = "User Name",
+                Password = "Password",
+                Roles = new List<RoleModel> { userRole1.Model, userRole2.Model}
+            };
+
+            await accountService.AddUserAccountAsync(newUser);
         }
     }
 }

@@ -143,8 +143,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountService.cs" />
     <Compile Include="CategoryService.cs" />
     <Compile Include="Extensions\ResponseExtension.cs" />
+    <Compile Include="IAccountService.cs" />
     <Compile Include="ICategoryService.cs" />
     <Compile Include="ICreateUserRequest.cs" />
     <Compile Include="IProductService.cs" />

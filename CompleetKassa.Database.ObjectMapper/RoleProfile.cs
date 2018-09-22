@@ -14,7 +14,7 @@ namespace CompleetKassa.ObjectMap
 
             CreateMap<Role, RoleModel>()
                 .ForMember(
-                    dest => dest.Resource,
+                    dest => dest.Resources,
                     opt => opt.MapFrom(src => src.RoleResource)
                 );
         }
