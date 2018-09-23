@@ -300,8 +300,11 @@ namespace CompleetKassa.Database.Console
             #endregion "Resources"
 
             #region Role Resources
-            //role1.Resource
-
+            await accountService.AddRoleResourceAsync(userRole1.Model.ID, userResource1.Model.ID);
+            await accountService.AddRoleResourceAsync(userRole1.Model.ID, userResource2.Model.ID);
+            await accountService.AddRoleResourceAsync(userRole1.Model.ID, userResource3.Model.ID);
+            await accountService.AddRoleResourceAsync(userRole2.Model.ID, userResource1.Model.ID);
+            await accountService.AddRoleResourceAsync(userRole2.Model.ID, userResource4.Model.ID);
             #endregion Role Resources
 
             // Create User

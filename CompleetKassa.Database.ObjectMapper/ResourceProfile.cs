@@ -4,12 +4,12 @@ using CompleetKassa.Models;
 
 namespace CompleetKassa.ObjectMap
 {
-	public class ResourceProfile : Profile
-	{
-		public ResourceProfile ()
-		{
-			CreateMap<ResourceModel, Resource> ();
-			CreateMap<Resource, ResourceModel> ();
-		}
-	}
+    public class ResourceProfile : Profile
+    {
+        public ResourceProfile()
+        {
+            CreateMap<ResourceModel, Resource>();
+            CreateMap<Resource, ResourceModel>();
+        }
+    }
 }

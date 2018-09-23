@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using CompleetKassa.Database.Entities;
 using CompleetKassa.Models;
 
@@ -9,14 +10,11 @@ namespace CompleetKassa.ObjectMap
         public RoleProfile()
         {
             CreateMap<RoleModel, Role>();
-            CreateMap<Role, RoleModel>();
-            CreateMap<RoleModel, Resource>();
-
             CreateMap<Role, RoleModel>()
                 .ForMember(
                     dest => dest.Resources,
-                    opt => opt.MapFrom(src => src.RoleResource)
-                );
+                    opt => opt.MapFrom(src => src.RoleResources.Select(rs => rs.Resource).ToList())
+                 );
         }
     }
 }

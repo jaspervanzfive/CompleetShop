@@ -54,7 +54,7 @@ namespace CompleetKassa.Database.Services
                     foreach (var role in details.Roles)
                     {
                         await UserRoleRepository.AddAsync(new JUserRole { UserId = user.ID, RoleId = role.ID });
-                        var roleResponse = await DbContext.Set<Role>().EagerWhere(x => x.RoleResource, m => m.ID == role.ID).FirstOrDefaultAsync();
+                        var roleResponse = await DbContext.Set<Role>().EagerWhere(x => x.RoleResources, m => m.ID == role.ID).FirstOrDefaultAsync();
                         roleModels.Add(Mapper.Map<RoleModel>(roleResponse));
                     }
 
@@ -96,13 +96,10 @@ namespace CompleetKassa.Database.Services
             return await _roleService.AddRoleResourcesAsync(role, resources);
         }
 
-        
-        //public async Task<ISingleResponse<RoleModel>> AddRoleResourcesAsync(int roleID, int resourceID)
-        //{
-        //    var response = await _roleResourceRepository.AddAsync(new JRoleResource { RoleID = roleID, ResourceID = resourceID });
-
-
-        //}
+        public async Task<ISingleResponse<RoleModel>> AddRoleResourceAsync(int roleID, int resourceID)
+        {
+            return await _roleService.AddRoleResourceAsync(roleID, resourceID);
+        }
 
         // 5. Create User <-> Role
 

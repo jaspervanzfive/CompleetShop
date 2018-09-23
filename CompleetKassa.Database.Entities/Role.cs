@@ -13,7 +13,7 @@ namespace CompleetKassa.Database.Entities
         public string Description { get; set; }
         public bool Disabled { get; set; }
 
-        public virtual ICollection<JUserRole> UserRole { get; set; }
-        public virtual ICollection<JRoleResource> RoleResource { get; set; }
+        public virtual ICollection<JUserRole> UserRoles { get; set; }
+        public virtual ICollection<JRoleResource> RoleResources { get; set; }
     }
 }

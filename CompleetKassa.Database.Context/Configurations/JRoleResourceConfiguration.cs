@@ -10,12 +10,8 @@ namespace CompleetKassa.Database.Context.Configurations
 			builder.HasKey (ur => new { ur.RoleID, ur.ResourceID });
 
 			builder.HasOne (ur => ur.Role)
-				.WithMany (rr => rr.RoleResource)
+				.WithMany (rr => rr.RoleResources)
 				.HasForeignKey (ur => ur.RoleID);
-
-			builder.HasOne (ur => ur.Role)
-				.WithMany (rr => rr.RoleResource)
-				.HasForeignKey (ur => ur.ResourceID);
 		}
 	}
 }

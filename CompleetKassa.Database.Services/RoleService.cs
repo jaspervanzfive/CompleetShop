@@ -112,7 +112,7 @@ namespace CompleetKassa.Database.Services
 
                     transaction.Commit();
 
-                    var roleResponse = await DbContext.Set<Role>().EagerWhere(x => x.RoleResource, m => m.ID == role.ID).FirstOrDefaultAsync();
+                    var roleResponse = await DbContext.Set<Role>().EagerWhere(x => x.RoleResources, m => m.ID == role.ID).FirstOrDefaultAsync();
 
                     response.Model = Mapper.Map<RoleModel>(roleResponse);
                 }
@@ -144,7 +144,7 @@ namespace CompleetKassa.Database.Services
 
                     transaction.Commit();
 
-                    var roleResponse = await DbContext.Set<Role>().EagerWhere(x => x.RoleResource, m => m.ID == roleID).FirstOrDefaultAsync();
+                    var roleResponse = await DbContext.Set<Role>().EagerWhere(x => x.RoleResources, m => m.ID == roleID).FirstOrDefaultAsync();
 
                     response.Model = Mapper.Map<RoleModel>(roleResponse);
                 }
