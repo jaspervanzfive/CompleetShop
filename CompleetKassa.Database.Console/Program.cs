@@ -44,9 +44,7 @@ namespace CompleetKassa.Database.Console
 
             container.RegisterType<IAppUser, AppUser>(new InjectionConstructor(1, "LoggedUser"));
             container.RegisterType<ILogger, Logger>(new InjectionConstructor());
-            container.RegisterType<IUserService, UserService>();
-            container.RegisterType<IRoleService, RoleService>();
-            container.RegisterType<IResourceService, ResourceService>();
+            container.RegisterType<IAccountService, AccountService>();
             container.RegisterType<ICategoryService, CategoryService>();
             container.RegisterType<IProductService, ProductService>();
             container.RegisterType<IAccountService, AccountService>();
@@ -133,7 +131,7 @@ namespace CompleetKassa.Database.Console
 
         private static async Task UserTest(IUnityContainer container)
         {
-            IUserService repo = container.Resolve<IUserService>();
+            IAccountService repo = container.Resolve<IAccountService>();
 
             var newUser = new UserModel
             {
@@ -157,9 +155,7 @@ namespace CompleetKassa.Database.Console
 
         private static async Task UserWithRolesAndResourcesTest(IUnityContainer container)
         {
-            IUserService userService = container.Resolve<IUserService>();
-            IRoleService roleService = container.Resolve<IRoleService>();
-            IResourceService resourceService = container.Resolve<IResourceService>();
+            IAccountService accountService = container.Resolve<IAccountService>();
 
             // About this test
             // 1. Create User
@@ -177,7 +173,7 @@ namespace CompleetKassa.Database.Console
                 Password = "Password"
             };
 
-            await userService.AddUserAsync(newUser);
+            await accountService.AddUserAsync(newUser);
 
             #region "Roles"
             // 2. Create Roles
@@ -187,7 +183,7 @@ namespace CompleetKassa.Database.Console
                 Description = "Role 1 Description"
             };
 
-            await roleService.AddRoleAsync(role1);
+            await accountService.AddRoleAsync(role1);
 
             var role2 = new RoleModel
             {
@@ -195,7 +191,7 @@ namespace CompleetKassa.Database.Console
                 Description = "Role 2 Description"
             };
 
-            await roleService.AddRoleAsync(role2);
+            await accountService.AddRoleAsync(role2);
             #endregion "Roles"
 
             #region "Resources"
@@ -206,7 +202,7 @@ namespace CompleetKassa.Database.Console
                 Description = "Resource 1 Description"
             };
 
-            await resourceService.AddResourceAsync(resource1);
+            await accountService.AddResourceAsync(resource1);
 
             var resource2 = new ResourceModel
             {
@@ -214,7 +210,7 @@ namespace CompleetKassa.Database.Console
                 Description = "Resource 2 Description"
             };
 
-            await resourceService.AddResourceAsync(resource2);
+            await accountService.AddResourceAsync(resource2);
 
             var resource3 = new ResourceModel
             {
@@ -222,7 +218,7 @@ namespace CompleetKassa.Database.Console
                 Description = "Resource 3 Description"
             };
 
-            await resourceService.AddResourceAsync(resource3);
+            await accountService.AddResourceAsync(resource3);
 
             var resource4 = new ResourceModel
             {
@@ -230,7 +226,7 @@ namespace CompleetKassa.Database.Console
                 Description = "Resource 4 Description"
             };
 
-            await resourceService.AddResourceAsync(resource4);
+            await accountService.AddResourceAsync(resource4);
             #endregion "Resources"
 
             #region Role Resources
@@ -262,6 +258,14 @@ namespace CompleetKassa.Database.Console
             };
 
             var userRole2 = await accountService.AddRoleAsync(role2);
+
+            var role3 = new RoleModel
+            {
+                Name = "Role 3",
+                Description = "Role 3 Description"
+            };
+
+            var userRole3 = await accountService.AddRoleAsync(role3);
             #endregion "Roles"
 
             #region "Resources"
@@ -280,7 +284,7 @@ namespace CompleetKassa.Database.Console
                 Description = "Resource 2 Description"
             };
 
-            var userResource2 =  await accountService.AddResourceAsync(resource2);
+            var userResource2 = await accountService.AddResourceAsync(resource2);
 
             var resource3 = new ResourceModel
             {
@@ -305,6 +309,7 @@ namespace CompleetKassa.Database.Console
             await accountService.AddRoleResourceAsync(userRole1.Model.ID, userResource3.Model.ID);
             await accountService.AddRoleResourceAsync(userRole2.Model.ID, userResource1.Model.ID);
             await accountService.AddRoleResourceAsync(userRole2.Model.ID, userResource4.Model.ID);
+            await accountService.AddRoleResourceAsync(userRole3.Model.ID, userResource1.Model.ID);
             #endregion Role Resources
 
             // Create User
@@ -314,10 +319,12 @@ namespace CompleetKassa.Database.Console
                 LastName = "Last Name",
                 UserName = "User Name",
                 Password = "Password",
-                Roles = new List<RoleModel> { userRole1.Model, userRole2.Model}
+                Roles = new List<RoleModel> { userRole1.Model, userRole2.Model }
             };
 
             var response = await accountService.AddUserAccountAsync(newUser);
+
+            var userResponse = await accountService.AddUserRoleAsync(response.Model.ID, userRole3.Model.ID);
         }
     }
 }

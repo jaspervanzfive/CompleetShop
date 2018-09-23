@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CompleetKassa.Database.Services
 {
-    public class RoleService : BaseService, IRoleService
+    internal class RoleService : BaseService, IRoleService
     {
 
         public RoleService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)

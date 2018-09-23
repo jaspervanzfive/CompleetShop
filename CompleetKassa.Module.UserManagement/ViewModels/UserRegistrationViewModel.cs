@@ -21,8 +21,7 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
     public class UserRegistrationViewModel : ViewModelValidationBase, IActiveAware
     {
         #region Fields
-        private IRoleService _roleService;
-        private IUserService _userService;
+        private IAccountService _accountService;
         private IEventAggregator _eventAggregator;
         private IRegionManager _regionManager;
         private IModuleCommands _moduleCommands;
@@ -309,8 +308,7 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
         public UserRegistrationViewModel(IUnityContainer container)
         {
             _regionManager = container.Resolve<IRegionManager>();
-            _userService = container.Resolve<IUserService>();
-            _roleService = container.Resolve<IRoleService>();
+            _accountService = container.Resolve<IAccountService>();
             _eventAggregator = container.Resolve<IEventAggregator>();
             _moduleCommands = container.Resolve<IModuleCommands>();
 
@@ -337,13 +335,13 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 
         private async Task InitializeAsync()
         {
-            var userResult = await _userService.GetUsersWithDetailsAsync ();
+            var userResult = await _accountService.GetUsersWithDetailsAsync ();
             if (userResult.DidError == false)
             {
                 UserListView = CollectionViewSource.GetDefaultView(userResult.Model.ToList());
             }
 
-            var roleResult = await _roleService.GetRolesAsync();
+            var roleResult = await _accountService.GetRolesAsync();
             if (roleResult.DidError == false)
             {
                 RoleListView = CollectionViewSource.GetDefaultView(roleResult.Model.ToList());
@@ -488,7 +486,7 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
             SetCommandEnableStatus(ExecutionTypes.Delete);
             if (user != null)
             {
-                await _userService.RemoveUserAsync(user.ID);
+                await _accountService.RemoveUserAsync(user.ID);
                 await InitializeAsync();
                 FirstNavCommandHandler();
             }
@@ -509,13 +507,13 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
                             LastName = UserInfoLastName
                         };
 
-                        var result = await _userService.AddUserAsync(newUserModel);
+                        var result = await _accountService.AddUserAsync(newUserModel);
                     }
                     break;
 
                 case ExecutionTypes.Edit:
                     {
-                        var result = await _userService.GetUserByIDAsync(UserInfoID);
+                        var result = await _accountService.GetUserByIDAsync(UserInfoID);
                         if (result.DidError == false)
                         {
                             UserModel targetUser = result.Model;
@@ -525,7 +523,7 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
                             targetUser.MiddleName = UserInfoMiddleName;
                             targetUser.LastName = UserInfoLastName;
 
-                            await _userService.UpdateUserAsync(targetUser);
+                            await _accountService.UpdateUserAsync(targetUser);
                         }
                     }
                     break;

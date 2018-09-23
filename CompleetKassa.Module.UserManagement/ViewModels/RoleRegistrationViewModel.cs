@@ -22,8 +22,7 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 	public class RoleRegistrationViewModel : ViewModelValidationBase, IActiveAware
 	{
 		#region Fields
-		private IRoleService _roleService;
-		private IResourceService _resourceService;
+		private IAccountService _accountService;
 		private IEventAggregator _eventAggregator;
 		private IRegionManager _regionManager;
 		IModuleCommands _moduleCommands;
@@ -267,8 +266,7 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 		public RoleRegistrationViewModel (IUnityContainer container)
 		{
 			_regionManager = container.Resolve<IRegionManager> ();
-			_roleService = container.Resolve<IRoleService> ();
-			_resourceService = container.Resolve<IResourceService> ();
+			_accountService = container.Resolve<IAccountService> ();
 			_eventAggregator = container.Resolve<IEventAggregator> ();
 			_moduleCommands = container.Resolve<IModuleCommands> ();
 
@@ -321,7 +319,7 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 
 		private async Task InitializeAsync ()
 		{
-			var result = await _roleService.GetRolesAsync ();
+			var result = await _accountService.GetRolesAsync ();
 			if (result.DidError == false) {
 				RoleListView = CollectionViewSource.GetDefaultView (result.Model.ToList ());
 			}
@@ -412,7 +410,7 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 		{
 			SetCommandEnableStatus (ExecutionTypes.Delete);
 			if (role != null) {
-				await _roleService.RemoveRoleAsync (role.ID);
+				await _accountService.RemoveRoleAsync (role.ID);
 				await InitializeAsync ();
 				FirstNavCommandHandler ();
 			}
@@ -428,18 +426,18 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 							Description = RoleDescription
 						};
 
-						var result = await _roleService.AddRoleAsync (newRoleModel);
+						var result = await _accountService.AddRoleAsync (newRoleModel);
 					}
 					break;
 
 				case ExecutionTypes.Edit: {
-						var result = await _roleService.GetRoleByIDAsync (RoleID);
+						var result = await _accountService.GetRoleByIDAsync (RoleID);
 						if (result.DidError == false) {
 							RoleModel targetRole = result.Model;
 							targetRole.Name = RoleName;
 							targetRole.Description = RoleDescription;
 
-							await _roleService.UpdateRoleAsync (targetRole);
+							await _accountService.UpdateRoleAsync (targetRole);
 						}
 					}
 					break;

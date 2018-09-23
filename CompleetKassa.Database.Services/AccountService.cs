@@ -7,11 +7,9 @@ using CompleetKassa.Database.Context;
 using CompleetKassa.Database.Core.Entities;
 using CompleetKassa.Database.Core.Services.ResponseTypes;
 using CompleetKassa.Database.Entities;
-using CompleetKassa.Database.Repositories;
 using CompleetKassa.Database.Services.Extensions;
 using CompleetKassa.Log.Core;
 using CompleetKassa.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace CompleetKassa.Database.Services
 {
@@ -28,6 +26,49 @@ namespace CompleetKassa.Database.Services
             _roleService = new RoleService(logger, mapper, userInfo, dbContext);
             _resourceService = new ResourceService(logger, mapper, userInfo, dbContext);
         }
+
+        #region Read
+        public async Task<IListResponse<UserModel>> GetUsersAsync(int pageSize = 0, int pageNumber = 0)
+        {
+            return await _userService.GetUsersAsync(pageSize, pageNumber);
+        }
+
+        public async Task<IListResponse<UserModel>> GetUsersWithDetailsAsync(int pageSize = 0, int pageNumber = 0)
+        {
+            return await _userService.GetUsersWithDetailsAsync(pageSize, pageNumber);
+        }
+
+        public async Task<ISingleResponse<UserModel>> GetUserByIDAsync(int userID)
+        {
+            return await _userService.GetUserByIDAsync(userID);
+        }
+
+        public async Task<ISingleResponse<UserModel>> GetUserByIDWithDetailsAsync(int userID)
+        {
+            return await _userService.GetUserByIDWithDetailsAsync(userID);
+        }
+
+        public async Task<IListResponse<RoleModel>> GetRolesAsync(int pageSize = 0, int pageNumber = 0)
+        {
+            return await _roleService.GetRolesAsync(pageSize, pageNumber);
+        }
+
+        public async Task<ISingleResponse<RoleModel>> GetRoleByIDAsync(int roleID)
+        {
+            return await _roleService.GetRoleByIDAsync(roleID);
+        }
+
+        public async Task<IListResponse<ResourceModel>> GetResourcesAsync(int pageSize = 0, int pageNumber = 0)
+        {
+            return await _resourceService.GetResourcesAsync(pageSize, pageNumber);
+        }
+
+        public async Task<ISingleResponse<ResourceModel>> GetResourceByIDAsync(int roleID)
+        {
+            return await _resourceService.GetResourceByIDAsync(roleID);
+        }
+
+        #endregion Read
 
         // Create User Account
         public async Task<ISingleResponse<UserModel>> AddUserAccountAsync(UserModel details)
@@ -86,8 +127,8 @@ namespace CompleetKassa.Database.Services
             return await _resourceService.AddResourceAsync(details);
         }
 
-        // 4. Create Role <-> Resources
-        public async Task<ISingleResponse<RoleModel>> AddRoleResourceAsync(RoleModel role, ICollection<ResourceModel> resources)
+        // Create Role <-> Resources
+        public async Task<ISingleResponse<RoleModel>> AddRoleResourcesAsync(RoleModel role, ICollection<ResourceModel> resources)
         {
             return await _roleService.AddRoleResourcesAsync(role, resources);
         }
@@ -97,7 +138,46 @@ namespace CompleetKassa.Database.Services
             return await _roleService.AddRoleResourceAsync(roleID, resourceID);
         }
 
-        // 5. Create User <-> Role
+        // Create User <-> Role
+        public async Task<ISingleResponse<UserModel>> AddUserRolesAsync(UserModel user, ICollection<RoleModel> roles)
+        {
+            return await _userService.AddUserRolesAsync(user, roles);
+        }
+
+        public async Task<ISingleResponse<UserModel>> AddUserRoleAsync(int userID, int roleID)
+        {
+            return await _userService.AddUserRoleAsync(userID, roleID);
+        }
+
+        public async Task<ISingleResponse<UserModel>> UpdateUserAsync(UserModel updates)
+        {
+            return await _userService.UpdateUserAsync(updates);
+        }
+
+        public async Task<ISingleResponse<UserModel>> RemoveUserAsync(int userID)
+        {
+            return await _userService.RemoveUserAsync(userID);
+        }
+
+        public async Task<ISingleResponse<RoleModel>> UpdateRoleAsync(RoleModel updates)
+        {
+            return await _roleService.UpdateRoleAsync(updates);
+        }
+
+        public async Task<ISingleResponse<RoleModel>> RemoveRoleAsync(int roleID)
+        {
+            return await _roleService.RemoveRoleAsync(roleID);
+        }
+
+        public async Task<ISingleResponse<ResourceModel>> UpdateResourceAsync(ResourceModel updates)
+        {
+            return await _resourceService.UpdateResourceAsync(updates);
+        }
+
+        public async Task<ISingleResponse<ResourceModel>> RemoveResourceAsync(int roleID)
+        {
+            return await _resourceService.RemoveResourceAsync(roleID);
+        }
 
     }
 }

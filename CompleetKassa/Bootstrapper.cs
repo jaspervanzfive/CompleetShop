@@ -70,10 +70,7 @@ namespace CompleetKassa
             Container.RegisterType<IProductService, ProductService>();
             Container.RegisterType<ICategoryService, CategoryService>();
 
-            Container.RegisterType<IUserService, UserService>();
-            Container.RegisterType<IRoleService, RoleService>();
-            Container.RegisterType<IResourceService, ResourceService>();
-
+            Container.RegisterType<IAccountService, AccountService>();
         }
     }
 }

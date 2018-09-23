@@ -6,7 +6,7 @@ using CompleetKassa.Models;
 
 namespace CompleetKassa.Database.Services
 {
-    public interface IRoleService : IService
+    internal interface IRoleService : IService
     {
         Task<IListResponse<RoleModel>> GetRolesAsync(int pageSize = 0, int pageNumber = 0);
         Task<ISingleResponse<RoleModel>> GetRoleByIDAsync(int roleID);

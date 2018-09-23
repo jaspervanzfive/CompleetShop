@@ -22,7 +22,7 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 	public class ResourceRegistrationViewModel : ViewModelValidationBase, IActiveAware
 	{
 		#region Fields
-		private IResourceService _resourceService;
+		private IAccountService _accountService;
 		private IEventAggregator _eventAggregator;
 		private IRegionManager _regionManager;
 		IModuleCommands _moduleCommands;
@@ -253,8 +253,7 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 		public ResourceRegistrationViewModel (IUnityContainer container)
 		{
 			_regionManager = container.Resolve<IRegionManager> ();
-			_resourceService = container.Resolve<IResourceService> ();
-			_resourceService = container.Resolve<IResourceService> ();
+			_accountService = container.Resolve<IAccountService> ();
 			_eventAggregator = container.Resolve<IEventAggregator> ();
 			_moduleCommands = container.Resolve<IModuleCommands> ();
 
@@ -307,7 +306,7 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 
 		private async Task InitializeAsync ()
 		{
-			var result = await _resourceService.GetResourcesAsync ();
+			var result = await _accountService.GetResourcesAsync ();
 			if (result.DidError == false) {
 				ResourceListView = CollectionViewSource.GetDefaultView (result.Model.ToList ());
 			}
@@ -398,7 +397,7 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 		{
 			SetCommandEnableStatus (ExecutionTypes.Delete);
 			if (resource != null) {
-				await _resourceService.RemoveResourceAsync (resource.ID);
+				await _accountService.RemoveResourceAsync (resource.ID);
 				await InitializeAsync ();
 				FirstNavCommandHandler ();
 			}
@@ -414,18 +413,18 @@ namespace CompleetKassa.Module.UserManagement.ViewModels
 							Description = ResourceDescription
 						};
 
-						var result = await _resourceService.AddResourceAsync (newResourceModel);
+						var result = await _accountService.AddResourceAsync (newResourceModel);
 					}
 					break;
 
 				case ExecutionTypes.Edit: {
-						var result = await _resourceService.GetResourceByIDAsync (ResourceID);
+						var result = await _accountService.GetResourceByIDAsync (ResourceID);
 						if (result.DidError == false) {
 							ResourceModel targetResource = result.Model;
 							targetResource.Name = ResourceName;
 							targetResource.Description = ResourceDescription;
 
-							await _resourceService.UpdateResourceAsync (targetResource);
+							await _accountService.UpdateResourceAsync (targetResource);
 						}
 					}
 					break;
