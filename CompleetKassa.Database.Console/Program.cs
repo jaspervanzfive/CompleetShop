@@ -317,7 +317,7 @@ namespace CompleetKassa.Database.Console
                 Roles = new List<RoleModel> { userRole1.Model, userRole2.Model}
             };
 
-            await accountService.AddUserAccountAsync(newUser);
+            var response = await accountService.AddUserAccountAsync(newUser);
         }
     }
 }

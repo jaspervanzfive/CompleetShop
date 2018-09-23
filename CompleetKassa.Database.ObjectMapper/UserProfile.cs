@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using CompleetKassa.Database.Entities;
 using CompleetKassa.Models;
 
@@ -30,7 +31,11 @@ namespace CompleetKassa.Database.ObjectMapper
                 .ForMember(
                     dest => dest.Password,
                     opt => opt.MapFrom(src => src.UserCredential.Password)
-                );
+                )
+                .ForMember(
+                    dest => dest.Roles,
+                    opt => opt.MapFrom(src => src.UserRole.Select(rs => rs.Role).ToList())
+                 );
         }
 	}
 }

@@ -48,14 +48,10 @@ namespace CompleetKassa.Database.Services
                     userCredential.User = user;
                     await UserCredentialRepository.AddAsync(userCredential);
 
-                    var roleModels = new List<RoleModel>();
-
                     // Add User Roles
                     foreach (var role in details.Roles)
                     {
                         await UserRoleRepository.AddAsync(new JUserRole { UserId = user.ID, RoleId = role.ID });
-                        var roleResponse = await DbContext.Set<Role>().EagerWhere(x => x.RoleResources, m => m.ID == role.ID).FirstOrDefaultAsync();
-                        roleModels.Add(Mapper.Map<RoleModel>(roleResponse));
                     }
 
                     transaction.Commit();
