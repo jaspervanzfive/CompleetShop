@@ -170,7 +170,7 @@ namespace CompleetKassa.Database.Services
 
                     transaction.Commit();
 
-                    var userResponse = await DbContext.Set<User>().EagerWhere(x => x.UserRole, m => m.ID == user.ID).FirstOrDefaultAsync();
+                    var userResponse = await DbContext.Set<User>().EagerWhere(x => x.UserRoles, m => m.ID == user.ID).FirstOrDefaultAsync();
 
                     response.Model = Mapper.Map<UserModel>(userResponse);
                 }
@@ -200,7 +200,7 @@ namespace CompleetKassa.Database.Services
                     });
 
                     transaction.Commit();
-                    var userResponse = await DbContext.Set<User>().EagerWhere(x => x.UserRole, m => m.ID == userID).FirstOrDefaultAsync();
+                    var userResponse = await DbContext.Set<User>().EagerWhere(x => x.UserRoles, m => m.ID == userID).FirstOrDefaultAsync();
 
                     response.Model = Mapper.Map<UserModel>(userResponse);
                 }

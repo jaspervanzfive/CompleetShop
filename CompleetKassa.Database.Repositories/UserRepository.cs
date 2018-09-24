@@ -29,7 +29,7 @@ namespace CompleetKassa.Database.Repositories
 				=> DbContext.Set<User> ().Paging (x => x.UserCredential);
 
 		public IQueryable <User> GetAllDetailsWithRole (int entityID)
-				=> DbContext.Set<User> ().EagerWhere (x => x.UserRole, m => m.ID == (entityID != 0 ? entityID : 0) );
+				=> DbContext.Set<User> ().EagerWhere (x => x.UserRoles, m => m.ID == (entityID != 0 ? entityID : 0) );
 
 		#endregion "Read Method"
 

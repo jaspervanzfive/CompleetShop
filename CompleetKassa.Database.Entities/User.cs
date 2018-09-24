@@ -26,6 +26,6 @@ namespace CompleetKassa.Database.Entities
         //Foreign Key
         public virtual UserCredential UserCredential { get; set; }
 
-        public virtual ICollection<JUserRole> UserRole { get; set; }
+        public virtual ICollection<JUserRole> UserRoles { get; set; }
     }
 }
