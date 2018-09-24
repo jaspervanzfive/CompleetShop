@@ -19,9 +19,12 @@ namespace CompleetKassa.Database.Services
 {
     public class ProductService : BaseService, IProductService
     {
+        protected IProductRepository ProductRepository { get; }
+
         public ProductService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
             : base(logger, mapper, userInfo, dbContext)
         {
+            ProductRepository = new ProductRepository(userInfo, DbContext);
         }
 
         public async Task<IListResponse<ProductModel>> GetProductsAsync(int pageSize = 0, int pageNumber = 0)

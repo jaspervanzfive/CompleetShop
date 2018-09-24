@@ -19,11 +19,14 @@ namespace CompleetKassa.Database.Services
 {
     internal class RoleService : BaseService, IRoleService
     {
+        protected IRoleRepository RoleRepository { get; }
+        protected IJRoleResourceRepository RoleResourceRepository { get; }
 
         public RoleService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
             : base(logger, mapper, userInfo, dbContext)
         {
-
+            RoleRepository = new RoleRepository(userInfo, DbContext);
+            RoleResourceRepository = new JRoleResourceRepository(userInfo, DbContext);
         }
 
         public async Task<IListResponse<RoleModel>> GetRolesAsync(int pageSize = 0, int pageNumber = 0)

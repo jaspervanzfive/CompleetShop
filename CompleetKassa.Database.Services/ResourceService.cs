@@ -8,6 +8,7 @@ using CompleetKassa.Database.Core.Entities;
 using CompleetKassa.Database.Core.Exception;
 using CompleetKassa.Database.Core.Services.ResponseTypes;
 using CompleetKassa.Database.Entities;
+using CompleetKassa.Database.Repositories;
 using CompleetKassa.Database.Services.Extensions;
 using CompleetKassa.Log.Core;
 using CompleetKassa.Models;
@@ -17,11 +18,12 @@ namespace CompleetKassa.Database.Services
 {
     internal class ResourceService : BaseService, IResourceService
     {
+        protected IResourceRepository ResourceRepository { get; }
 
         public ResourceService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
             : base(logger, mapper, userInfo, dbContext)
         {
-
+            ResourceRepository = new ResourceRepository(userInfo, DbContext);
         }
 
         public async Task<IListResponse<ResourceModel>> GetResourcesAsync(int pageSize = 0, int pageNumber = 0)

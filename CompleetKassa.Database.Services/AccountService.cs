@@ -7,6 +7,7 @@ using CompleetKassa.Database.Context;
 using CompleetKassa.Database.Core.Entities;
 using CompleetKassa.Database.Core.Services.ResponseTypes;
 using CompleetKassa.Database.Entities;
+using CompleetKassa.Database.Repositories;
 using CompleetKassa.Database.Services.Extensions;
 using CompleetKassa.Log.Core;
 using CompleetKassa.Models;
@@ -18,6 +19,9 @@ namespace CompleetKassa.Database.Services
         private IUserService _userService;
         private IRoleService _roleService;
         private IResourceService _resourceService;
+        protected IUserRepository _userRepository { get; }
+        protected IUserCredentialRepository _userCredentialRepository { get; }
+        protected IJUserRoleRepository _userRoleRepository { get; }
 
         public AccountService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
             : base(logger, mapper, userInfo, dbContext)
@@ -25,6 +29,10 @@ namespace CompleetKassa.Database.Services
             _userService = new UserService(logger, mapper, userInfo, dbContext);
             _roleService = new RoleService(logger, mapper, userInfo, dbContext);
             _resourceService = new ResourceService(logger, mapper, userInfo, dbContext);
+
+            _userRepository = new UserRepository(userInfo, dbContext);
+            _userCredentialRepository = new UserCredentialRepository(userInfo, DbContext);
+            _userRoleRepository = new JUserRoleRepository(userInfo, DbContext);
         }
 
         #region Read
@@ -82,17 +90,17 @@ namespace CompleetKassa.Database.Services
                 {
                     // Add User
                     var user = Mapper.Map<User>(details);
-                    await UserRepository.AddAsync(user);
+                    await _userRepository.AddAsync(user);
 
                     // Add User Credentials
                     var userCredential = Mapper.Map<UserCredential>(details);
                     userCredential.User = user;
-                    await UserCredentialRepository.AddAsync(userCredential);
+                    await _userCredentialRepository.AddAsync(userCredential);
 
                     // Add User Roles
                     foreach (var role in details.Roles)
                     {
-                        await UserRoleRepository.AddAsync(new JUserRole { UserId = user.ID, RoleId = role.ID });
+                        await _userRoleRepository.AddAsync(new JUserRole { UserId = user.ID, RoleId = role.ID });
                     }
 
                     transaction.Commit();

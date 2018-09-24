@@ -19,9 +19,12 @@ namespace CompleetKassa.Database.Services
 {
     public class CategoryService : BaseService, ICategoryService
     {
+        protected ICategoryRepository CategoryRepository { get; }
+
         public CategoryService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
             : base(logger, mapper, userInfo, dbContext)
         {
+            CategoryRepository = new CategoryRepository(userInfo, DbContext);
         }
         public async Task<IListResponse<CategoryModel>> GetCategoriesAsync(int pageSize = 0, int pageNumber = 0)
         {

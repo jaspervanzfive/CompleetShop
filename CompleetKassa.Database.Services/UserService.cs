@@ -19,9 +19,16 @@ namespace CompleetKassa.Database.Services
 {
     internal class UserService : BaseService, IUserService
     {
+        public IUserRepository UserRepository { get; }
+        internal IUserCredentialRepository UserCredentialRepository { get; }
+        internal IJUserRoleRepository UserRoleRepository { get; }
+
         public UserService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
             : base(logger, mapper, userInfo, dbContext)
         {
+            UserRepository = new UserRepository(userInfo, DbContext);
+            UserCredentialRepository = new UserCredentialRepository(userInfo, DbContext);
+            UserRoleRepository = new JUserRoleRepository(userInfo, DbContext);
         }
 
         public async Task<IListResponse<UserModel>> GetUsersAsync(int pageSize = 0, int pageNumber = 0)

@@ -2,7 +2,6 @@
 using CompleetKassa.Database.Context;
 using CompleetKassa.Database.Core.Entities;
 using CompleetKassa.Database.Core.Services;
-using CompleetKassa.Database.Repositories;
 using CompleetKassa.Log.Core;
 
 namespace CompleetKassa.Database.Services
@@ -19,51 +18,27 @@ namespace CompleetKassa.Database.Services
 
         protected IAppUser UserInfo { get; }
 
-        protected IResourceRepository ResourceRepository { get; }
-
-        protected IProductRepository ProductRepository { get; }
-
-        protected IRoleRepository RoleRepository { get; }
-
-        protected ICategoryRepository CategoryRepository { get; }
-
-        protected IUserRepository UserRepository { get; }
-
-        protected IUserCredentialRepository UserCredentialRepository { get; }
-
-        protected IJUserRoleRepository UserRoleRepository { get; }
-
-        protected IJRoleResourceRepository RoleResourceRepository { get; }
-
-        public BaseService (ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
+        public BaseService(ILogger logger, IMapper mapper, IAppUser userInfo, AppDbContext dbContext)
         {
             Logger = logger;
             Mapper = mapper;
             UserInfo = userInfo;
             DbContext = dbContext;
-
-            ProductRepository = new ProductRepository (userInfo, DbContext);
-            ResourceRepository = new ResourceRepository (userInfo, DbContext);
-            RoleRepository = new RoleRepository (userInfo, DbContext);
-            CategoryRepository = new CategoryRepository (userInfo, DbContext);
-            UserCredentialRepository = new UserCredentialRepository (userInfo, DbContext);
-            UserRoleRepository = new JUserRoleRepository (userInfo, DbContext);
-            UserRepository = new UserRepository (userInfo, DbContext);
-            RoleResourceRepository = new JRoleResourceRepository(userInfo, DbContext);
         }
 
-        public void Dispose ()
+        public void Dispose()
         {
-            if (!Disposed) {
-                DbContext?.Dispose ();
+            if (!Disposed)
+            {
+                DbContext?.Dispose();
 
                 Disposed = true;
             }
         }
 
-        protected string CreateInvokedMethodLog (string methodName)
+        protected string CreateInvokedMethodLog(string methodName)
         {
-            return string.Format ("{0} has been invoked", methodName);
+            return string.Format("{0} has been invoked", methodName);
         }
     }
 }
