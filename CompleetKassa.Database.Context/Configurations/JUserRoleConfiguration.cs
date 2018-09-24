@@ -10,7 +10,7 @@ namespace CompleetKassa.Database.Context.Configurations
             builder.HasKey(ur => new { ur.UserId, ur.RoleId });
 
             builder.HasOne(ur => ur.User)
-                .WithMany(u => u.UserRole)
+                .WithMany(u => u.UserRoles)
                 .HasForeignKey(u => u.UserId);
 
             builder.HasOne(ur => ur.Role)

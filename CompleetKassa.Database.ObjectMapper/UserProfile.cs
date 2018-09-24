@@ -34,7 +34,7 @@ namespace CompleetKassa.Database.ObjectMapper
                 )
                 .ForMember(
                     dest => dest.Roles,
-                    opt => opt.MapFrom(src => src.UserRole.Select(rs => rs.Role).ToList())
+                    opt => opt.MapFrom(src => src.UserRoles.Select(rs => rs.Role).ToList())
                  );
         }
 	}
