@@ -77,7 +77,7 @@
     <Compile Include="Commands\ModuleCommands.cs" />
     <Compile Include="Definitions\Enumeration.cs" />
     <Compile Include="Definitions\ModuleRegionNames.cs" />
-    <Compile Include="ProductModule.cs" />
+    <Compile Include="ProductManagementModule.cs" />
     <Compile Include="ViewModels\CategoryRegistrationViewModel.cs" />
     <Compile Include="ViewModels\ProductManagementMenuViewModel.cs" />
     <Compile Include="ViewModels\ProductManagementViewModel.cs" />

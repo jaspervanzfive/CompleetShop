@@ -6,12 +6,12 @@ using Prism.Regions;
 
 namespace CompleetKassa.Module.ProductManagement
 {
-    public class ProductModule : IModule
+    public class ProductManagementModule : IModule
     {
         private IRegionManager _regionManager;
         private IUnityContainer _container;
 
-        public ProductModule(IUnityContainer container, IRegionManager regionManager)
+        public ProductManagementModule(IUnityContainer container, IRegionManager regionManager)
         {
             _container = container;
             _regionManager = regionManager;
@@ -24,6 +24,7 @@ namespace CompleetKassa.Module.ProductManagement
 
             IRegion region = _regionManager.Regions[ModuleRegionNames.ProductModuleContentRegion];
             region.Add(_container.Resolve<Views.ProductRegistration>());
+            region.Add(_container.Resolve<Views.CategoryRegistration>());
         }
     }
 }

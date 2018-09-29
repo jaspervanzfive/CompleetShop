@@ -164,14 +164,38 @@ namespace CompleetKassa.Module.ProductManagement.ViewModels
             set { SetProperty(ref _holdCategoryParent, value); }
         }
 
-        public bool IsActive { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        private bool _isActive;
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set
+            {
+                _isActive = value;
+                OnIsActiveChanged();
+            }
+        }
+        private void OnIsActiveChanged()
+        {
+            OnCancelCommand.IsActive = IsActive;
+            OnAddCommand.IsActive = IsActive;
+            //OnEditCommand.IsActive = IsActive;
+            //OnDeleteCommand.IsActive = IsActive;
+            //OnSaveCommand.IsActive = IsActive;
+
+            //OnFirstNavCommand.IsActive = IsActive;
+            //OnPreviousNavCommand.IsActive = IsActive;
+            //OnNextNavCommand.IsActive = IsActive;
+            //OnLastNavCommand.IsActive = IsActive;
+
+            IsActiveChanged?.Invoke(this, new EventArgs());
+        }
 
         #endregion Category Bindable Property
 
 
         #endregion "Bindable Property"
 
-        
+
         #region Constructor
         public CategoryRegistrationViewModel(IUnityContainer container)
         {

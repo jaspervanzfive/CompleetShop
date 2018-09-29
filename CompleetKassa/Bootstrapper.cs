@@ -47,7 +47,7 @@ namespace CompleetKassa
 
 
             catalog.AddModule(typeof(SalesModule));
-            catalog.AddModule(typeof(ProductModule));
+            catalog.AddModule(typeof(ProductManagementModule));
             catalog.AddModule(typeof(CustomersModule));
             catalog.AddModule(typeof(UserManagementModule));
         }
