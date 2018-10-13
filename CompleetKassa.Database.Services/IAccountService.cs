@@ -12,6 +12,7 @@ namespace CompleetKassa.Database.Services
         #region Read
         Task<IListResponse<UserModel>> GetUsersAsync(int pageSize = 0, int pageNumber = 0);
         Task<IListResponse<UserModel>> GetUsersWithDetailsAsync(int pageSize = 0, int pageNumber = 0);
+        Task<ISingleResponse<UserModel>> GetFirstOrDefaultAsync (int userID);
         Task<ISingleResponse<UserModel>> GetUserByIDAsync(int userID);
         Task<ISingleResponse<UserModel>> GetUserByIDWithDetailsAsync(int userID);
         Task<IListResponse<RoleModel>> GetRolesAsync(int pageSize = 0, int pageNumber = 0);

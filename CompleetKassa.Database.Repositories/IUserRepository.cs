@@ -9,7 +9,9 @@ namespace CompleetKassa.Database.Repositories
 	{
 		IQueryable<User> GetAll (int pageSize = 10, int pageNumber = 1);
 
-		IQueryable<User> GetAllWithDetails (int pageSize = 10, int pageNumber = 1);
+        Task<User> GetFirstOrDefaultAsync(int userID);
+
+        IQueryable<User> GetAllWithDetails (int pageSize = 10, int pageNumber = 1);
 
 		Task<User> GetByIDAsync (int userID);
 

@@ -46,6 +46,11 @@ namespace CompleetKassa.Database.Services
             return await _userService.GetUsersWithDetailsAsync(pageSize, pageNumber);
         }
 
+        public async Task<ISingleResponse<UserModel>> GetFirstOrDefaultAsync (int userID)
+        {
+            return await _userService.GetFirstOrDefaultAsync (userID);
+        }
+
         public async Task<ISingleResponse<UserModel>> GetUserByIDAsync(int userID)
         {
             return await _userService.GetUserByIDAsync(userID);

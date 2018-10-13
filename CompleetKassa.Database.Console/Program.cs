@@ -54,7 +54,8 @@ namespace CompleetKassa.Database.Console
             //ProductTest(container).Wait();
             //ProductWithCategoryTest(container).Wait();
             //UserWithRolesAndResourcesTest(container).Wait();
-            AccountServiceTest(container).Wait();
+            //AccountServiceTest(container).Wait();
+            GetUserEagerTest(container).Wait();
 
         }
 
@@ -325,6 +326,13 @@ namespace CompleetKassa.Database.Console
             var response = await accountService.AddUserAccountAsync(newUser);
 
             var userResponse = await accountService.AddUserRoleAsync(response.Model.ID, userRole3.Model.ID);
+        }
+
+        private static async Task GetUserEagerTest(IUnityContainer container)
+        {
+            IAccountService accountService = container.Resolve<IAccountService>();
+
+            var response = await accountService.GetFirstOrDefaultAsync(1);
         }
     }
 }

@@ -67,6 +67,26 @@ namespace CompleetKassa.Database.Services
             return response;
         }
 
+        public async Task<ISingleResponse<UserModel>> GetFirstOrDefaultAsync(int userID)
+        {
+            Logger.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));
+
+            var response = new SingleResponse<UserModel>();
+
+            try
+            {
+                var userDetails = await UserRepository.GetFirstOrDefaultAsync(userID);
+
+                response.Model = Mapper.Map<UserModel>(userDetails);
+            }
+            catch (Exception ex)
+            {
+                response.SetError(ex, Logger);
+            }
+
+            return response;
+        }
+
         public async Task<ISingleResponse<UserModel>> GetUserByIDAsync(int userID)
         {
             Logger.Info(CreateInvokedMethodLog(MethodBase.GetCurrentMethod().ReflectedType.FullName));

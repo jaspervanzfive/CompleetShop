@@ -10,6 +10,7 @@ namespace CompleetKassa.Database.Services
     {
         Task<IListResponse<UserModel>> GetUsersAsync(int pageSize = 0, int pageNumber = 0);
         Task<IListResponse<UserModel>> GetUsersWithDetailsAsync(int pageSize = 0, int pageNumber = 0);
+        Task<ISingleResponse<UserModel>> GetFirstOrDefaultAsync(int userID);
         Task<ISingleResponse<UserModel>> GetUserByIDAsync(int userID);
         Task<ISingleResponse<UserModel>> GetUserByIDWithDetailsAsync(int userID);
         Task<ISingleResponse<UserModel>> UpdateUserAsync(UserModel updates);

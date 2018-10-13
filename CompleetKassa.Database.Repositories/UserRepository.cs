@@ -14,9 +14,19 @@ namespace CompleetKassa.Database.Repositories
 		{
 		}
 
-		#region "Read Method"
+        #region "Read Method"
+        //public async Task<User> GetFirstOrDefaultAsync(int userID)
+        //=> await DbContext.Set<User>().GetFirstOrDefault().FirstOrDefaultAsync();
+        public async Task<User> GetFirstOrDefaultAsync(int userID)
+        => await DbContext.Set<User>().AsNoTracking()
+            .Where(u => u.ID == userID)
+                .Include(u => u.UserRoles)
+                .ThenInclude (ur => ur.Role)
+                    .ThenInclude (urr => urr.RoleResources)
+                        .ThenInclude (urrr => urrr.Resource)
+            .FirstOrDefaultAsync();
 
-		public async Task<User> GetByIDAsync (int userID)
+        public async Task<User> GetByIDAsync (int userID)
 				=> await DbContext.Set<User> ().FirstOrDefaultAsync (item => item.ID == userID);
 
 		public async Task<User> GetByIDWithDetailsAsync (int entityID)
